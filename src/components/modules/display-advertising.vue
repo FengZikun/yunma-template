@@ -12,16 +12,17 @@
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner" role="listbox">
 					<div class="item active">
-					<img v-if='a!=null' style="width: 320px;height: 140px;" v-bind:src='a' alt="...">
-					<img v-else style="width: 320px;height: 140px;" src="../../assets/img/2233.jpg" alt="...">
+						<img v-if='a!=null' style="width: 320px;height: 140px;" v-bind:src='a' alt="...">
+						<img v-else style="width: 320px;height: 140px;" src="../../assets/img/2233.jpg" alt="...">
 						<div class="carousel-caption">
-							...
+							
 						</div>
 					</div>
 					<div class="item">
-					<img style="width: 320px;height: 140px;" src="../../assets/img/tu1.jpg" alt="...">
+						<img v-if='b!=null' style="width: 320px;height: 140px;" v-bind:src='b' alt="...">
+						<img v-else style="width: 320px;height: 140px;" src="../../assets/img/tu1.jpg" alt="...">
 						<div class="carousel-caption">
-							...
+							
 						</div>
 					</div>
 					...
@@ -57,6 +58,9 @@
 			...mapActions([
 				'delThis1'
 				]),
+			init(){
+				
+			},
 			delPicAd(){
 				var self=this;
 				var type=$(event.target).parents('.template').attr('data-type');
@@ -65,9 +69,21 @@
 		},
 		computed: mapState({
 			picAd1:state=>state.banner1.data.picAd1,
-			a:state=>state.banner1.data.bannerPic.a
-		})
-		
+			a:state=>state.banner1.data.bannerPic.a,
+			b:state=>state.banner1.data.bannerPic.b,
+		}),
+		created(){
+			// this.$nextTick(function(){
+			// 	$('.carousel').carousel({
+			// 		interval: 2000
+			// 	})
+			// });
+		},
+		mounted(){
+			$('.carousel').carousel({
+					interval: 2000
+				})
+		}
 	}
 </script>
 

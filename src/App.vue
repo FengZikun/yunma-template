@@ -441,7 +441,7 @@
   border-color: #fff; 
 }
 .hidelist{
-  display: none;
+  display: none!important;
 }
 .photo{
   display: inline-block;

@@ -6,9 +6,19 @@ const banner1={
 		data:{
 			picAd1:false,
 			showModule:false,
+			picNum:1,
 			bannerPic:{
 				a:null,
-				b:null
+				b:null,
+			}
+		},
+		verifyData:{
+			verify:false,
+			showModule:false,
+			cell:{
+				a:true,
+				b:true,
+				c:true,
 			}
 		}
 		
@@ -20,11 +30,33 @@ const banner1={
 		delThis1(state){
 			state.data.picAd1=false;
 		},
-		module(state){
-			state.data.showModule=true;
+		module(state,type){
+			if(type=='picAd1'){
+				state.verifyData.showModule=false;
+				state.data.showModule=true;
+			}
+			if(type=='verify'){
+				state.data.showModule=false;
+				state.verifyData.showModule=true;
+			}
 		},
-		setPic(state,url){
-			state.data.bannerPic.a=url;
+		addPicNum(state){
+			if(state.data.picNum<=4){
+				state.data.picNum++;
+			}
+		},
+		setPic(state,data){
+			if(data.type===1){
+				state.data.bannerPic.a=data.url;
+			}
+			if(data.type===2){
+				state.data.bannerPic.b=data.url;
+			}
+		},
+		addVerify(state){
+			if(!state.verifyData.verify){
+				state.verifyData.verify=true;
+			}
 		}
 	},
 	actions:{
@@ -34,11 +66,17 @@ const banner1={
 		delThis1(context){
 			context.commit('delThis1')
 		},
-		module(context){
-			context.commit('module')
+		module(context,type){
+			context.commit('module',type)
 		},
-		setPic(context,url){
-			context.commit('setPic',url)
+		setPic(context,data){
+			context.commit('setPic',data)
+		},
+		addPicNum(context){
+			context.commit('addPicNum')
+		},
+		addVerify(context){
+			context.commit('addVerify');
 		}
 	}
 }

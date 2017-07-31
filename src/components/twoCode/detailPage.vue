@@ -1,5 +1,6 @@
 <template>
   <div class="right-main">
+  <div>
     <div class="muban">
       <div class="header">
 
@@ -11,19 +12,25 @@
         <pic-ad class="template" data-type="picAd1" v-if='picAd1'>
 
         </pic-ad>
-        <text-nav class="template" data-type="textNav" v-if='textNav'>
+        <text-nav class="template" data-type="verify" v-if='verify'>
 
         </text-nav>
       </div>
       <ul class="muban-list" @click='addmuban'>
         <li><a class="muban-button" data-type='picAd'>图片广告</a></li>
-        <li><a class="muban-button" data-type='textNav'>文字导航</a></li>
+        <li><a class="muban-button" data-type='verify'>防伪验证</a></li>
       </ul>
     </div>
     <div class="box">
       <detail-module v-bind:data="testCom">
 
       </detail-module>
+    </div>
+  </div>
+    
+
+    <div class="footer">
+      <input type="button" name="" value="保存" @click="save">
     </div>
   </div>
 </template>
@@ -37,13 +44,8 @@
   export default{
     data(){
       return{
-        textNav:false,
         isPicAd:false,
         testCom:null,
-        test1:"a",
-        test2:'b',
-        test3:'c',
-        test4:'d'
       }
     },
     components:{
@@ -54,7 +56,8 @@
     methods:{
       ...mapActions([
         'showPicAd1',
-        'module'
+        'module',
+        'addVerify'
         ]),
       //添加模板
       addmuban:function(){
@@ -65,8 +68,8 @@
         if(elementType==='picAd'){
           self.addPicAd()
         }
-        if(elementType==='textNav'){
-          self.textNav=true;
+        if(elementType==='verify'){
+          self.addVerify()
         }
 
 
@@ -93,10 +96,8 @@
           var topPosition=$(thisElement)[0].offsetTop;
           $('.box').addClass('detail').css('top',topPosition);
           //根据模块名称显示相应组件
-          console.log($(thisElement).attr('data-type'))
-          if($(thisElement).attr('data-type')=='picAd1'){
-            self.module();
-          }
+          var type=$(thisElement).attr('data-type')
+          self.module(type);
         }
 
 
@@ -111,10 +112,17 @@
           console.log($('.editor'));
           $('.box').css('top',topPosition1);
         }
+      },
+
+      //保存
+      save(){
+        var self=this;
+        console.log($('.pic-ad').html())
       }
     },
     computed:mapState({
-      picAd1:state=>state.banner1.data.picAd1
+      picAd1:state=>state.banner1.data.picAd1,
+      verify:state=>state.banner1.verifyData.verify,
     }),
     created:function(){
 
