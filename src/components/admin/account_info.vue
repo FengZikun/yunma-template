@@ -170,7 +170,7 @@
       //初始化
       init:function(currentPage){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/user/userInfoList.do';
+        var url='https://ym-a.top/cloud_code/GET/user/userInfoList.do';
         var type='get';
         var data={
           num:1,
@@ -217,13 +217,13 @@
         if(self.newPassword==null){
           alert('请输入新密码')
         }else if(self.newPassword===self.checkPassword){
-          var url='http://120.77.149.115/cloud_code/POST/user/updatePasswd.do';
+          var url='https://ym-a.top/cloud_code/POST/user/updatePasswd.do';
           var type='post';
           var data={
             userId:userid,
             passwd:parseInt(self.newPassword)
           };
-          console.log(data)
+          //console.log(data)
           var success=function(res){
             if(res.errorCode===0){
               alert('修改成功');
@@ -232,7 +232,7 @@
               self.checkPassword=null;
               self.userid=null
             }else{
-              console.log(res.errorCode)
+              //console.log(res.errorCode)
             }
           };
           common.Ajax(url,type,data,success)
@@ -246,9 +246,9 @@
       locking:function(){
         var self=this;
         var clickText=$(event.target);
-        console.log(clickText.text());
+        //console.log(clickText.text());
         if(clickText.text()=='锁定账号'){
-          var url='http://120.77.149.115/cloud_code/POST/user/lockUser.do';
+          var url='https://ym-a.top/cloud_code/POST/user/lockUser.do';
           var type='post';
           var data={
             userId:parseInt(clickText.attr('data-id'))
@@ -262,7 +262,7 @@
           common.Ajax(url,type,data,success);
         }
         if(clickText.text()=='取消锁定'){
-          var url='http://120.77.149.115/cloud_code/POST/user/canselLockUser.do';
+          var url='https://ym-a.top/cloud_code/POST/user/canselLockUser.do';
           var type='post';
           var data={
             userId:parseInt(clickText.attr('data-id'))
@@ -280,7 +280,7 @@
       //新增管理员
       addNew:function(){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/POST/user/vendorUser.do';
+        var url='https://ym-a.top/cloud_code/POST/user/vendorUser.do';
         var type='post';
         var data={
           userName:self.userName,
@@ -288,7 +288,7 @@
           vendorName:self.vendorName
         };
         var success=function(res){
-          console.log(res);
+          //console.log(res);
           if(res.errorCode==0){
             self.showMB=false;
             self.init();

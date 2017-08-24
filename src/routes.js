@@ -20,6 +20,7 @@ import safety from './components/safety.vue'
 import en_public from './components/en_public.vue'
 import scan from './components/scan.vue'
 import activity from './components/activity.vue'
+import activitySu from './components/activitySu.vue'
 import setup from './components/setup.vue'
 import link from './components/link.vue'
 import channel from './components/twoCode/channel.vue'
@@ -32,6 +33,7 @@ import gift_recy from './components/gift_recy.vue'
 import classify from './components/classify.vue'
 import gaikuang from './components/gaikuang.vue'
 import briefCode from './components/twoCode/briefCode.vue'
+import briefCodeSu from './components/twoCode/briefCodeSu.vue'
 import chosePage from './components/twoCode/chosePage.vue'
 import setupPage from './components/twoCode/setupPage.vue'
 import detailPage from './components/twoCode/detailPage.vue'
@@ -66,6 +68,11 @@ import addActivity from './components/twoCode/addActivity.vue'
 import analysis from './components/twoCode/analysis.vue'
 import addAdmin from './components/admin/addAdmin.vue'
 import sourceCode from './components/twoCode/sourceCode.vue'
+import game from './components/twoCode/game.vue'
+import gameRule from './components/twoCode/gameRule.vue'
+import exhibitors from './components/twoCode/exhibitors.vue'
+import addGame from './components/twoCode/addGame.vue'
+import addGameRule from './components/twoCode/addGameRule.vue'
 //编写路由集合
 const routes = [
   {
@@ -185,6 +192,10 @@ const routes = [
     component: briefCode
   },
   {
+    path:'briefCodeSu',
+    component: briefCodeSu
+  },
+  {
     path:'setupPage',
     component: setupPage},
   {
@@ -197,6 +208,10 @@ const routes = [
   {
     path:'activity',
     component:activity
+  },
+  {
+    path:'activitySu',
+    component:activitySu
   },
   {
     path:'scan',
@@ -245,6 +260,26 @@ const routes = [
   {
     path:'sourceCode',
     component:sourceCode
+  },
+  {
+    path:'game',
+    component:game
+  },
+  {
+    path:'gameRule',
+    component:gameRule
+  },
+  {
+    path:'exhibitors',
+    component:exhibitors
+  },
+  {
+    path:'addGame',
+    component:addGame
+  },
+  {
+    path:'addGameRule',
+    component:addGameRule
   }
   ]
 },

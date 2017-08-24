@@ -1,5 +1,18 @@
 <template>
   <div>
+        <div class="mengban" v-show='showWarn'>
+        <div class="warn">
+          <div class="classifyHeader">
+            <span style="display:block;height:48px;line-height:48px;">操作提示</span>
+          </div>
+          <div class="warnmain">
+            {{warnText}}
+          </div>
+          <div class="warnbottom">
+            <input type="button" name="" value="确定" @click='showWarn=false'>
+          </div>
+        </div>
+      </div>
     <div class='row'>
       <div class='col-md-2'>
         <div class='goods_left'>
@@ -20,7 +33,7 @@
                 <a>防伪码生成</a>
                 </router-link>
                 <router-link tag='li' to="/twoCode/briefCode">
-                  <a>扫描页模板</a>
+                  <a>防伪页模板</a>
                 </router-link>
                 <router-link tag='li' to="/twoCode/activity">
                   <a>扫码活动管理</a>
@@ -42,6 +55,12 @@
               <router-link tag='li' to="/twoCode/sourceCode">
                 <a>溯源码生成</a>
                 </router-link>
+                <router-link tag='li' to="/twoCode/briefCodeSu">
+                  <a>溯源页模板</a>
+                </router-link>
+                <router-link tag='li' to="/twoCode/activitySu">
+                  <a>溯源扫码活动管理</a>
+                </router-link>
                 <router-link tag='li' to="/twoCode/channel">
                   <a>渠道管理</a>
                 </router-link>
@@ -61,10 +80,13 @@
                 <router-link tag='li' to="/twoCode/hongbao">
                   <a>发放红包</a>
                 </router-link>
+                <router-link tag='li' to="/twoCode/game">
+                  <a>集字游戏</a>
+                </router-link>
                 <li v-if='appList!=""' v-for='app in appList'>
                   <a href="javascript:void(0)"><p @click='toWeiQing(app.weqUrl)' style="color:#fff;font-size:16px;">{{app.appName}}</p></a>
                 </li>
-                <li @click="WxGzhInfo('http://www.ym-b.top/web/index.php?c=profile&a=module&')" style="color:#fff;font-size:16px;" >
+                <li @click="WxGzhInfo('https://www.ym-b.top/web/index.php?c=profile&a=module&')" style="color:#fff;font-size:16px;" >
                 <a href="javascript:void(0)">更多应用</a>
                 </li>
               </ul>
@@ -389,15 +411,15 @@
         you:true,
         antifake:true,
         shop:true,
-        shopUrl:'http://www.ym-b.top/',
+        shopUrl:'http://mp.ym-a.top/app/index.php?i=4&c=entry&eid=39',
         keyOne:true,
         keyOneName:'公司官网',
         keyOneContent:'公司官网页面',
-        keyOneURL:'http://ym-b.top',
+        keyOneURL:'http://mp.weixin.qq.com/s?__biz=MzIwMjc5MTYwMA==&mid=2247483686&idx=1&sn=9e85cb59101730a8902527d0abd4de90&chksm=96d80ef9a1af87ef035a625131cc4b50ec3bb4075489fd9ecfac4d970336a331c74fc55d8b26&mpshare=1&scene=1&srcid=0815p2L1tbyEUoxMMetknoDH#rd',
         keyTwo:true,
         keyTwoName:'产品介绍',
         keyTwoContent:'产品介绍页面',
-        keyTwoURL:'http://ym-b.top',
+        keyTwoURL:'http://mp.weixin.qq.com/s?__biz=MzIwMjc5MTYwMA==&mid=2247483686&idx=1&sn=9e85cb59101730a8902527d0abd4de90&chksm=96d80ef9a1af87ef035a625131cc4b50ec3bb4075489fd9ecfac4d970336a331c74fc55d8b26&mpshare=1&scene=1&srcid=0815p2L1tbyEUoxMMetknoDH#rd',
         keyThree:true,
         keyThreeName:'取蜜视频',
         keyThreeContent:'取蜜视频页面',
@@ -415,7 +437,9 @@
         orderId:null,
         activityId:null,
         userId:null,
-        appList:''
+        appList:'',
+        showWarn:false,
+        warnText:''
       }
     },
     props:['datas'],
@@ -432,15 +456,15 @@
         self.you=true;
         self.antifake=true;
         self.shop=true;
-        self.shopUrl='http://www.ym-b.top/';
+        self.shopUrl='http://mp.ym-a.top/app/index.php?i=4&c=entry&eid=39';
         self.keyOne=true;
         self.keyOneName='公司官网';
         self.keyOneContent='公司官网页面';
-        self.keyOneURL='http://ym-b.top';
+        self.keyOneURL='http://mp.weixin.qq.com/s?__biz=MzIwMjc5MTYwMA==&mid=2247483686&idx=1&sn=9e85cb59101730a8902527d0abd4de90&chksm=96d80ef9a1af87ef035a625131cc4b50ec3bb4075489fd9ecfac4d970336a331c74fc55d8b26&mpshare=1&scene=1&srcid=0815p2L1tbyEUoxMMetknoDH#rd';
         self.keyTwo=true;
         self.keyTwoName='产品介绍';
         self.keyTwoContent='产品介绍页面';
-        self.keyTwoURL='http://ym-b.top';
+        self.keyTwoURL='http://mp.weixin.qq.com/s?__biz=MzIwMjc5MTYwMA==&mid=2247483686&idx=1&sn=9e85cb59101730a8902527d0abd4de90&chksm=96d80ef9a1af87ef035a625131cc4b50ec3bb4075489fd9ecfac4d970336a331c74fc55d8b26&mpshare=1&scene=1&srcid=0815p2L1tbyEUoxMMetknoDH#rd';
         self.keyThree=true;
         self.keyThreeName='取蜜视频';
         self.keyThreeContent='取蜜视频页面';
@@ -481,13 +505,14 @@
         var self=this;
         self.activityId=id
       },
-      showList: function (event) {
+      showList:function(event){
         $(event.target).parents("li").find("ul").toggleClass("hidelist");
+        $(event.target).parents("li").find('.arrow').toggleClass("upArrow");
       },
       getApp:function(){
         var self=this;
         $.ajax({
-          url:'http://project.ym-b.top/cloud_code/GET/wqapp/getAllAppInfo.do',
+          url:'https://ym-a.top/cloud_code/GET/wqapp/getAllAppInfo.do',
           type:'get',
           data:{vendorId:self.vendorId},
           datatype:'json',
@@ -495,24 +520,28 @@
             self.appList=res.data;
           },
           error:function(res){
-            console.log(res);
+            //console.log(res);
           }
         })
       },
       toWeiQing:function(url){
-        document.cookie=`_755url=.${url.slice(url.indexOf('web/')+4)};domain=ym-b.top;path=/web`;
-        window.open(url,'_blank')
+        document.cookie=`_755url=${url.slice(url.indexOf('web/')+4)};domain=ym-a.top;path=/web`;
+        let aa=window.open();
+        setTimeout(function(){
+        aa.location='http://mp.ym-a.top';
+        }, 100);
       },
       WxGzhInfo:function(url){
         var self=this;
         $.ajax({
-          url: 'http://project.ym-b.top/cloud_code/GET/wxConfig/getWxGzhInfo.do',
+          url: 'https://ym-a.top/cloud_code/GET/wxConfig/getWxGzhInfo.do',
           type:'get',
           data: {vendorId:self.vendorId},
           dataType: 'json',
           success: function (res) {
             if(res.status == "-1"){
-              alert('请先绑定公众号');
+                            self.showWarn=true;
+          self.warnText='请先绑定公众号'
               router.push('/enterprise/en_public');
             }
             else{
@@ -520,7 +549,7 @@
             }
           },
           error:function(res){
-            console.log(res);
+            //console.log(res);
           }
         });
       },

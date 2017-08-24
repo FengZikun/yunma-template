@@ -2,10 +2,14 @@
   <div>
     <div class="mengban" v-show='showMB'>
       <div class="proclassify" >
-        <div class="tishi">
-          确定将活动删除到回收站吗？
+        <div class="tishi" v-if='deleteArr.length!==0'>
+          确定将产品删除到回收站吗？
         </div>
-        <input class="delbutton" type="button" name="" value="确认" @click='deletePro'>
+        <div class="tishi" v-else>
+          请先选择要删除的产品
+        </div>
+        <input v-if='deleteArr.length!==0' class="delbutton" type="button" name="" value="确认" @click='deletePro'>
+        <input v-else class="delbutton" type="button" name="" value="确认" @click='hide'>
         <input class="delbutton" type="button" name="" value="取消" @click='hide'>
       </div>
     </div>
@@ -50,7 +54,7 @@
                   </li>
                   <li class="pro-li" v-for="pro in proInfo">
                     <span class="pro-li-span first"><span class="check-box checkshu" @click='selectThis'></span><span style="display: inline-block;vertical-align: middle">{{pro.id}}</span></span>
-                    <span class="pro-li-span" style="text-align:left;"><img style="width:45px;margin-left:20px;" v-bind:src="'http://120.77.149.115/'+pro.productImg">{{pro.productName}}</span>
+                    <span class="pro-li-span" style="text-align:left;"><img style="width:45px;margin-left:20px;" v-bind:src="'https://ym-a.top/'+pro.productImg">{{pro.productName}}</span>
                     <span class="pro-li-span">{{pro.productSpe}}</span>
                     <span class="pro-li-span">{{pro.rowName}}</span>
                     <span class="pro-li-span">{{pro.productPrice}}</span>
@@ -61,7 +65,7 @@
                         <span class="bianji" @click.self='updata' v-bind:data-id='pro.id'></span>
                       </router-link>
                       <a href="javascript:void(0)">
-                        <span class="shanchu" @click.self='mengban' v-bind:data-id='pro.id'></span>
+                        <span class="shanchu" @click.self='mengban("single")' v-bind:data-id='pro.id'></span>
                       </a>
                     </span>
                   </li>
@@ -75,7 +79,7 @@
                 </span>
                 全选
               </span>
-              <input type="button" name="" value="删除" class="delbutton" @click='mengban'>
+              <input type="button" name="" value="删除" class="delbutton" @click='mengban(null)'>
             </div>
             <div class="page-num">
               <ul class="page-num-ul">
@@ -137,13 +141,13 @@
 .page-num-ul a{
   display: inline-block;
 }
-.pro-li:nth-of-type(1) .pro-li-span:nth-of-type(5):after{
+/*.pro-li:nth-of-type(1) .pro-li-span:nth-of-type(5):after{
   content: "";
   display: inline-block;
   width: 5px;
   height: 5px;
   background-color: #000;
-}
+}*/
 </style>
 <script>
 import common from '../common.js'
@@ -167,7 +171,7 @@ import common from '../common.js'
       //初始化
       init:function(currentPage){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/product/info.do';
+        var url='https://ym-a.top/cloud_code/GET/product/info.do';
         var type='get';
         var data={
                   vendorId:self.vendorId,
@@ -231,9 +235,12 @@ import common from '../common.js'
       },
 
       //显示蒙版
-      mengban:function(){
+      mengban:function(type){
         this.showMB=true;
-        this.deleteArr.push($(event.target).attr('data-id'));
+        if(type=='single'){
+          this.deleteArr.push($(event.target).attr('data-id'));
+        }
+        
       },
 
       //隐藏蒙版
@@ -245,7 +252,7 @@ import common from '../common.js'
       deletePro:function(){
         var self=this;
         var deletedata=self.deleteArr;
-        var url='http://120.77.149.115/cloud_code/DELETE/product/batch.do';
+        var url='https://ym-a.top/cloud_code/DELETE/product/batch.do';
         var type='post';
         var data={
             id:deletedata,
@@ -275,7 +282,7 @@ import common from '../common.js'
       //搜索
       search:function(){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/product/info.do';
+        var url='https://ym-a.top/cloud_code/GET/product/info.do';
         var type='post';
         var data={
                   vendorId:self.vendorId,

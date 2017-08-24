@@ -125,7 +125,7 @@
     <!-- 再次编辑模态框 -->
 <!--     <div class="modelBg">
       <div class="modelContent">
-        <iframe src="http://120.77.149.115/cloud_code/wx/1/red.html" width="349px" height="663px"></iframe>
+        <iframe src="https://ym-a.top/cloud_code/wx/1/red.html" width="349px" height="663px"></iframe>
         <div class="tipOut" style="left: 362px;top: 270px;width:330px">
             <div class="tipArrow"></div>
             领取大礼包： <input >
@@ -344,7 +344,7 @@
         this.$refs.editor.focus()
       },
       editOnline(event){
-        console.log($(event.target).siblings('.H5edit'));
+        //console.log($(event.target).siblings('.H5edit'));
         if($(event.target).prop('checked')===true){
           $(event.target).siblings('.H5edit').removeClass('modHid');
           $(event.target).siblings('[name=modelURL]').addClass('modHid');
@@ -541,7 +541,7 @@ ${$('#baba').html()}
             // },
             // showPosition:function (position) {
             //     var self=this;
-            //     console.log(self);
+            //     //console.log(self);
             //     self.latitude=position.coords.latitude;
             //     self.longitude=position.coords.longitude;
             // },
@@ -552,7 +552,7 @@ ${$('#baba').html()}
                     return  
                 }  
                 $.ajax({
-                    url: 'http://120.77.149.115/cloud_code/POST/weChat/antiFakeCodeHome.do',
+                    url: 'https://ym-a.top/cloud_code/POST/weChat/antiFakeCodeHome.do',
                     data: {
                         securityCode: '00050205eVp1ac0',
                         openId: 'oIznE0mCdUfh4K9YgtOvhl2P56CA',
@@ -572,7 +572,7 @@ ${$('#baba').html()}
             render:function(data){
                 var self=this;
                 // 判断是真是假
-                console.log(data);
+                //console.log(data);
                 if (data.reultCode==0) {
                     $('.infoImg').hide();
                     $('.innerCodeFalse').hide();
@@ -673,7 +673,7 @@ if(this.keyThree==false){
   getRedEnv=1
 }
           $.ajax({
-            url: 'http://120.77.149.115/cloud_code/POST/antiFake/html.do',
+            url: 'https://ym-a.top/cloud_code/POST/antiFake/html.do',
              data: {
               templateName:self.datas.moduleName,
               comment:self.datas.moduleRemark,
@@ -689,7 +689,7 @@ if(this.keyThree==false){
             type: 'POST',
             dataType: 'json',
              success: function (res) {
-                        console.log(res);
+                        //console.log(res);
                     },
                     error: function (err) {
                         alert(JSON.stringify(err));
@@ -699,13 +699,13 @@ if(this.keyThree==false){
     },
     watch: {
       datas(){
-        console.log(this.datas)
+        //console.log(this.datas)
       },
       phoneTitle(){
         this.$emit('sub',"phoneTitle",this.phoneTitle);
       },
       imgSrc(){
-        console.log(this.imgSrc);
+        //console.log(this.imgSrc);
         this.$emit('sub',"imgSrc",this.imgSrc);
       },
       you(){

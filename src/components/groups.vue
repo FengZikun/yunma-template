@@ -1,5 +1,18 @@
 <template>
   <div>
+    <div class="mengban" v-show='showWarn'>
+        <div class="warn">
+          <div class="classifyHeader">
+            <span style="display:block;height:48px;line-height:48px;">操作提示</span>
+          </div>
+          <div class="warnmain">
+            {{warnText}}
+          </div>
+          <div class="warnbottom">
+            <input type="button" name="" value="确定" @click='showWarn=false'>
+          </div>
+        </div>
+      </div>
     <div class="mengban" v-if='showMB'>
       <div class="proclassify">
         <p class="mbtitle" v-if='zengjia'>添加分组</p>
@@ -10,8 +23,11 @@
           <input class="message-value" type="text" name="" v-model='name'>
           <span class="message-after">限8个字符</span>
         </div>
-        <input class="delbutton" type="button" name="" value="确认" @click='addclassify'>
-        <input class="delbutton" type="button" name="" value="取消" @click='hide'>
+        <div style="margin-top: 80px;">
+          <input class="delbutton" type="button" name="" value="确认" @click='addclassify'>
+          <input class="delbutton" type="button" name="" value="取消" @click='hide'>
+        </div>
+        
       </div>
     </div>
           <div class="right-main">
@@ -114,7 +130,9 @@ import common from '../common.js'
         name:'',
         zengjia:'',
         xiugai:'',
-        id:''
+        id:'',
+        showWarn:false,
+        warnText:''
       }
     },
     props:['vendorId'],
@@ -124,19 +142,19 @@ import common from '../common.js'
         var self=this;
         $.ajax({
           type:'get',
-          url:'http://120.77.149.115/cloud_code/GET/product/presentGroup.do',
+          url:'https://ym-a.top/cloud_code/GET/product/presentGroup.do',
           dataType:'json',
           data:{
             vendorId:self.vendorId
           },
           success:function(res){
             self.resData=res.data;
-            console.log(self.resData);
+            //console.log(self.resData);
             self.showMB=false;
             self.id='';
           },
           error:function(){
-            console.log('error')
+            //console.log('error')
           }
         })
       },
@@ -165,13 +183,13 @@ import common from '../common.js'
       addclassify:function(){
         var self=this;
         if(self.zengjia){
-          var url='http://120.77.149.115/cloud_code/ADD/product/presentGroup.do';
+          var url='https://ym-a.top/cloud_code/ADD/product/presentGroup.do';
           var data={
               vendorId:self.vendorId,
               name:self.name
             };
         }else{
-          var url='http://120.77.149.115/cloud_code/UPDATE/product/presentGroup.do';
+          var url='https://ym-a.top/cloud_code/UPDATE/product/presentGroup.do';
           var data={
               id:self.id,
               name:self.name
@@ -179,8 +197,14 @@ import common from '../common.js'
         }
         var type='post';
         var success=function(res){
-          console.log(res)
-          self.getData()
+          if(res.statuscode===1){
+            self.getData()
+          }else{
+            self.showWarn=true;
+            self.warnText=res.msg;
+            self.showMB=false;
+          }
+          
         };
         common.Ajax(url,type,data,success)
       },
@@ -189,13 +213,13 @@ import common from '../common.js'
       delclassify:function(){
         var self=this;
         self.id=$(event.target).attr('data-id');
-        var url='http://120.77.149.115/cloud_code/DELETE/product/presentGroup.do';
+        var url='https://ym-a.top/cloud_code/DELETE/product/presentGroup.do';
         var type='post';
         var data={
           id:self.id
         };
         var success=function(res){
-          console.log(res);
+          //console.log(res);
           self.getData();
         };
         common.Ajax(url,type,data,success);

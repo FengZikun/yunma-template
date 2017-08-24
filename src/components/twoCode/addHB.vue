@@ -1,5 +1,18 @@
 <template>
 	<div class="right-main">
+		<div class="mengban" v-show='showWarn'>
+			<div class="warn">
+				<div class="classifyHeader">
+					<span style="display:block;height:48px;line-height:48px;">操作提示</span>
+				</div>
+				<div class="warnmain">
+					{{warnText}}
+				</div>
+				<div class="warnbottom">
+					<input type="button" name="" value="确定" @click='showWarn=false'>
+				</div>
+			</div>
+		</div>
 		<div class="mengban" v-if='showMB'>
 			<div class="choosepro" >
 				<div class="choosepro-top">
@@ -307,7 +320,9 @@ import common from '../../common.js'
        			startTime:null,
        			endTime:null,
        			money:null,
-       			jine:null
+       			jine:null,
+       			showWarn:false,
+				warnText:null
 			}
 		},
 		props:['datas'],
@@ -323,7 +338,7 @@ import common from '../../common.js'
 			showStep2:function(){
 				var self=this;
 				//获取金额信息
-				var url='http://120.77.149.115/cloud_code/GET/redEnv/moneyScope.do';
+				var url='https://ym-a.top/cloud_code/GET/redEnv/moneyScope.do';
 				var type='get';
 				var data={
 					ruleId:parseInt(self.ruleId),
@@ -345,7 +360,7 @@ import common from '../../common.js'
 			//进入step3
 			showStep3:function(){
 				var self=this;
-				var url='http://120.77.149.115/cloud_code/ADD/redEnv/info.do';
+				var url='https://ym-a.top/cloud_code/ADD/redEnv/info.do';
 				var type='post';
 				var data={
 					vendorId:parseInt(self.datas.vendorId),
@@ -363,7 +378,8 @@ import common from '../../common.js'
 						$('body').scrollTop(0);
 						return
 					}else{
-						console.log(res);
+						self.showWarn=true;
+						self.warnText=res.msg;
 					}
 					
 				}
@@ -377,7 +393,7 @@ import common from '../../common.js'
 				var self=this;
 				self.showMB=true;
 				self.order=true;
-				var url='http://120.77.149.115/cloud_code/GET/product/productEnvInfoList.do';
+				var url='https://ym-a.top/cloud_code/GET/product/productEnvInfoList.do';
 		        var type='get';
 		        var data={
 		          vendorId:self.datas.vendorId,
@@ -417,7 +433,7 @@ import common from '../../common.js'
 				var self=this;
 				self.showMB=true;
 				self.rule=true;
-				var url='http://120.77.149.115/cloud_code/GET/redEnv/ruleInfo.do';
+				var url='https://ym-a.top/cloud_code/GET/redEnv/ruleInfo.do';
 				var type='get';
 				var data={
 					vendorId:parseInt(self.datas.vendorId),

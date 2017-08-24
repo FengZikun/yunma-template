@@ -1,5 +1,18 @@
 <template>
 	<div>
+	    <div class="mengban" v-show='showWarn'>
+        <div class="warn">
+          <div class="classifyHeader">
+            <span style="display:block;height:48px;line-height:48px;">操作提示</span>
+          </div>
+          <div class="warnmain">
+            {{warnText}}
+          </div>
+          <div class="warnbottom">
+            <input type="button" name="" value="确定" @click='showWarn=false'>
+          </div>
+        </div>
+      </div>
 		<div class="mengban" v-show='showMB'>
 			<div class="proclassify" >
 				<div class="classifyHeader">
@@ -14,11 +27,76 @@
 						<span class="message-name">secret：</span>
 						<input class="message-value" type="text" name="" v-model='secret'>
 					</div>
+					<div class="messagebox">
+						<span class="message-name">产品地址：</span>
+						<input class="message-value" type="text" name="" v-model='productUrl'>
+					</div>
 					<div class="classifyFooter">
 						<input class="delbutton" type="button" name="" value="确认" @click='connect'>
 						<input class="delbutton" type="button" name="" value="取消" @click='hide'>
 					</div>
 
+				</div>
+			</div>
+			<div class="mengban" v-show='showMB1'>
+				<div class="proclassify" >
+					<form id="wxd" enctype="multipart/form-data" method="post"> 
+						<div class="classifyHeader">
+							<span style="display:block;height:48px;line-height:48px;">关联微信小店</span>
+						</div>
+						<div class="messageboxwxd">
+							<span class="message-name" style="padding-left:-5px;">开发者ID(AppID)：</span>
+							<input class="wxd-value" type="text" name="appId" v-model="appIdWxd">
+						</div>
+						<div class="messageboxwxd">
+							<span class="message-name">开发者密码：</span>
+							<input class="wxd-value" type="text" name="secret" v-model="secretWxd">
+						</div>
+						<div class="messageboxwxd">
+							<span class="message-name">消息加解密密钥：</span>
+							<input class="wxd-value" type="text" name="apiKey" v-model="apiKeyWxd">
+						</div>
+						<div class="messageboxwxd">
+							<span class="message-name">微信商户号：</span>
+							<input class="wxd-value" type="text" name="mchId" v-model="mchIdWxd">
+						</div>
+						<div class="messageboxwxd">
+							<span class="message-name">产品地址：</span>
+							<input class="wxd-value" type="text" name="productUrl" v-model='productUrlWxd'>
+						</div>
+						<div class="messageboxwxd" v-if="credentialsLocationWxd!=null">
+							<span class="message-name">证书地址：</span>
+							<span class="wxd-value">已上传至服务器</span>
+							<!-- <span class="wxd-value">{{credentialsLocationWxd}}</span> -->
+							<br>
+							<a href="javascript:void(0)" @click="credentialsLocationWxd=null" style="margin-left:109px;">重新上传证书？</a>
+						</div>
+
+						<div class="messageboxwxd" v-if="credentialsLocationWxd==null">
+							<span class="message-name">上传证书：</span>
+							<input class="wxd-value" type="file" name="credentials">
+						</div>
+						<div class="messageboxwxd" v-if="credentialsLocationWxd==null">
+							<span class="message-name">上传证书：</span>
+							<input class="wxd-value" type="file" name="credentials">
+						</div>
+						<div class="messageboxwxd" v-if="credentialsLocationWxd==null">
+							<span class="message-name">上传证书：</span>
+							<input class="wxd-value" type="file" name="credentials">
+						</div>
+						<div class="messageboxwxd" v-if="credentialsLocationWxd==null">
+							<span class="message-name">上传证书：</span>
+							<input class="wxd-value" type="file" name="credentials">
+						</div>
+
+						<input type="text" name="vendorId" v-bind:value="vendorId" class="hidelist">
+						</form>
+						<div class="classifyFooter">
+							<input class="delbutton" type="button" name="" value="确认" @click='connectwxd' v-if="connectwx">
+							<input class="delbutton" type="button" name="" value="修改" @click='updatewxd' v-if="updatewx">
+							<input class="delbutton" type="button" name="" value="取消" @click='hide'>
+						</div>
+					
 				</div>
 			</div>
 			<div class="mengban" v-show='showMB2'>
@@ -28,6 +106,15 @@
 				<img src="../../assets/img/icon_cha3.png" class="cha" @click='showMB=true;showMB2=false'>
 
 			</div>
+			<div class="mengban" v-show='showMB3'>
+		      <div class="proclassify" >
+		        <div class="tishi">
+		          确定将优惠券删除吗？
+		        </div>
+		        <input class="delbutton" type="button" name="" value="确认" @click='delcoupon'>
+		        <input class="delbutton" type="button" name="" value="取消" @click='hide'>
+		      </div>
+		    </div>
 			<div class="right-main">
 				<div class="right-main-top">
 					<p class="right-main-top1">
@@ -48,9 +135,15 @@
 								同步信息
 							</div>
 						</router-link>
+
 						<a href="javascript:void(0)" @click='search'>
 							<div class="add-pro3">
 								关联微店
+							</div>
+						</a>
+						<a href="javascript:void(0)" @click='wxdbind'>
+							<div class="add-pro3">
+								关联微信小店
 							</div>
 						</a>
 					</div>
@@ -62,7 +155,7 @@
 								<span class="pro-li-span">优惠券价格</span>
 								<span class="pro-li-span">领取限制</span>
 								<span class="pro-li-span">适用范围</span>
-								<!-- <span class="pro-li-span">操作</span> -->
+								<span class="pro-li-span">操作</span>
 							</li>
 							<li class="pro-li" v-for="pro in proInfo">
 								<span class="pro-li-span first" style="text-align: center;">{{pro.name}}</span>
@@ -79,6 +172,10 @@
 										<span class="shanchu" @click.self='mengban2' v-bind:data-id='pro.id'></span>
 									</a>
 								</span> -->
+								<span class="pro-li-span">
+			                      <span title="删除" class="shanchu" v-bind:data-id='pro.couponId' @click='mengban3'></span>
+
+			                    </span>
 							</li>
 						</ul>
 					</div>
@@ -119,7 +216,21 @@
 		        keyword:'',
 		        appKey:null,
 		        secret:null,
-		        showMB2:false
+		        showMB1:false,
+		        showMB2:false,
+		        showMB3:false,
+		        couponId:null,
+		        productUrl:null,
+		        showWarn:false,
+        		warnText:'',
+        		productUrlWxd:null,
+        		appIdWxd:null,
+        		credentialsLocationWxd:null,
+        		secretWxd:null,
+        		mchIdWxd:null,
+        		apiKeyWxd:null,
+        		connectwx:false,
+        		updatewx:false
 		    }
 		},
 		props:['vendorId'],
@@ -127,7 +238,7 @@
 			//初始化
 			init:function(currentPage){
 				var self=this;
-				var url='http://120.77.149.115/cloud_code/GET/wdCoupon/couponInfoList.do';
+				var url='https://ym-a.top/cloud_code/GET/wdCoupon/couponInfoList.do';
 				var type='get';
 				var data={
 					vendorId:self.vendorId,
@@ -135,7 +246,7 @@
 					currentPage:currentPage
 				};
 				var success=function(res){
-					console.log(res)
+					//console.log(res)
 					var pagenum=res.totalPages;
 					self.totalPage=[];
 					self.resData=res;
@@ -154,12 +265,17 @@
 				// this.showMB=true;
 				// this.deleteArr.push($(event.target).attr('data-id'));
 			},
-
+			//删除提示
+	      mengban3:function(){
+	        var self=this;
+	        self.showMB3=true;
+	        self.couponId=$(event.target).attr('data-id');
+	      },
 			//获取
 			search:function(){
 				var self=this;
 				self.showMB=true;
-				var url='http://120.77.149.115/cloud_code/GET/wd/config.do';
+				var url='https://ym-a.top/cloud_code/GET/wd/config.do';
 				var type='get';
 				var data={
 					vendorId:self.vendorId
@@ -168,35 +284,149 @@
 					if(res.statuscode===1){
 						self.appKey=res.appKey;
 						self.secret=res.secret;
+						self.productUrl=res.productUrl;
 					}
 					
 				};
 				common.Ajax(url,type,data,success)
 			},
-
+			// 查询微信小店关联信息
+			wxdbind:function(){
+				var self=this;
+				$.ajax({
+					url:'https://ym-a.top/cloud_code/wechatCouponConfig/getConfig.do',
+					type:'post',
+					data:{
+						vendorId:self.vendorId,
+					},
+					dataType:'json',
+					success:function(res){
+						if(jQuery.isEmptyObject(res)){
+							self.connectwx=true;
+							self.updatewx=false;
+							return
+						}
+						else{
+							self.updatewx=true;
+							self.connectwx=false;
+							self.appIdWxd=res.appId;
+							self.credentialsLocationWxd=res.credentialsLocation;
+							self.secretWxd=res.secret;
+							self.mchIdWxd=res.mchId;
+							self.apiKeyWxd=res.apiKey;
+							self.productUrlWxd=res.productUrl;
+						}
+					},
+					error:function(res){
+						//console.log(res)
+					}
+				})
+				this.showMB1=true;
+			},
 			//关联微店
 			connect:function(){
 				var self=this;
-				var url='http://120.77.149.115/cloud_code//ADD/wd/config.do';
+				var url='https://ym-a.top/cloud_code/ADD/wd/config.do';
 				var type='post';
 				var data={
 					vendorId:self.vendorId,
 					appKey:self.appKey,
-					secret:self.secret
+					secret:self.secret,
+					productUrl:self.productUrl
 				};
 				var success=function(res){
 					if(res.statuscode===1||2){
 						self.showMB=false
 					}else{
-						console.log(res.msg)
+						//console.log(res.msg)
 					}
 				};
 				common.Ajax(url,type,data,success)
+			},
+			// 关联微信小店
+			connectwxd:function(){
+				var self=this;
+        		var data=new FormData($('#wxd')[0]);
+        		$.ajax({
+		          url: 'https://ym-a.top/cloud_code/wechatCouponConfig/addConfig.do',
+		          type:'post',
+		          data: data,
+		          cache: false,
+		          dataType: 'json',
+		          processData: false,
+		          contentType: false,
+		          success: function (res) {
+		            if(res.statuscode==1){
+		              self.showWarn=true;
+		              self.warnText='保存成功'
+		            }
+		            else{
+		              self.showWarn=true;
+		              self.warnText=res.msg
+		            }
+		          },
+		          error:function(res){
+		           self.showWarn=true;
+		              self.warnText='更新出错'
+		          }
+		        });
+		        self.showMB1=false;
+			},
+			// 修改微信小店
+			updatewxd:function(){
+				var self=this;
+				self.updatewx=true;
+				self.connectwx=false;
+				var data=new FormData($('#wxd')[0]);
+        		$.ajax({
+		          url: 'https://ym-a.top/cloud_code//wechatCouponConfig/updateConfig.do',
+		          type:'post',
+		          data: data,
+		          cache: false,
+		          dataType: 'json',
+		          processData: false,
+		          contentType: false,
+		          success: function (res) {
+		            if(res.statuscode==1){
+		              self.showWarn=true;
+		              self.warnText='保存成功'
+		            }
+		            else{
+		              self.showWarn=true;
+		              self.warnText=res.msg
+		            }
+		          },
+		          error:function(res){
+		           self.showWarn=true;
+		              self.warnText='更新出错'
+		          }
+		        });
+		        self.showMB1=false;
 			},
 
 			//隐藏蒙版
 			hide:function(){
 				this.showMB=false;
+				this.showMB1=false;
+				this.showMB3=false;
+			},
+			// 删除优惠券
+			delcoupon:function(){
+				var self=this;
+				self.showMB3=false;
+				var url='https://ym-a.top/cloud_code//DELETE/coupon/info.do';
+				var type='get';
+				var data={
+					vendorId:self.vendorId,
+					couponId:self.couponId.toString()
+				};
+				var success=function(res){
+					if(res.statuscode==1){
+						alert('删除成功')
+					}
+					self.init()
+				};
+				common.Ajax(url,type,data,success)
 			},
 			//获取页数
 			getPage:common.getPage,
@@ -218,7 +448,7 @@
 <style scoped>
 	/*@import "../../assets/css/common.css";*/
 	.pro-li-span{
-		width: 19%;
+		width: 16%;
 	}
 	.top-title{
 		width: 95%;
@@ -295,6 +525,10 @@
 		margin-top: 30px;
 		text-align: left;
 	}
+	.messageboxwxd{
+		margin-top: 20px;
+		text-align: left;
+	}
 	.message-name{
 		width: 100px;
 		display: inline-block;
@@ -306,6 +540,10 @@
 		padding-left: 5px;
 		border-radius: 5px;
 		text-align: left;
+	}
+	.wxd-value{
+		display: inline-block;
+		padding-left: 5px;
 	}
 	.cha{
 		position: absolute;

@@ -1,8 +1,72 @@
 <template>
   <div>
+    <div class="mengban" v-show='showWarn'>
+        <div class="warn">
+          <div class="classifyHeader">
+            <span style="display:block;height:48px;line-height:48px;">操作提示</span>
+          </div>
+          <div class="warnmain">
+            {{warnText}}
+          </div>
+          <div class="warnbottom">
+            <input class="delbutton" type="button" name="" value="确定" @click='showWarn=false'>
+          </div>
+        </div>
+      </div>
+      <div class="mengban" v-show='showMB2'>
+        <div class="warn">
+          <div class="classifyHeader">
+            <span style="display:block;height:48px;line-height:48px;">操作提示</span>
+          </div>
+          <div class="warnmain">
+            删除当前代理会将其员工信息和子代理一并删除，是否确定？
+          </div>
+          <div class="warnbottom">
+            <input class="delbutton" type="button" name="" value="确定" @click='delAgent'>
+            <input class="delbutton" type="button" name="" value="取消" @click='showMB2=false'>
+          </div>
+        </div>
+      </div>
     <div class="mengban" v-show='showCode' @click='hide'>
       <div class="codeImg">
-        
+
+      </div>
+    </div>
+    <div class="mengban" v-if='showDetail'>
+      <div class="contentBox" style="width: 950px;margin-left: -475px;">
+        <div class="contentTop">
+          <span class="titleFont">详情</span>
+          <span class="cha" @click='showDetail=false'></span>
+        </div>
+        <div class="contentMain">
+          <ul class="choosepro-main">
+            <li class="pro-li header">
+              <span class="pro-li-span" style="width: 7%">员工ID</span>
+              <span class="pro-li-span" style="width: 7%">代理商ID</span>
+              <span class="pro-li-span">代理商名称</span>
+              <span class="pro-li-span" style="width: 8%">员工姓名</span>
+              <span class="pro-li-span" style="width: 18%">创建时间</span>
+              <span class="pro-li-span" style="width: 8%">工号</span>
+              <span class="pro-li-span">员工电话</span>
+              <span class="pro-li-span" style="width: 18%">员工身份证号码</span>
+              <span class="pro-li-span" style="width: 6%">操作</span>
+            </li>
+            <li class="pro-li" v-for='item in detailInfo'>
+              <span class="pro-li-span" style="width: 7%">{{item.id}}</span>
+              <span class="pro-li-span" style="width: 7%">{{item.agentId}}</span>
+              <span class="pro-li-span">{{item.agentName}}</span>
+              <span class="pro-li-span" style="width: 8%">{{item.empName}}</span>
+              <span class="pro-li-span" style="width: 18%">{{item.createTime}}</span>
+              <span class="pro-li-span" style="width: 8%">{{item.workNum}}</span>
+              <span class="pro-li-span">{{item.empTel}}</span>
+              <span class="pro-li-span" style="width: 18%">{{item.empIdcard}}</span>
+              <span class="pro-li-span" style="width: 6%"><a href="javascript:void(0)" @click='delet(item.id)'>删除</a></span>
+            </li>
+          </ul>
+        </div>
+        <div class="contentBottom">
+          <input class="content-botton" type="button" name="" value="确定" @click='showDetail=false'>
+        </div>
       </div>
     </div>
     <div class="mengban" v-if='showMB'>
@@ -46,7 +110,7 @@
     </div>
     <div class="right-main">
       <div class='right-main-top'>
-        <svg width="1460" height="500" @click='selectTree'></svg>
+        <svg width="1060" height="500" @click='selectTree'></svg>
         
       </div>
 
@@ -55,11 +119,11 @@
     <div class="right-main">
       <div class="right-main-bottom">
         <div class="button-group">
-        <a href="javascript:void(0)" @click='addProxy'>
-          <div class="add-pro">
-            +新增代理
-          </div>
-        </a>
+          <a href="javascript:void(0)" @click='addProxy'>
+            <div class="add-pro">
+              +新增代理
+            </div>
+          </a>
           <span style="color:#b3b3b7;">（新增代理前请选择树状图的某个节点，新增的代理将添加在选中节点的分支中）</span>
         </div>
         <div class="my-form">
@@ -80,10 +144,11 @@
               <span class="pro-li-span">{{pro.agentAddress||pro.noData.agentAddress}}</span>
               <span class="pro-li-span">{{pro.agentTel||pro.noData.agentTel}}</span>
               <span class="pro-li-span">{{pro.agentEmaill||pro.noData.agentEmaill}}</span>
-              <span class="pro-li-span">{{pro.mark||pro.noData.mark}}</span>
+              <span class="pro-li-span">{{pro.mark||pro.noData.mark||null}}</span>
               <span class="pro-li-span" v-if='pro.noData==undefined'>{{pro.agentFid}}</span>
               <span class="pro-li-span" v-else>{{pro.noData.agentFid}}</span>
               <span class="pro-li-span">
+                <a href="javascript:void(0)" v-bind:data-id='pro.id||pro.noData.id'>详情</a>
                 <a href="javascript:void(0)" v-bind:data-id='pro.id||pro.noData.id' v-bind:data-level='pro.agentLevel||pro.noData.agentLevel'>授权码</a>
                 <a href="javascript:void(0)" v-bind:data-id='pro.id||pro.noData.id'>删除</a>
               </span> 
@@ -274,21 +339,28 @@
         ifagentEmaill:false,
         id:null,
         level:null,
-        showCode:false
-
+        showCode:false,
+        showDetail:false,
+        detailInfo: null,
+        detailId:null,
+        showWarn:false,
+        warnText:null,
+        showMB2:false,
+        delId:null
       }
     },
     props:['datas'],
     methods:{
      init:function(currentPage){
       var self=this;
-      var url2='http://120.77.149.115/cloud_code/GET/agent/getAllAgent.do'
+      var url2='https://ym-a.top/cloud_code/GET/agent/getAllAgent.do'
       var type='get';
       var data={
         vendorId:self.datas.vendorId,
         currentPage:currentPage
       }
       var success2=function(res){
+        console.log(res)
         var pagenum=res.totalPages;
         self.fenye=true
         self.totalPage=[];
@@ -297,7 +369,6 @@
         self.totalPages=res.totalPages;
         self.currentPage=res.currentPage;
         self.getPage();
-        console.log(self.proInfo);
       }
       common.Ajax(url2,type,data,success2);
 
@@ -313,7 +384,7 @@
         // var hierarchy = d3.hierarchy()
         // .parentId(function(d) { return d.id.substring(0, d.id.lastIndexOf(".")); });
 
-        d3.json("http://120.77.149.115/cloud_code/GET/agent/getAgentTree.do?vendorId="+self.datas.vendorId, function(error, data) {
+        d3.json("https://ym-a.top/cloud_code/GET/agent/getAgentTree.do?vendorId="+self.datas.vendorId, function(error, data) {
           if (error) throw error;
           var root = d3.hierarchy(data)
           .sort(function(a, b) { return (a.height - b.height)});
@@ -356,7 +427,7 @@
           var id=$(event.target).attr('data-id');
           self.id=id;
           self.level=$(event.target).attr('data-level')
-          var url='http://120.77.149.115/cloud_code/GET/agent/getAgentInfoByNodeId.do';
+          var url='https://ym-a.top/cloud_code/GET/agent/getAgentInfoByNodeId.do';
           var type='get';
           var data={
             vendorId:self.datas.vendorId,
@@ -375,6 +446,7 @@
       confirm:function(){
         var self=this;
         var phoneReg=/^1[34578]\d{9}$/;
+        var phone=/^0\d{2,3}-\d{7,8}(-\d{1,6})?$/;
         var maillReg=/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         if(self.agentName==null){
           self.ifagentName=true;
@@ -388,7 +460,10 @@
         }else{
           self.ifagentAddress=false;
         }
-        if(self.agentTel==null||!phoneReg.test(self.agentTel)){
+        if(self.agentTel==null||!phoneReg.test(self.agentTel)&&self.agentTel.length===11){
+          self.ifagentTel=true;
+          return
+        }else if(self.agentTel.length!==11&&!phone.test(self.agentTel)){
           self.ifagentTel=true;
           return
         }else{
@@ -400,7 +475,7 @@
         }else{
           self.ifagentEmaill=false;
         }
-        var url='http://120.77.149.115/cloud_code/ADD/agent/addAgentInfo.do';
+        var url='https://ym-a.top/cloud_code/ADD/agent/addAgentInfo.do';
         var type='post';
         var data={
           vendorId:self.datas.vendorId,
@@ -415,11 +490,12 @@
         var success=function(res){
           if(res.status===1){
             self.showMB=false;
-            self.init();
+            self.init(1);
             self.level=null;
             self.id=null;
           }else{
-            console.log(res);
+            self.showWarn=true;
+            self.warnText=res.msg;
           }
         }
         common.Ajax(url,type,data,success)
@@ -449,7 +525,7 @@
         if($(event.target)[0].innerText==='授权码'){
           var agentId=$(event.target).attr('data-id');
           var agentLevel=$(event.target).attr('data-level');
-          var url='http://120.77.149.115/cloud_code/ADD/agent/vendorGenerateLogisticCode.do';
+          var url='https://ym-a.top/cloud_code/ADD/agent/vendorGenerateLogisticCode.do';
           var type='get';
           var data={
             agentId:agentId,
@@ -461,28 +537,42 @@
           }
           common.Ajax(url,type,data,success)
         }else if($(event.target)[0].innerText==='删除'){
-          var agentId=$(event.target).attr('data-id');
-          var url='http://120.77.149.115/cloud_code/DELETE/agent/deleteAgentNode.do';
+          self.delId=$(event.target).attr('data-id');
+          self.showMB2=true;
+          
+        }else if($(event.target)[0].innerText==='详情'){
+          self.detailId=$(event.target).attr('data-id')
+          self.detail();
+        }
+      },
+      //删除代理
+      delAgent(){
+        var self=this;
+        var url='https://ym-a.top/cloud_code/DELETE/agent/deleteAgentNode.do';
           var type='get';
           var data={
             vendorId:parseInt(self.datas.vendorId),
-            id:parseInt(agentId),
+            id:parseInt(self.delId),
           };
           var success=function(res){
             if(res.status===1){
               self.init();
               self.id=null;
               self.level=null;
+              self.showMB2=false,
+              self.delId=null;
+            }else{
+              self.showWarn=true;
+              self.showMB2=false;
+              self.warnText=res.msg;
             }
           };
           common.Ajax(url,type,data,success)
-        }
       },
-
       //展示二维码
       showMa:function(id){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/agent/getAgentLogisticCode.do';
+        var url='https://ym-a.top/cloud_code/GET/agent/getAgentLogisticCode.do';
         var type='get';
         var data={
           agentId:id
@@ -497,7 +587,7 @@
       newCode:function(code){
         var self=this;
         self.showCode=true;
-        var code="http://project.ym-b.top/cloud_code/w/"+code;
+        var code="https://ym-a.top/cloud_code/w/"+code;
         var qrcodeNode=document.getElementsByClassName('codeImg')[0];
         $(qrcodeNode).html('');
         self.qrcode = new QRCode(qrcodeNode, {
@@ -516,6 +606,37 @@
           self.showCode=false;
         }
         
+      },
+      //删除代理信息
+      delet(id){
+        var self=this;
+        var url='https://ym-a.top/cloud_code/DELETE/AgentEmployee/deleteAgentEmp.do';
+        var type='get';
+        var data={
+          empId:id
+        };
+        var success=function(res){
+          if(res.status===1){
+            self.detail()
+          }
+        }
+        common.Ajax(url,type,data,success)
+      },
+
+      //详情
+      detail(){
+        var self=this;
+        var agentId=self.detailId;
+        var url='https://ym-a.top/cloud_code/GET/AgentEmployee/getEmpInfoById.do';
+        var type='get';
+        var data={
+          agentId:agentId
+        };
+        var success=function(res){
+          self.showDetail=true;
+          self.detailInfo=res.data;
+        };
+        common.Ajax(url,type,data,success)
       },
       //获取页数
       getPage:common.getPage,

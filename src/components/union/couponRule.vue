@@ -64,7 +64,7 @@
 							<span class="pro-li-span" v-if='pro.timeType==0'>
 								<span>长期</span>
 							</span>
-							<span class="pro-li-span" v-else style="line-height:26px;margin:10px 0;vertical-align: top">
+							<span class="pro-li-span time" v-else>
 								<span>{{pro.startTime}}</span><br><span>{{pro.endTime}}</span>
 							</span>
 							<span class="pro-li-span">
@@ -116,7 +116,7 @@
 		methods:{
 			init:function(currentPage){
 				var self=this;
-				var url='http://120.77.149.115/cloud_code/GET/couponRule/info.do';
+				var url='https://ym-a.top/cloud_code/GET/couponRule/info.do';
 				var type='get';
 				var data={
 					vendorId:self.vendorId,
@@ -124,7 +124,7 @@
 					pageSize:10
 				}
 				var success=function(res){
-					console.log(res);
+					//console.log(res);
 					var pagenum=res.totalPages;
 					self.totalPage=[];
 					self.resData=res;
@@ -140,7 +140,7 @@
 			//删除规则
 			delRule:function(id){
 				var self=this;
-				var url='http://120.77.149.115/cloud_code/DELETE/couponRule/info.do';
+				var url='https://ym-a.top/cloud_code/DELETE/couponRule/info.do';
 				var type='get';
 				var data={
 					id:id,
@@ -164,7 +164,7 @@
 				var self=this;
 				self.content=true;
 				self.contentInfo=self.proInfo[index].whiteArray;
-				console.log(self.proInfo[index]);
+				//console.log(self.proInfo[index]);
 			},
 			//翻页
 			changePage:common.changePage,

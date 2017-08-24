@@ -13,10 +13,10 @@
     </div>
     <div class="right-main-bottom">
       <div class="button-group">
-        <span>统计时间：</span>
+        <!-- <span>统计时间：</span>
         <input class="message-value" type="text" name="">
         <span>搜索规则：</span>
-        <input class="message-value" type="text" name="">
+        <input class="message-value" type="text" name=""> -->
         <router-link to='/twoCode/addRule'>
           <div class="add-pro">
             +&nbsp;新建规则
@@ -124,7 +124,7 @@
   margin-top: 40px;
 }
 .add-pro{
-  float: right;
+  float: left;
 }
 .button-group{
   height: 36px;
@@ -179,7 +179,7 @@
       //初始化
       init:function(currentPage){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/redEnv/ruleInfo.do';
+        var url='https://ym-a.top/cloud_code/GET/redEnv/ruleInfo.do';
         var type='get';
         var data={
           vendorId:parseInt(self.datas.vendorId),
@@ -187,7 +187,7 @@
           pageSize:10
         };
         var success=function(res){
-          console.log(res);
+          //console.log(res);
           self.info=res.result.data;
           self.resData=res;
           self.totalPages=res.totalPages;

@@ -19,7 +19,7 @@
             <span style="display:block;height:48px;line-height:48px;">操作提示</span>
           </div>
         <div class="tishi">
-          删除订单同时删除根据订单创建的所有表,慎重!
+          若此订单同步生成溯源码，执行此操作会将溯源码一起删除，慎重！
         </div>
         <div style="text-align: right;margin-top: 40px;margin-right: 20px;">
           <input class="delbutton" type="button" name="" value="确认" @click='deletOrder'>
@@ -31,9 +31,11 @@
     <div class="right-main">
       <div class="right-main-bottom">
         <div class="button-group">
-          <router-link to='/twoCode/addOrder'><div class="add-pro">
+          <a href="javascript:void(0)" @click='addOrder'>
+          <div class="add-pro">
             +&nbsp;新增订单
-          </div></router-link>
+          </div>
+          </a>
         </div>
         <div class="my-form">
           <ul class="pro-list">
@@ -59,7 +61,7 @@
               <span class="pro-li-span">{{item.createDate}}</span>
               <span class="pro-li-span" v-if='item.status==2'>已生成</span>
               <span class="pro-li-span" v-else>未生成</span>
-              <span class="pro-li-span last"><a href="javascript:void(0)" v-bind:data-id='item.orderId' @click='toDetail'>详情</a>、<a href="javascript:void(0)" v-bind:data-id='item.orderId' @click='mengban'>删除订单、</a><a href="javascript:void(0)" v-bind:data-id='item.orderId' @click='two'>生成二维码</a>、<router-link to='/twoCode/briefCode'>扫码页模板</router-link>、<a href="javascript:void(0)">扫码活动管理</a>、<a href="javascript:void(0)" v-bind:data-id='item.orderId' @click='confirmDownLoad'>导出二维码</a></span>
+              <span class="pro-li-span last"><a href="javascript:void(0)" v-bind:data-id='item.orderId' @click='toDetail'>详情</a>、<a href="javascript:void(0)" v-bind:data-id='item.orderId' @click='mengban'>删除订单、</a><a href="javascript:void(0)" v-bind:data-id='item.orderId' @click='two'>生成二维码</a>、<router-link to='/twoCode/briefCode'>扫码页模板</router-link>、<router-link to='/twoCode/activity'>扫码活动管理</router-link>、<a href="javascript:void(0)" v-bind:data-id='item.orderId' @click='confirmDownLoad'>导出二维码</a></span>
 
             </li>
           </ul>
@@ -139,10 +141,12 @@
     width: 18%;
     overflow-wrap: break-word;
     height: 72px;
-    line-height: 36px;
+    line-height: 24px;
     white-space: pre-wrap;
   }
-
+  .last a{
+    display: inline-flex;
+  }
   .warnbottom{
     text-align: right;
     position: relative;
@@ -153,15 +157,6 @@
     position: relative;
     top: 70px;
     text-align: center;
-  }
-  .warn{
-    width: 420px;
-    height: 250px;
-    background: #fff;
-    position: relative;
-    top: 50%;
-    margin: auto;
-    margin-top: -125px;
   }
   .classifyHeader{
     width: 100%;
@@ -201,6 +196,7 @@
 <script>
   import common from '../common.js'
   import router from '../router.js'
+  import {mapMutations} from 'vuex'
   export default{
     data(){
       return{
@@ -221,13 +217,17 @@
     },
     props:['datas'],
     methods:{
+      ...mapMutations([
+        'changeType'
+      ]),
       init:function(currentPage){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/product/productInfoList.do';
+        var url='https://ym-a.top/cloud_code/GET/product/productInfoList.do';
         var type='get';
         var data={
           vendorId:self.datas.vendorId,
           currentPage:currentPage,
+          connecTracingAndSecurty:2
         };
         var success=function(res){
           var pagenum=res.totalPages;
@@ -244,7 +244,7 @@
         common.Ajax(url,type,data,success)
       },
       showList:function(event){
-        // console.log();
+        // //console.log();
         $(event.target).parents("li").find("ul").toggleClass("hidelist");
         $(event.target).parents("li").siblings().find("ul").addClass("hidelist")
       },
@@ -253,10 +253,23 @@
       toDetail:function(){
         var self=this;
         var id=$(event.target).attr('data-id');
-        self.$emit('upOrderId',id);
-        router.push({path:'detail'})
+        var state=$(event.target).parents('.pro-li-span').prev().text();
+        if(state==='已生成'){
+          self.$emit('upOrderId',id);
+          self.changeType('b');
+          router.push({path:'detail'})
+        }else{
+          self.showWarn=true;
+          self.warnText='请先生成二维码'
+        }
+        
       },
 
+      //新增
+      addOrder(){
+        this.changeType('b');
+        router.push({path:'/twoCode/addOrder'});
+      },
       //隐藏蒙版
       hide:function(){
         this.showMB=false;
@@ -272,13 +285,13 @@
       //确定删除订单
       deletOrder:function(){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/DELETE/product/productOrder.do';
+        var url='https://ym-a.top/cloud_code/DELETE/product/productOrder.do';
         var type='post';
         var data={
           orderId:self.delOrder
         };
         var success=function(res){
-          console.log(res);
+          //console.log(res);
           self.init();
           self.delOrder=null;
           self.showMB=false;
@@ -291,7 +304,7 @@
         $('#info').removeClass('modHid')
         var self=this;
         var id=$(event.target).attr('data-id');
-        var url='http://120.77.149.115/cloud_code/POST/securityCode/createSecurityCode.do';
+        var url='https://ym-a.top/cloud_code/POST/securityCode/createSecurityCode.do';
         var type='post';
         var data={
           orderId:id
@@ -301,6 +314,7 @@
           if(res.errorCode===0){
             self.showWarn=true;
             self.warnText='已成功生成二维码'
+            self.init();
           }else{
             self.showWarn=true;
             self.warnText=res.msg;
@@ -313,7 +327,7 @@
         var self=this;
         var id=$(event.target).attr('data-id');
         $.ajax({
-          url:'http://project.ym-b.top/cloud_code/GET/securityCode/securityCodeExportCountWarn.do',
+          url:'https://ym-a.top/cloud_code/GET/securityCode/securityCodeExportCountWarn.do',
           type:'post',
           data:{orderId:id},
           datatype:'json',
@@ -339,7 +353,7 @@
         })
       },
       downLoad:function(id){
-        var downloadURL = "http://project.ym-b.top/cloud_code/POST/securityCode/exportVendorSecurityCode.do";  
+        var downloadURL = "https://ym-a.top/cloud_code/POST/securityCode/exportVendorSecurityCode.do";  
         var form = $("<form>");   //定义一个form表单  
         form.attr('style','display:none');   //在form表单中添加查询参数  
         form.attr('target','');  

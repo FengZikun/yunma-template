@@ -2,12 +2,18 @@
   <div>
     <div class="mengban" v-show='showMB'>
       <div class="proclassify" >
+      <div class="tishi">
+          确定将礼品彻底删除吗？
+        </div>
         <input class="delbutton" type="button" name="" value="确认" @click='deleteGift'>
         <input class="delbutton" type="button" name="" value="取消" @click='hide'>
       </div>
     </div>
     <div class="mengban" v-show='showMB2'>
       <div class="proclassify" >
+      <div class="tishi">
+          确定将礼品还原到列表吗？
+        </div>
         <input class="delbutton" type="button" name="" value="确认" @click='huanyuan'>
         <input class="delbutton" type="button" name="" value="取消" @click='hide'>
       </div>
@@ -35,7 +41,7 @@
                     <span class="pro-li-span">操作</span>
                   </li>
                   <li class="pro-li" v-for='gift in gifts'>
-                    <span class="pro-li-span first" v-bind:data-id='gift.id'><span class="check-box checkshu" @click='selectThis' style="margin-left:10%;margin-right:5%;"></span><span style="display: inline-block;vertical-align: middle;overflow: hidden"><img style="width:45px;margin-left:20px;" v-bind:src="'http://120.77.149.115'+gift.presentImg">{{gift.presentName}}</span></span>
+                    <span class="pro-li-span first" v-bind:data-id='gift.id'><span class="check-box checkshu" @click='selectThis' style="margin-left:10%;margin-right:5%;"></span><span style="display: inline-block;vertical-align: middle;overflow: hidden"><img style="width:45px;margin-left:20px;" v-bind:src="'https://ym-a.top'+gift.presentImg">{{gift.presentName}}</span></span>
                     <span class="pro-li-span">{{gift.rowName}}</span>
                     <span class="pro-li-span">{{gift.presentPrice}}</span>
                     <span class="pro-li-span"></span>
@@ -159,7 +165,7 @@ import common from '../../common.js'
       //初始化
       init:function(currentPage){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/product/present.do';
+        var url='https://ym-a.top/cloud_code/GET/product/present.do';
         var type='get';
         var data={
             vendorId:self.vendorId,
@@ -191,13 +197,13 @@ import common from '../../common.js'
           self.chechednum++;
           self.deleteArr.push(checkBox.parent().attr('data-id'));
           self.huanyuanArr.push(checkBox.parent().attr('data-id'));
-          console.log(self.huanyuanArr);
+          //console.log(self.huanyuanArr);
         }else{
           checkBox.addClass('check-box').removeClass('has-select');
           self.chechednum--;
           self.deleteArr.pop(checkBox.parent().attr('data-id'));
           self.huanyuanArr.pop(checkBox.parent().attr('data-id'));
-          console.log(self.huanyuanArr);
+          //console.log(self.huanyuanArr);
 
         };
       },
@@ -218,7 +224,7 @@ import common from '../../common.js'
             self.deleteArr.push(self.gifts[i].id);
             self.huanyuanArr.push(self.gifts[i].id);
           }
-          console.log(self.deleteArr)
+          //console.log(self.deleteArr)
         }else{
           checkall.addClass('check-box').removeClass('has-select');
           $('.checkshu').addClass('check-box').removeClass('has-select');
@@ -258,8 +264,8 @@ import common from '../../common.js'
       deleteGift:function(){
         var self=this;
         var deletedata=self.deleteArr;
-        console.log(deletedata);
-        var url='http://120.77.149.115/cloud_code/DELETE/product/present.do';
+        //console.log(deletedata);
+        var url='https://ym-a.top/cloud_code/DELETE/product/present.do';
         var type='post';
         var data={
             id:deletedata
@@ -279,7 +285,7 @@ import common from '../../common.js'
       huanyuan:function(){
         var self=this;
         var huanyuandata=self.huanyuanArr;
-        var url='http://120.77.149.115/cloud_code/DELETE/product/batchPresent.do';
+        var url='https://ym-a.top/cloud_code/DELETE/product/batchPresent.do';
         var type='post';
         var data={
             id:huanyuandata,

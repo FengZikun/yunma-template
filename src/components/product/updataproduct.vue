@@ -2,15 +2,15 @@
 	<div class="right-main">
 		<div class="step1" v-bind:class='{hidestep:onehide}'>
 			<div class="top">
-				<img src="../../assets/img/step.png">
+				<img src="../../assets/img/chanpin_buzhou1.png">
 				<span class="return"><router-link to='/goods/pro_message' style="text-decoration: none">返回</router-link></span>
 			</div>
 			<div class="main">
 				<ul class="ul" @click.prevent='choosed'>
-					<a href="javascript:void(0)"><li class="list">服装内衣</li></a>
+					<a href="javascript:void(0)"><li class="list">小食品</li></a>
+					<a href="javascript:void(0)"><li class="list">酒水</li></a>
+					<a href="javascript:void(0)"><li class="list">饮料</li></a>
 					<a href="javascript:void(0)"><li class="list">鞋靴箱包</li></a>
-					<a href="javascript:void(0)"><li class="list">运动户外</li></a>
-					<a href="javascript:void(0)"><li class="list">珠宝配饰</li></a>
 					<a href="javascript:void(0)"><li class="list">个护化妆</li></a>
 					<a href="javascript:void(0)"><li class="list">家居建材</li></a>
 					<a href="javascript:void(0)"><li class="list">家居家纺</li></a>
@@ -40,7 +40,7 @@
 		
 		<div class="step2" v-bind:class='{hidestep:twohide}'>
 			
-			<div class="mengban" v-show='showMB'>
+			<div class="mengban" v-if='showMB'>
 				
 				<div class="proclassify" >
 					<div class="classifyHeader">
@@ -75,7 +75,7 @@
 					<div class="imgmain" v-if='local'>
 						<ul @click.prevent='chooseimg' style="height:450px;">
 							<li class="single-img" v-for='item in imglist'>
-								<img v-bind:src="'http://120.77.149.115'+item.imgUrl" class="proimg" style="width:110px;height:110px" v-bind:data-id='item.id'>
+								<img v-bind:src="'https://ym-a.top'+item.imgUrl" class="proimg" style="width:110px;height:110px" v-bind:data-id='item.id'>
 								<span class="size">{{item.imgWidth}}*{{item.imgHeight}}</span>
 								<span class="imgname">{{item.imgName}}</span>
 							</li>
@@ -123,7 +123,7 @@
 				</div>
 			</div>
 			<div class="top">
-				<img src="../../assets/img/step2.png">
+				<img src="../../assets/img/chanpin_buzhou2.png">
 				<span class="return"><a href="javascipt:void(0)" style="text-decoration: none"  @click='showStep1'>返回</a></span>
 			</div>
 			<div class="main">
@@ -132,23 +132,23 @@
 					<span class="message-name star">产品名称：</span>
 					<input class="message-value" type="text" name="" v-model='productName'>
 				</div>
-				<div class="promessage">
+				<div class="promessage" v-if='classifyData!==null'>
 					<span class="message-name">产品分类：</span>
 					<div v-if='selected.name!=undefined' class="choosezu">
 						<span>{{selected.name}}</span><span v-if='chilselected!=undefined'>>{{chilselected.name}}</span>
 					</div>
 					<input class="message-choose" type="button" name="" value="选择分类" @click='chooseClassify'>
-					<router-link to='/goods/classify' style='text-decoration:none;'><span class="message-after">管理分类</span></router-link>
+					<!-- <router-link to='/goods/classify' style='text-decoration:none;'><span class="message-after">新增自定义分类</span></router-link> -->
 				</div>
 				<div class="promessage">
 					<span class="message-name star">产品图片：</span>
 					<img v-for='img in selectimg' class="myimg" style="width:86px;height:86px;vertical-align:top;" v-bind:src="img" v-if='productid==""'>
-					<img class="myimg" style="width:86px;height:64px;vertical-align:top;" v-bind:src="'http://120.77.149.115'+productImg" @click='delImg' v-if='productid!=""'>
+					<img class="myimg" style="width:86px;height:64px;vertical-align:top;" v-bind:src="'https://ym-a.top'+productImg" @click='delImg' v-if='productid!=""'>
 					<span class="message-add" @click='searchphoto(1)'></span>
-					<p class="p">图片宽高要求1:1比例，建议尺寸为640px*640px以上；最多上传5张图片，您可以拖曳图片调整图片顺序。</p>
+					<p class="p">图片宽高要求1:1比例，建议尺寸为640px*640px以上。</p>
 				</div>
 				<div class="promessage">
-					<span class="message-name star">价格：</span>
+					<span class="message-name">价格：</span>
 					<input class="message-value" type="text" name="" v-model='productPrice'>
 					<span class="message-danwei">元</span>
 				</div>
@@ -158,26 +158,18 @@
 					<span class="message-danwei danwei">元</span>
 				</div>
 				<div class="promessage">
-					<span class="message-name star">总库存：</span>
+					<span class="message-name">总库存：</span>
 					<input class="message-value" type="text" name="" v-model='productTotal'>
 					<span class="message-danwei">件</span>
-				</div>
-				<div class="promessage">
-					<span class="message-name star">商品编码：</span>
-					<input class="message-value" type="text" name="" placeholder="限20个字符" v-model='productCode'>
 				</div>
 				<div class="promessage">
 					<span class="message-name">产品单位：</span>
 					<input class="message-value" type="text" name="" placeholder="例：个、瓶、盒、件" v-model='productUnit'>
 				</div>
 				<div class="promessage">
-					<span class="message-name">产品条码：</span>
-					<input class="message-value" type="text" name="" v-model='productBarCode'>
-				</div>
-				<div class="promessage">
 					<span class="message-name">产品参数：</span>
 					<div class="brod">
-						<p class="fontcolor">至少3个产品参数，最多50个</p>
+						<p class="fontcolor">最多50个</p>
 						<ul class="pro-parameter" v-if='paramKey!=""'>
 							<li v-for='(item, index) in paramKey'>
 								<span>{{item}}：</span>
@@ -197,13 +189,13 @@
 				</div>
 				<div class="buttongroup">
 					<input class="jumpbutton" type="button" name="" value="上一步" @click='showStep1'>
-					<input class="jumpbutton" type="button" name="" value="下一步" @click='showStep3'>
+					<input class="jumpbutton" type="button" name="" value="完成" @click='complete'>
 
 				</div>
 			</div>
 		</div>
 
-		<div class="step3" v-bind:class='{hidestep:threehide}'>
+		<!-- <div class="step3" v-bind:class='{hidestep:threehide}'>
 			<div class="top">
 				<img src="../../assets/img/step3.png">
 				<span class="return" @click='showStep2'><a href="javascript:void(0)" style="text-decoration: none">返回</a></span>
@@ -221,7 +213,7 @@
 
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 
 </template>
@@ -430,14 +422,14 @@
 		display: none;
 	}
 	.imgbox{
-		margin: auto;
-		top: 50%;
-		margin-top: -327.5px;
+		left: 50%;
+		top: 20%;
+		margin-left: -342.5px;
 		height: 655px;
 		border-radius: 2px;
 		background: #fff;
 		width: 685px;
-		position: relative;
+		position: absolute;
 	}
 	.imgheader{
 		width: 100%;
@@ -569,16 +561,16 @@
 	import VueHtml5Editor from 'vue-html5-editor'
 	import Vue from 'vue'
 	import router from '../../router.js'
-	Vue.use(VueHtml5Editor, {
-		showModuleName: true,
-		image: {
-			sizeLimit: 512 * 1024,
-			compress: true,
-			width: 500,
-			height: 500,
-			quality: 80,
+	// Vue.use(VueHtml5Editor, {
+	// 	showModuleName: true,
+	// 	image: {
+	// 		sizeLimit: 512 * 1024,
+	// 		compress: true,
+	// 		width: 500,
+	// 		height: 500,
+	// 		quality: 80,
       // upload: {
-      //       url: 'http://120.77.149.115/imageContent/',
+      //       url: 'https://ym-a.top/imageContent/',
       //       headers: {},
       //       params: {},
       //       fieldName: {}
@@ -596,55 +588,55 @@
       //           return json.data
       //       }
       //   }
-  },
-  language: "zh-cn",
+  // },
+  // language: "zh-cn",
     // 自定义语言
-    i18n: {
+    // i18n: {
       //specify your language here
-      "zh-cn": {
-      	"align": "对齐方式",
-      	"image": "图片",
-      	"list": "列表",
-      	"link": "链接",
-      	"unlink": "去除链接",
-      	"table": "表格",
-      	"font": "文字",
-      	"full screen": "全屏",
-      	"text": "排版",
-      	"eraser": "格式清除",
-      	"info": "关于",
-      	"color": "颜色",
-      	"please enter a url": "请输入地址",
-      	"create link": "创建链接",
-      	"bold": "加粗",
-      	"italic": "倾斜",
-      	"underline": "下划线",
-      	"strike through": "删除线",
-      	"subscript": "上标",
-      	"superscript": "下标",
-      	"heading": "标题",
-      	"font name": "字体",
-      	"font size": "文字大小",
-      	"left justify": "左对齐",
-      	"center justify": "居中",
-      	"right justify": "右对齐",
-      	"ordered list": "有序列表",
-      	"unordered list": "无序列表",
-      	"fore color": "前景色",
-      	"background color": "背景色",
-      	"row count": "行数",
-      	"column count": "列数",
-      	"save": "确定",
-      	"upload": "上传",
-      	"progress": "进度",
-      	"unknown": "未知",
-      	"please wait": "请稍等",
-      	"error": "错误",
-      	"abort": "中断",
-      	"reset": "重置"
-      }
-  },
-});
+      // "zh-cn": {
+      // 	"align": "对齐方式",
+      // 	"image": "图片",
+      // 	"list": "列表",
+      // 	"link": "链接",
+      // 	"unlink": "去除链接",
+      // 	"table": "表格",
+      // 	"font": "文字",
+      // 	"full screen": "全屏",
+      // 	"text": "排版",
+      // 	"eraser": "格式清除",
+      // 	"info": "关于",
+      // 	"color": "颜色",
+      // 	"please enter a url": "请输入地址",
+      // 	"create link": "创建链接",
+      // 	"bold": "加粗",
+      // 	"italic": "倾斜",
+      // 	"underline": "下划线",
+      // 	"strike through": "删除线",
+      // 	"subscript": "上标",
+      // 	"superscript": "下标",
+      // 	"heading": "标题",
+      // 	"font name": "字体",
+      // 	"font size": "文字大小",
+      // 	"left justify": "左对齐",
+      // 	"center justify": "居中",
+      // 	"right justify": "右对齐",
+      // 	"ordered list": "有序列表",
+      // 	"unordered list": "无序列表",
+      // 	"fore color": "前景色",
+      // 	"background color": "背景色",
+      // 	"row count": "行数",
+      // 	"column count": "列数",
+      // 	"save": "确定",
+      // 	"upload": "上传",
+      // 	"progress": "进度",
+      // 	"unknown": "未知",
+      // 	"please wait": "请稍等",
+      // 	"error": "错误",
+      // 	"abort": "中断",
+      // 	"reset": "重置"
+      // }
+  // },
+// });
 	export default{
 		data(){
 			return{
@@ -688,7 +680,7 @@
 				imgSrc:'',
 				parametername:'',		//参数名
 				parametervalue:'',		//参数值
-				classifyData:'',		//分组
+				classifyData:null,		//分组
 				selected:{'children':null},
 				chilselected:null,
 				showWarn:false,
@@ -703,7 +695,7 @@
 
 				//修改
 				if(self.productid!=''){
-					var url='http://120.77.149.115/cloud_code/GET/product/infoById.do';
+					var url='https://ym-a.top/cloud_code/GET/product/infoById.do';
 					var type='post';
 					var data={
 						productId:self.productid
@@ -745,6 +737,8 @@
 			//进入step2
 			showStep2:function(){
 				var self=this;
+				self.chooseClassify();
+				self.showMB=false;
 				if(self.productType==''){
 					alert("请选择商品类目");
 				}else if(self.productSpe==''){
@@ -758,35 +752,23 @@
 				
 			},
 			//进入step3
-			showStep3:function(){
-				var self=this;
-				if(self.productName==''){
-					self.showWarn=true;
-					self.warnText='请输入产品名';
-					return
-				}if(self.imgId==''){
-					self.showWarn=true;
-					self.warnText='请上传图片';
-					return
-				}if(self.productPrice==''){
-					self.showWarn=true;
-					self.warnText='请填写价格';
-					return
-				}if(self.productTotal==''){
-					self.showWarn=true;
-					self.warnText='请填写总库存';
-					return
-				}if(self.productCode==''){
-					self.showWarn=true;
-					self.warnText='请填写商品编码';
-					return
-				}
-				self.onehide=true;
-				self.twohide=true;
-				self.threehide=false;
-				$('body').scrollTop(0);
+			// showStep3:function(){
+			// 	var self=this;
+			// 	if(self.productName==''){
+			// 		self.showWarn=true;
+			// 		self.warnText='请输入产品名';
+			// 		return
+			// 	}if(self.imgId==''){
+			// 		self.showWarn=true;
+			// 		self.warnText='请上传图片';
+			// 		return
+			// 	}
+			// 	self.onehide=true;
+			// 	self.twohide=true;
+			// 	self.threehide=false;
+			// 	$('body').scrollTop(0);
 				
-			},
+			// },
 			choosed:function(){
 				var self=this;
 				if($(event.target)[0].className!=="ul"){
@@ -800,14 +782,17 @@
 			chooseClassify:function(){
 				var self=this;
 				self.showMB=true;
-				var url='http://120.77.149.115/cloud_code/GET/product/group.do';
+				var url='https://ym-a.top/cloud_code/GET/product/group.do';
 				var type='get';
 				var data={
 					vendorId:self.vendorId
 				};
 				var success=function(res){
-					self.classifyData=res.result.data;
-					self.chilselected=null;
+					if(res.result.data.length!==0){
+						self.classifyData=res.result.data;
+						self.chilselected=null;
+					}
+					
 				};
 				common.Ajax(url,type,data,success)
 			},
@@ -838,9 +823,18 @@
 			//提交数据
 			complete:function(){
 				var self=this;
+				if(self.productName==''){
+					self.showWarn=true;
+					self.warnText='请输入产品名';
+					return
+				}if(self.imgId==''){
+					self.showWarn=true;
+					self.warnText='请上传图片';
+					return
+				}
 				//修改
 				if(self.productid!=''){
-					var url='http://120.77.149.115/cloud_code/UPDATE/product/info.do';
+					var url='https://ym-a.top/cloud_code/UPDATE/product/info.do';
 					var type='post';
 					if(self.savename!=self.productName){
 						var data={
@@ -884,7 +878,12 @@
 					}
 					
 					var success=function(res){
-						router.push({path:'/goods/pro_message'})
+						if(res.statuscode===1){
+							router.push({path:'/goods/pro_message'});
+						}else{
+							self.showWarn=true;
+							self.warnText=res.msg;
+						}
 					};
 					//调用ajax
 					common.Ajax(url,type,data,success);
@@ -892,7 +891,7 @@
 				}
 				
 				//增加
-				var url='http://120.77.149.115/cloud_code/ADD/product/info.do';
+				var url='https://ym-a.top/cloud_code/ADD/product/info.do';
 				var type='post';
 				var data={
 					vendorId:self.vendorId,
@@ -913,7 +912,12 @@
 					productSpe:self.productSpe
 				};
 				var success=function(res){
-					router.push({path:'/goods/pro_message'});
+					if(res.statuscode===1){
+						router.push({path:'/goods/pro_message'});
+					}else{
+						self.showWarn=true;
+						self.warnText=res.msg;
+					}
 
 				};
 				//调用ajax
@@ -924,7 +928,7 @@
 			searchphoto:function(num){
 				var self=this;
 				self.showMBimg=true;
-				var url='http://120.77.149.115/cloud_code/GET/product/Image.do';
+				var url='https://ym-a.top/cloud_code/GET/product/Image.do';
 				var type='get';
 				var data={
 					currentPage:num,
@@ -964,7 +968,7 @@
 				if(self.productId!=''){
 					$('.myimg').attr('src',self.selectimg);
 				}else{
-					$('.myimg').attr('src',"http://120.77.149.115"+self.selectimg)
+					$('.myimg').attr('src',"https://ym-a.top"+self.selectimg)
 				}
 				
 				self.hide();
@@ -975,7 +979,7 @@
 				var data=new FormData($('#myform')[0]);
 
 				$.ajax({
-					url: 'http://120.77.149.115/cloud_code/ADD/product/uploadImage.do',
+					url: 'https://ym-a.top/cloud_code/ADD/product/uploadImage.do',
 					type:'post',
 					data: data,
 					cache: false,
@@ -991,7 +995,7 @@
 						self.searchphoto(1);
 					},
 					error:function(res){
-						console.log("error")
+						//console.log("error")
 					}
 				});
 			},
@@ -999,7 +1003,7 @@
 			//删除图片
 			delImg:function(){
 				var self=this;
-				var url='http://120.77.149.115/cloud_code/DELETE/product/Image.do';
+				var url='https://ym-a.top/cloud_code/DELETE/product/Image.do';
 				var type='post';
 				var data={
 					id:$(event.target).attr('data-id')
@@ -1032,7 +1036,7 @@
 				}
 				var name=self.parametername;
 				var value=self.parametervalue;
-				var url='http://120.77.149.115/cloud_code/ADD/product/param.do';
+				var url='https://ym-a.top/cloud_code/ADD/product/param.do';
 				var type='post';
 				if(self.productid!=undefined){
 					var data={
@@ -1061,13 +1065,13 @@
 				self.paramKey.splice(index,1);
 				self.paramValue.splice(index,1);
 				var id=parseInt($(event.target).attr('data-id'));
-				var url='http://120.77.149.115/cloud_code/DELETE/product/param.do';
+				var url='https://ym-a.top/cloud_code/DELETE/product/param.do';
 				var type='post';
 				var data={
 					paramId:id
 				};
 				var success=function(res){
-					console.log(res);
+					//console.log(res);
 				}
 				common.Ajax(url,type,data,success);
 			}

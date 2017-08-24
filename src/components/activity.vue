@@ -28,8 +28,8 @@
                   +&nbsp;创建扫码活动
                 </div>
                 </a>
-                <input type="button" name="" class="search-button" value="搜索">
-                <input type="search" name="" class="search" placeholder="输入关键字">
+<!--                 <input type="button" name="" class="search-button" value="搜索">
+                <input type="search" name="" class="search" placeholder="输入关键字"> -->
               </div>
               <div class="my-form">
                 <ul class="pro-list">
@@ -50,13 +50,10 @@
                     <span class="pro-li-span">
                       <span v-if='item.activity_status==0' class="zanting" @click='changeStatus(item.activity_status,item.id)'></span>
                       <span v-else class="qidong" @click='changeStatus(item.activity_status,item.id)'></span>
-                      <!-- <img v-if='item.activity_status==0' src="../assets/img/icon_zanting-copy-3.png" @click='changeStatus(item.activity_status,item.id)'> -->
-                      <!-- <img v-else src="../assets/img/icon_kaishi-copy-7.png" @click='changeStatus(item.activity_status,item.id)'> -->
                     </span>
                     <span class="pro-li-span">
                       <a href="javascript:void(0)">
                       <span class="chakan" v-bind:data-order='item.orderId' @click='getOrderInfo'></span>
-                      <!-- <img src="../assets/img/icon_yulan.png" v-bind:data-order='item.orderId' @click='getOrderInfo'> -->
                       </a>
                     </span>
                     <span class="pro-li-span time" style="white-space:pre-wrap;">
@@ -194,6 +191,7 @@
   import '../assets/js/china.js'
   import common from '../common.js'
   import router from '../router.js'
+  import {mapMutations} from 'vuex'
   export default{
     data(){
       return{
@@ -210,10 +208,13 @@
     },
     props:['datas'],
     methods:{
+      ...mapMutations([
+        'changeType'
+      ]),
       //初始化
       init:function(currentPage){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/codeManager/getCodeManagerAll.do';
+        var url='https://ym-a.top/cloud_code/GET/codeManager/getCodeManagerAll.do';
         var type='get';
         var data={
           pageSize:10,
@@ -248,7 +249,7 @@
       //删除
       delactivity:function(){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/DELETE/codeManager/deleteCodeManager.do';
+        var url='https://ym-a.top/cloud_code/DELETE/codeManager/deleteCodeManager.do';
         var type='post';
         var data={
           id:self.delinfo
@@ -259,7 +260,7 @@
             self.delinfo=null;
             self.init();
           }else{
-            console.log(res);
+            //console.log(res);
           }
           
         };
@@ -270,7 +271,7 @@
       getOrderInfo:function(){
         var self=this;
         var id=$(event.target).attr('data-order');
-        var url='http://120.77.149.115/cloud_code/GET/product/productOrderInfo.do';
+        var url='https://ym-a.top/cloud_code/GET/product/productOrderInfo.do';
         var type='get';
         var data={
           orderId:id
@@ -286,6 +287,7 @@
         var self=this;
         var id=$(event.target).attr('data-id');
         self.$emit('upActivityId',id);
+        self.changeType('b');
         router.push({path:'addActivity'})
       },
 
@@ -293,13 +295,14 @@
       addActivity:function(){
         var self=this;
         self.$emit('upActivityId',null);
+        self.changeType('b');
         router.push({path:'addActivity'})
       },
 
       //改变状态
       changeStatus:function(status,id){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/UPDATE/codeManager/updateScaPageStatus.do';
+        var url='https://ym-a.top/cloud_code/UPDATE/codeManager/updateScaPageStatus.do';
         var type='post';
         var data={
           id:parseInt(id),
@@ -326,7 +329,7 @@
       nextPage:common.nextPage,
       // 预览
       showKuang(event){
-        this.frameSrc='http://project.ym-b.top/wx/'+$(event.target).attr('data-url');
+        this.frameSrc='https://ym-a.top/wx/'+$(event.target).attr('data-url');
         $('.modelBg').removeClass('modHid');
       },
       // 隐藏预览

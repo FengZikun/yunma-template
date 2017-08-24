@@ -118,7 +118,7 @@
       //判断登录状态
       init:function(){
         var self=this;
-        console.log(self.datas.userType);
+        //console.log(self.datas.userType);
         if(self.datas.userType==undefined||self.datas.userType==''){
           return
         }else if(self.datas.userType==99){
@@ -129,7 +129,7 @@
       },
 
       changecapcha:function(){
-        $(".cap").attr("src", "http://120.77.149.115/cloud_code/GET/user/captcha.do?timestamp=" + (new Date()).valueOf());
+        $(".cap").attr("src", "https://ym-a.top/cloud_code/GET/user/captcha.do?timestamp=" + (new Date()).valueOf());
       },
       login:function(){
         var self=this;
@@ -141,7 +141,7 @@
           return
         }else{
 
-          var url='http://120.77.149.115/cloud_code/POST/user/login.do';
+          var url='https://ym-a.top/cloud_code/POST/user/login.do';
           var type='post';
           var pswd=Base64.encode(md5(self.password));
           var data={
@@ -157,7 +157,8 @@
                 userType:self.userType,
                 userId:self.userId,
                 userName:res.userName,
-                passWord:pswd}
+                passWord:pswd,
+                vendorName:res.vendorName}
                 self.$emit('upvendorID',data);
                 self.isLogin=true;
                 if(res.userType===99){
@@ -166,7 +167,7 @@
                   router.replace({path:'/enterprise'});
                 }
               }else{
-                console.log(res)
+                //console.log(res)
                 alert(res.msg)
               }
 

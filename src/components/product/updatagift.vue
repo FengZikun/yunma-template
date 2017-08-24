@@ -15,7 +15,7 @@
       </div>
 		<div class="step1" v-bind:class='{hidestep:onehide}'>
 			<div class="top">
-				<img src="../../assets/img/step.png">
+				<img src="../../assets/img/chanpin_buzhou1.png">
 				<span class="return"><router-link to='/goods/gift' style="text-decoration: none">返回</router-link></span>
 			</div>
 			<div class="main">
@@ -56,7 +56,7 @@
 					<div class="imgmain" v-if='local'>
 						<ul @click.prevent='chooseimg' style="height:450px;">
 							<li class="single-img" v-for='item in imglist'>
-								<img v-bind:src="'http://120.77.149.115'+item.imgUrl" class="proimg" style="width:110px;height:110px" v-bind:data-id='item.id'>
+								<img v-bind:src="'https://ym-a.top'+item.imgUrl" class="proimg" style="width:110px;height:110px" v-bind:data-id='item.id'>
 								<span class="size">{{item.imgWidth}}*{{item.imgHeight}}</span>
 								<span class="imgname">{{item.imgName}}</span>
 							</li>
@@ -87,7 +87,7 @@
 				</div>
 			</div>
 			<div class="top">
-				<img src="../../assets/img/step2.png">
+				<img src="../../assets/img/chanpin_buzhou2.png">
 				<span class="return"><a href="javascipt:void(0)" style="text-decoration: none"  @click='showStep1'>返回</a></span>
 			</div>
 			<div class="main">
@@ -97,13 +97,13 @@
 					<input class="message-value" type="text" name="" v-model='name'>
 					<span class="message-after">（限50个汉字/100个字符以内）</span>
 				</div>
-				<div class="promessage">
+				<div class="promessage" v-if='giftClassify!==null'>
 					<span class="message-name">礼品分组：</span>
 					<select v-model='selected' @change='getrowId'>
 						<option value="null" selected="selected">不分组</option>
 						<option v-for='item in giftClassify' v-bind:value='item'>{{item.name}}</option>
 					</select>
-					<router-link to='/goods/groups' style='text-decoration:none;'><span class="message-after">管理分组</span></router-link>
+					<!-- <router-link to='/goods/groups' style='text-decoration:none;'><span class="message-after">管理分组</span></router-link> -->
 				</div>
 				<div class="promessage">
 					<span class="message-name star">市面价值：</span>
@@ -112,9 +112,9 @@
 				</div>
 				<div class="promessage">
 					<span class="message-name star">礼品图片：</span>
-					<img v-for='img in selectimg' class="myimg" style="width:86px;height:86px;vertical-align:top;" v-bind:src="'http://120.77.149.115'+img">
+					<img v-for='img in selectimg' class="myimg" style="width:86px;height:86px;vertical-align:top;" v-bind:src="'https://ym-a.top'+img">
 					<span class="message-add" @click='searchphoto'></span>
-					<p class="p">图片宽高要求1:1比例，建议尺寸为640px*640px以上；最多上传5张图片，您可以拖曳图片调整图片顺序。</p>
+					<p class="p">图片宽高要求1:1比例，建议尺寸为640px*640px以上。</p>
 					<form action="/cloud_code/ADD/product/info.do" method="post" enctype="multipart/form-data" style="display:none">
 				  		<table>
 				    		<tr>
@@ -156,13 +156,13 @@
 				</div>
 				<div class="buttongroup">
 					<input class="jumpbutton" type="button" name="" value="上一步" @click='showStep1'>
-					<input class="jumpbutton" type="button" name="" value="下一步" @click='showStep3'>
+					<input class="jumpbutton" type="button" name="" value="完成" @click='complete'>
 
 				</div>
 			</div>
 		</div>
 
-		<div class="step3" v-bind:class='{hidestep:threehide}'>
+		<!-- <div class="step3" v-bind:class='{hidestep:threehide}'>
 			<div class="top">
 				<img src="../../assets/img/step3.png">
 				<span class="return" @click='showStep2'><a href="javascript:void(0)" style="text-decoration: none">返回</a></span>
@@ -179,7 +179,7 @@
 
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 
 </template>
@@ -376,14 +376,14 @@ div{
 		display: none;
 	}
 	.imgbox{
-		margin: auto;
-		top: 50%;
-		margin-top: -327.5px;
+		left: 50%;
+		margin-left: -342.5px;
+		top: 20%;
 		height: 655px;
 	    border-radius: 2px;
 	    background: #fff;
 	    width: 685px;
-	    position: relative;
+	    position: absolute;
 	}
 	.imgheader{
 		width: 100%;
@@ -417,7 +417,7 @@ Vue.use(VueHtml5Editor, {
 			height: 500,
 			quality: 80,
       // upload: {
-      //       url: 'http://120.77.149.115/imageContent/',
+      //       url: 'https://ym-a.top/imageContent/',
       //       headers: {},
       //       params: {},
       //       fieldName: {}
@@ -529,12 +529,12 @@ Vue.use(VueHtml5Editor, {
 				var self=this;
 				//修改
 				if(self.productid!=''){
-				var url='http://120.77.149.115/cloud_code/GET/product/presentById.do';
+				var url='https://ym-a.top/cloud_code/GET/product/presentById.do';
 				var type='post';
 				var data={
 					id:self.productid
 				};
-				console.log(data);
+				//console.log(data);
 				var success=function(res){
 					self.presentType=res.presentType;
 					self.presentSpe=res.presentSpe;
@@ -549,7 +549,7 @@ Vue.use(VueHtml5Editor, {
 					self.weight=res.weight;
 					self.editorcontent=res.detail;
 					self.imgId=res.imgId;
-					console.log(res)
+					//console.log(res)
 
 
 				}
@@ -557,7 +557,7 @@ Vue.use(VueHtml5Editor, {
         		common.Ajax(url,type,data,success)
 			}
 				//进入新增页面后请求分类信息
-				var url='http://120.77.149.115/cloud_code/GET/product/presentGroup.do';
+				var url='https://ym-a.top/cloud_code/GET/product/presentGroup.do';
 		        var type='get';
 		        var data={
 		          vendorId:self.vendorId
@@ -626,7 +626,7 @@ Vue.use(VueHtml5Editor, {
 					self.presentType=$(event.target).text();
 					$(event.target).addClass('listselected');
 					$(event.target).parent().siblings().find('li').removeClass('listselected');
-					console.log(self.presentType);
+					//console.log(self.presentType);
 				}
 
 			},
@@ -644,9 +644,34 @@ Vue.use(VueHtml5Editor, {
 			//submit data
 			complete:function(){
 				var self=this;
+				if(self.name===null){
+					self.showWarn=true;
+					self.warnText='请输入礼品名称';
+					return
+				}
+				if(self.price===null){
+					self.showWarn=true;
+					self.warnText='请输入市面价值';
+					return
+				}
+				if(self.imgId===null){
+					self.showWarn=true;
+					self.warnText='请选择图片';
+					return
+				}
+				if(self.weight===null){
+					self.showWarn=true;
+					self.warnText='请输入重量';
+					return
+				}
+				if(self.total===null){
+					self.showWarn=true;
+					self.warnText='请输入库存';
+					return
+				}
 				//修改
 				if(self.productid!=''){
-					var url='http://120.77.149.115/cloud_code/UPDATE/product/present.do';
+					var url='https://ym-a.top/cloud_code/UPDATE/product/present.do';
 					var type='post';
 					var data={
 						id:self.productid,
@@ -661,7 +686,7 @@ Vue.use(VueHtml5Editor, {
 						weight:self.weight,
 
 					};
-					console.log(data);
+					//console.log(data);
 					var success=function(res){
 						router.push({path:'/goods/gift'})
 					};
@@ -670,7 +695,7 @@ Vue.use(VueHtml5Editor, {
 					return
 				}
 				
-				var url='http://120.77.149.115/cloud_code/ADD/product/present.do';
+				var url='https://ym-a.top/cloud_code/ADD/product/present.do';
 				var type='post';
 				var data={
 					vendorId:self.vendorId,
@@ -689,7 +714,7 @@ Vue.use(VueHtml5Editor, {
 				var success=function(res){
 					router.push({path:'/goods/gift'})
 				};
-				console.log(data);
+				//console.log(data);
 				//调用ajax
 				common.Ajax(url,type,data,success)
 			},
@@ -698,7 +723,7 @@ Vue.use(VueHtml5Editor, {
 			searchphoto:function(){
 				var self=this;
 				self.showMBimg=true;
-				var url='http://120.77.149.115/cloud_code//GET/product/Image.do';
+				var url='https://ym-a.top/cloud_code//GET/product/Image.do';
 				var type='get';
 				var data={
 					currentPage:1,
@@ -708,7 +733,7 @@ Vue.use(VueHtml5Editor, {
 				};
 				var success=function(res){
 					self.imglist=res.result.data;
-					console.log(data);
+					//console.log(data);
 				};
 				common.Ajax(url,type,data,success);
 			},
@@ -717,7 +742,7 @@ Vue.use(VueHtml5Editor, {
 			chooseimg:function(){
 				var self=this;
 				self.chooselist={
-					url:$(event.target).attr('src').slice(21),
+					url:$(event.target).attr('src').slice(16),
 					id:$(event.target).attr('data-id')
 				}
 				$(event.target).css('border-color','#00baff');
@@ -729,22 +754,22 @@ Vue.use(VueHtml5Editor, {
 				var self=this;
 				self.selectimg=[self.chooselist.url];
 				self.imgId=self.chooselist.id;
-				$('.myimg').attr('src',"http://120.77.149.115"+self.selectimg)
+				$('.myimg').attr('src',"https://ym-a.top"+self.selectimg)
 				self.hide();
-				console.log(self.selectimg);
+				//console.log(self.selectimg);
 			},
 
 			//删除图片
 			delImg:function(){
 				var self=this;
-				var url='http://120.77.149.115/cloud_code/DELETE/product/Image.do';
+				var url='https://ym-a.top/cloud_code/DELETE/product/Image.do';
 				var type='post';
 				var data={
 					id:$(event.target).attr('data-id')
 				};
 				
 				var success=function(res){
-					console.log(res);
+					//console.log(res);
 					self.imgUrl='';
 				};
 				common.Ajax(url,type,data,success);
@@ -757,7 +782,7 @@ Vue.use(VueHtml5Editor, {
 				var data=new FormData($('#myform')[0]);
 
 				$.ajax({
-					url: 'http://120.77.149.115/cloud_code/ADD/product/uploadImage.do',
+					url: 'https://ym-a.top/cloud_code/ADD/product/uploadImage.do',
 					type:'post',
 					data: data,
 					cache: false,
@@ -765,8 +790,8 @@ Vue.use(VueHtml5Editor, {
 					processData: false,
 					contentType: false,
 					success: function (res) {
-						console.log(data)
-						console.log(res);	
+						//console.log(data)
+						//console.log(res);	
 						self.imgUrl=res.imgUrl;
 						self.imgWidth=res.width;
 						self.imgHeight=res.height;
@@ -775,7 +800,7 @@ Vue.use(VueHtml5Editor, {
 						self.searchphoto(1);
 					},
 					error:function(res){
-						console.log("error")
+						//console.log("error")
 					}
 				});
 			},
@@ -800,7 +825,7 @@ Vue.use(VueHtml5Editor, {
 				var self=this;
 				var id=self.selected.id
 				self.rowId=id;
-				console.log(self.rowId)
+				//console.log(self.rowId)
 			}
 		},
 		created:function(){

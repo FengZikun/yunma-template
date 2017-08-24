@@ -1,5 +1,18 @@
 <template>
   <div class='fixed'>
+      <div class="mengban" v-show='showWarn'>
+        <div class="warn">
+          <div class="classifyHeader">
+            <span style="display:block;height:48px;line-height:48px;">操作提示</span>
+          </div>
+          <div class="warnmain">
+            {{warnText}}
+          </div>
+          <div class="warnbottom">
+            <input type="button" name="" value="确定" @click='showWarn=false'>
+          </div>
+        </div>
+      </div>
     <!--顶部功能区-->
     <!--<div class="row navBar">
       <div class="col-md-2"></div>
@@ -30,15 +43,15 @@
               用户<span class='xiajiantou'></span>
             </li>
             <li class="change_color" style="margin-top:6px">
-              <a href="javascript:void(0)" @click="WxGzhInfo('http://www.ym-b.top/web/index.php?c=mc&a=fans&',0)"><span>粉丝管理</span></a>
+              <a href="javascript:void(0)" @click="WxGzhInfo('http://mp.ym-a.top/web/index.php?c=mc&a=fans&',0)"><span>粉丝管理</span></a>
             </li>
             <li class="change_color">
-              <a href="javascript:void(0)" @click="WxGzhInfo('http://www.ym-b.top/web/index.php?c=mc&a=member&',0)"><span>会员管理</span></a>
+              <a href="javascript:void(0)" @click="WxGzhInfo('http://mp.ym-a.top/web/index.php?c=mc&a=member&',0)"><span>会员管理</span></a>
             </li>
           </ul>
-          <li class='top_nav li_04' @click='changeColor'><a href="javascript:void(0);" @click="WxGzhInfo('http://www.ym-b.top',1)">公众号</a></li>
+          <li class='top_nav li_04' @click='changeColor'><a href="javascript:void(0);" @click="WxGzhInfo('http://mp.ym-a.top',1)">公众号</a></li>
           <li class='top_nav li_05' @click='changeColor'><router-link to="/union">企业联盟</router-link></li>
-          <li class='top_nav li_06' @click='changeColor'><a href="javascript:void(0);" @click="WxGzhInfo('http://www.ym-b.top/web/index.php?c=platform&a=cover&eid=39',0)">商城</a></li>
+          <li class='top_nav li_06' @click='changeColor'><a href="javascript:void(0);" @click="WxGzhInfo('http://mp.ym-a.top/web/index.php?c=platform&a=cover&eid=39',0)">商城</a></li>
         </ul>
       </div>
       <div class='username'>
@@ -46,17 +59,17 @@
         <!-- <span class='span_two'>Evan</span> -->
         <ul class="personal">
           <li>
-            {{userName}}
+            {{vendorName}}
           </li>
           <li class="change_color">
             个人中心
-          </li>
-          <a href="javascript:void(0)" @click='tuichu' style="text-decoration:none;"><li class="change_color">
+          </li><li class="change_color">
+          <a href="javascript:void(0)" @click='tuichu' style="text-decoration:none;">
             退出登录
-          </li></a>
+          </a></li>
         </ul>
-        <span class='span_three'></span>
-        <span class='span_four'></span>
+        <!-- <span class='span_three'></span> -->
+        <!-- <span class='span_four'></span> -->
         
       </div>
       <div class='col-ma-2'></div>
@@ -215,7 +228,7 @@
     text-decoration: none;
   }
   .logo .username {
-    width: 20%;
+    width: 23%;
     float: right;
     position: relative;
   }
@@ -262,12 +275,12 @@
   }
   .personal{
     display: inline-block;
-    width: 130px;
+    min-width: 130px;
     padding-left: 0;
     border-radius: 5px;
     overflow: hidden;
     position: absolute;
-    left: 14px;
+    left: 31px;
     top: 20px;
     z-index: 1;
     font-size: 18px;
@@ -326,7 +339,9 @@
     data () {
       return {
         msg: '',
-        userName:null
+        vendorName:null,
+        showWarn:false,
+        warnText:''
 
       }
     },
@@ -334,11 +349,11 @@
     methods:{
       init:function(){
         var self=this;
-        self.userName=sessionStorage.getItem('userName');
+        self.vendorName=sessionStorage.getItem('vendorName');
       },
       tuichu:function(){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/POST/user/logout.do';
+        var url='https://ym-a.top/cloud_code/POST/user/logout.do';
         var type='post';
         var data={
           userId:self.vendorId
@@ -356,23 +371,30 @@
 
       },
       toWeiQing:function(url){
-        document.cookie=`_755url=.${url.slice(url.indexOf('web/')+4)};domain=ym-b.top;path=/web`;
-        window.open(url,'_blank')
+        document.cookie=`_755url=${url.slice(url.indexOf('web/')+4)};domain=ym-a.top;path=/web`;
+        let aa=window.open();
+        setTimeout(function(){
+        aa.location='http://mp.ym-a.top';
+        }, 100);
       },
       toWeiQing1:function(url){
-        document.cookie=`_755url=;domain=ym-b.top;path=/web`;
-        window.open(url,'_blank')
+        document.cookie=`_755url=;domain=ym-a.top;path=/web`;
+                let aa=window.open();
+        setTimeout(function(){
+        aa.location='http://mp.ym-a.top';
+        }, 100);
       },
       WxGzhInfo:function(url,num){
         var self=this;
         $.ajax({
-          url: 'http://project.ym-b.top/cloud_code/GET/wxConfig/getWxGzhInfo.do',
+          url: 'https://ym-a.top/cloud_code/GET/wxConfig/getWxGzhInfo.do',
           type:'get',
           data: {vendorId:self.vendorId},
           dataType: 'json',
           success: function (res) {
             if(res.status == "-1"){
-              alert('请先绑定公众号');
+              self.showWarn=true;
+          self.warnText='请先绑定公众号'
               router.push('/enterprise/en_public');
             }
             else{
@@ -385,18 +407,13 @@
             }
           },
           error:function(res){
-            console.log(res);
+            //console.log(res);
           }
         });
       },
     },
-    // computed:{
-    //   count(){
-    //     return this.$store.state.count
-    //   }
-    // },
     created:function(){
-      this.init();
+      this.init()
     }
   }
 </script>

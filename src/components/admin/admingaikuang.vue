@@ -146,7 +146,7 @@
           userId:self.userId
         }
         $.ajax({
-          url:'http://120.77.149.115/cloud_code/GET/mapCount/sysMapCount.do',
+          url:'https://ym-a.top/cloud_code/GET/mapCount/sysMapCount.do',
           type:'GET',
           data:data,
           dataType:'json',
@@ -157,12 +157,12 @@
             self.addDayOrder=res.addDayOrder;//昨日增加订单数  
           },
           error:function(res){
-            console.log(res);
+            //console.log(res);
           }
         });
       },
       showList:function(event){
-        // console.log();
+        // //console.log();
         $(event.target).parents("li").find("ul").toggleClass("hidelist");
         $(event.target).parents("li").siblings().find("ul").addClass("hidelist")
       }

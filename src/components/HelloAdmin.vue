@@ -28,11 +28,11 @@
         <!-- <span class='span_two'>Evan</span> -->
         <ul class="personal">
           <li>
-            {{userName}}
+            admin
           </li>
-          <li class="change_color">
-            个人中心
-          </li>
+<!--           <li class="change_color">
+          个人中心
+          </li> -->
           <a href="javascript:void(0)" @click='tuichu' style="text-decoration:none;"><li class="change_color">
             退出登录
           </li></a>
@@ -274,7 +274,7 @@ import common from '../common.js'
       },
       tuichu:function(){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/POST/user/logout.do';
+        var url='https://ym-a.top/cloud_code/POST/user/logout.do';
         var type='post';
         var data={
           userId:self.vendorId

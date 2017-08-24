@@ -21,6 +21,7 @@
   import common from './common.js'
   import md5 from 'js-md5'
   import router from './router'
+
   let Base64 = require('js-base64').Base64;
   export default {
     name: 'app',
@@ -46,7 +47,8 @@
       },
       getvendorid:function(data){
         var self=this;
-        sessionStorage.setItem('userName',data.userName);
+        sessionStorage.setItem('vendorName',data.vendorName);
+        console.log(data.vendorName)
         sessionStorage.setItem('userType',data.userType);
         sessionStorage.setItem('vendorId',data.vendorId);
         sessionStorage.setItem('userId',data.userId);
@@ -60,11 +62,11 @@
         self.writeCookie('pwd',data.passWord);
       },
       toWeiQing:function(url){
-        document.cookie=`_755url=.${url.slice(url.indexOf('web/')+4)};domain=ym-b.top;path=/web`;
+        document.cookie=`_755url=${url.slice(url.indexOf('web/')+4)};domain=ym-a.top;path=/web`;
         window.open(url,'_blank')
       },
       writeCookie:function(name,val){
-        document.cookie=`_755${name}=${val};domain=ym-b.top;path=/web`;
+        document.cookie=`_755${name}=${val};domain=ym-a.top;path=/web`;
       },
     },
     components:{
@@ -390,7 +392,7 @@
 .page-num-ul{
   height: 100px;
   margin: auto;
-  max-width: 616px;
+  max-width: 617px;
   text-align: center;
 }
 .page-num-li{
@@ -441,7 +443,7 @@
   border-color: #fff; 
 }
 .hidelist{
-  display: none!important;
+  display: none;
 }
 .photo{
   display: inline-block;
@@ -526,12 +528,13 @@
   left: 0;
   z-index: 2000;
   background: rgba(0, 0, 0, 0.6);
+  overflow-y: scroll;
 }
 .proclassify{
   width: 420px;
-  height: 250px;
+  min-height: 250px;
   background: #fff;
-  position: relative;
+  position: absolute;
   top: 50%;
   left: 50%;
   margin-left: -210px;
@@ -659,14 +662,14 @@
   display: none;
 }
   .imgbox{
-    margin: auto;
-    top: 50%;
-    margin-top: -327.5px;
+    left: 50%;
+    top: 20%;
+    margin-left: -342.5px;
     height: 655px;
     border-radius: 2px;
     background: #fff;
     width: 685px;
-    position: relative;
+    position: absolute;
   }
   .imgheader{
     width: 100%;
@@ -750,7 +753,7 @@
 }
 .choosepro{
     width: 1000px;
-    height: 80%;
+    height: 620px;
     background: #fff;
     margin-left: 15%;
     margin-top: 73px;
@@ -794,9 +797,10 @@
     width: 420px;
     height: 250px;
     background: #fff;
-    position: relative;
+    position: absolute;
     top: 50%;
-    margin: auto;
+    left: 50%;
+    margin-left: -210px;
     margin-top: -125px;
   }
   .warnmain{
@@ -863,6 +867,25 @@
     text-align: right;
     /*color: #666;*/
     vertical-align: middle;
+  }
+  .plzWait{
+    width: 100%;
+    height: 1215px;
+    background-image: url(./assets/img/img_kaifa.png);
+    background-repeat: no-repeat;
+    background-position: 50% 10%;
+  }
+  .plzp{
+    color: #999999;
+    font-size: 16px;
+    position: relative;
+    top: 30%;
+    text-align: center;
+  }
+  .time{
+    line-height:26px;
+    margin:10px 0;
+    vertical-align: top;
   }
 
 </style>

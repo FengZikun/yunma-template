@@ -1,5 +1,18 @@
 <template>
   <div>
+    <div class="mengban" v-show='showWarn'>
+        <div class="warn">
+          <div class="classifyHeader">
+            <span style="display:block;height:48px;line-height:48px;">操作提示</span>
+          </div>
+          <div class="warnmain">
+            {{warnText}}
+          </div>
+          <div class="warnbottom">
+            <input type="button" name="" value="确定" @click='showWarn=false'>
+          </div>
+        </div>
+      </div>
     <div class="mengban" v-show='showMB'>
       <div class="proclassify" v-if='type==1'>
         <p class="mbtitle">新增一级分类</p>
@@ -8,8 +21,11 @@
           <input class="message-value" type="text" name="" v-model='name'>
           <span class="message-after">限8个字符</span>
         </div>
-        <input class="delbutton" type="button" name="" value="确认" @click='addclassify'>
-        <input class="delbutton" type="button" name="" value="取消" @click='hide'>
+        <div style="margin-top: 80px;">
+          <input class="delbutton" type="button" name="" value="确认" @click='addclassify'>
+          <input class="delbutton" type="button" name="" value="取消" @click='hide'>
+        </div>
+        
       </div>
 
       <div class="proclassify"  v-if='type==2'>
@@ -19,13 +35,11 @@
           <input class="message-value" type="text" name="" v-model='name'>
           <span class="message-after">限8个字符</span>
         </div>
-        <div class="addmessage">
-          <span class="message-name">产品数：</span>
-          <input class="message-value" type="text" name="" v-model='num'>
-          <span class="message-after">0-9999</span>
+        <div style="margin-top: 50px;">
+          <input class="delbutton" type="button" name="" value="确认" @click='addclassify'>
+          <input class="delbutton" type="button" name="" value="取消" @click='hide'>
         </div>
-        <input class="delbutton" type="button" name="" value="确认" @click='addclassify'>
-        <input class="delbutton" type="button" name="" value="取消" @click='hide'>
+        
       </div>
 
       <div class="proclassify"  v-if='xiugai!=""'>
@@ -35,11 +49,6 @@
           <span class="message-name star">名称分类：</span>
           <input class="message-value" type="text" name="" v-model='name'>
           <span class="message-after">限8个字符</span>
-        </div>
-        <div class="addmessage">
-          <span class="message-name">产品数：</span>
-          <input class="message-value" type="text" name="" v-model='num'>
-          <span class="message-after">0-9999</span>
         </div>
         <input class="delbutton" type="button" name="" value="确认" @click='reviseclassify'>
         <input class="delbutton" type="button" name="" value="取消" @click='hide'>
@@ -311,7 +320,9 @@ import common from '../common.js'
         pid:'',
         xiugai:'',
         id:'',
-        savename:''
+        savename:'',
+        showWarn:false,
+        warnText:''
       }
     },
     props:['vendorId'],
@@ -320,13 +331,13 @@ import common from '../common.js'
       //获取分组数据
       getData:function(){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/product/group.do';
+        var url='https://ym-a.top/cloud_code/GET/product/group.do';
         var type='get';
         var data={
           vendorId:self.vendorId
         };
         var success=function(res){
-          console.log(res)
+          //console.log(res)
           self.resData=res.result.data;
           self.totalPage=res.totalPages;
         };
@@ -340,7 +351,7 @@ import common from '../common.js'
         }
       },
       showList:function(event){
-        // console.log();
+        // //console.log();
         $(event.target).parents("li").find("ul").toggleClass("hidelist");
         $(event.target).parents("li").siblings().find("ul").addClass("hidelist")
       },
@@ -392,7 +403,7 @@ import common from '../common.js'
       //增加分组
       addclassify:function(){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/ADD/product/group.do';
+        var url='https://ym-a.top/cloud_code/ADD/product/group.do';
         var type='post';
         var data={
           vendorId:self.vendorId,
@@ -403,9 +414,16 @@ import common from '../common.js'
         };
         var success=function(res){
           
-          console.log(res);
-          self.getData();
-          self.showMB=false;
+          if(res.statuscode===1){
+            self.getData();
+            self.showMB=false;
+          }else{
+            self.showWarn=true;
+            self.warnText=res.msg;
+            self.showMB=false;
+
+          }
+          
         };
         common.Ajax(url,type,data,success)
       },
@@ -414,13 +432,13 @@ import common from '../common.js'
       delclassify:function(){
         var self=this;
         var id=$(event.target).attr('data-id');
-        var url='http://120.77.149.115/cloud_code/DELETE/product/group.do';
+        var url='https://ym-a.top/cloud_code/DELETE/product/group.do';
         var type='post';
         var data={
           id:id
         };
         var success=function(res){
-          console.log(res);
+          //console.log(res);
           self.getData();
         };
         common.Ajax(url,type,data,success)
@@ -431,8 +449,8 @@ import common from '../common.js'
       reviseclassify:function(){
 
         var self=this;
-        console.log(self.name);
-        var url='http://120.77.149.115/cloud_code/UPDATE/product/group.do';
+        //console.log(self.name);
+        var url='https://ym-a.top/cloud_code/UPDATE/product/group.do';
         var type='post';
         if(self.savename!=self.name){
           var data={
@@ -450,7 +468,7 @@ import common from '../common.js'
         }
         
         var success=function(res){
-          console.log(res)
+          //console.log(res)
           self.getData();
           self.showMB=false
         }

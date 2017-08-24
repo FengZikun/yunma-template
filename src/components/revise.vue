@@ -98,7 +98,7 @@ let Base64 = require('js-base64').Base64;
         checkPassword:null,
         showWarn:false,
         warnText:null,
-        passwordReg:/^\d{8,16}$/
+        passwordReg:/^([0-9]|[a-zA-Z]){8,16}$/
       }
     },
     props:['datas'],
@@ -138,7 +138,7 @@ let Base64 = require('js-base64').Base64;
           return
         }
         //发送请求
-        var url='http://120.77.149.115/cloud_code/POST/user/updatePasswd.do';
+        var url='https://ym-a.top/cloud_code/POST/user/updatePasswd.do';
         var type='post';
         var data={
             userId:self.datas.userId,

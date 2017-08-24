@@ -126,7 +126,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modelBg modHid" defName="modelS">
+		<div class="mengban modHid" defName="modelS">
 			<div class="modelS">
 				<div class="phoneHeader"></div>
 				<div class="phoneTitle"></div>
@@ -196,6 +196,7 @@
 <script>
 	import common from '../../common.js'
 	import router from '../../router.js'
+	import {mapState} from 'vuex'
 	export default{
 		data(){
 			return{
@@ -232,7 +233,8 @@
 			init1:function(){
 				var self=this;
 				//获取模板信息
-				var url='http://120.77.149.115/cloud_code/GET/codeManager/getScaPageModel.do';
+				//console.log(self.type)
+				var url='https://ym-a.top/cloud_code/GET/codeManager/getScaPageModel.do';
 				var type='get';
 				var data={
 					vendorId:self.datas.vendorId
@@ -241,7 +243,7 @@
 					self.model=res.data;
 					//修改
 					if(self.datas.activityId!=null){
-						var url='http://120.77.149.115/cloud_code/GET/codeManager/getCodeManagerById.do';
+						var url='https://ym-a.top/cloud_code/GET/codeManager/getCodeManagerById.do';
 						var type='get';
 						var data={
 							id:self.datas.activityId
@@ -290,7 +292,14 @@
 			init:function(currentPage){
 				var self=this;
 				self.showMB=true;
-				var url='http://120.77.149.115/cloud_code/GET/codeManager/productInfoList.do';
+				if(self.type==1){
+					var url='https://ym-a.top/cloud_code/GET/codeManager/productInfoList.do';
+				}
+				else if(self.type==0){
+					var url="https://ym-a.top/cloud_code/GET/codeManager/getProductOrderTracyInfo.do";
+				}
+				// var url='https://ym-a.top/cloud_code/GET/codeManager/productInfoList.do';
+				// var url="https://ym-a.top/cloud_code/GET/codeManager/getCodeManagerAllForTracy.do";
 				var type='get';
 				var data={
 					vendorId:self.datas.vendorId,
@@ -331,13 +340,13 @@
 				$(event.target).parent().parent().addClass('modHid');
 			},
 			showKuang(event,name){
-				// console.log(event.target,name);
+				// //console.log(event.target,name);
 				if(name==="guan"){
 					$("[defName=guan]").removeClass('modHid');
 					return;
 				}
 				if(name==="modelS"){
-					this.frameSrc='http://project.ym-b.top/wx/'+$(event.target).attr('data-url');
+					this.frameSrc='https://ym-a.top/wx/'+$(event.target).attr('data-url');
 					$("[defName=modelS]").removeClass('modHid');
 					return;
 				}
@@ -396,7 +405,13 @@
 						spree:self.modelSelected.spree,
 						securityAndTraceability:self.modelSelected.securityAndTraceability
 					}
-					var url='http://120.77.149.115/cloud_code/UPDATE/codeManager/updateCodeManager.do';
+					if(self.type==1){
+						data.funcFlag=1;
+					}
+					else if(self.type==0){
+						data.funcFlag=2;
+					}
+					var url='https://ym-a.top/cloud_code/UPDATE/codeManager/updateCodeManager.do';
 				}else{
 					var data={
 						orderId:self.orderId,
@@ -413,12 +428,23 @@
 						spree:self.modelSelected.spree,
 						securityAndTraceability:self.modelSelected.securityAndTraceability
 					}
-					var url='http://120.77.149.115/cloud_code/ADD/codeManager/addCodeManager.do';
+					if(self.type==1){
+						data.funcFlag=1;
+					}
+					else if(self.type==0){
+						data.funcFlag=2;
+					}
+					var url='https://ym-a.top/cloud_code/ADD/codeManager/addCodeManager.do';
 				}
 				var type='post';
 				var success=function(res){
 					if(res.status===1){
+					if(self.type==1){
 						router.push({path:'activity'})
+					}
+					else if(self.type==0){
+						router.push({path:'activitySu'})
+					}
 					}
 				};
 				common.Ajax(url,type,data,success)
@@ -436,6 +462,9 @@
       //下一页
       nextPage:common.nextPage,
   },
+	computed: mapState({
+		type: state=>state.b.type
+	}),
   created:function(){
   	this.init1()
   }
@@ -475,6 +504,11 @@
 	}
 	.messagebox{
 		margin-top: 20px;
+		
+	}
+	.messagebox:nth-of-type(2){
+		line-height: 36px;
+		height: 36px;
 	}
 	.message-value{
 		width: 230px;
@@ -493,7 +527,7 @@
 	}
 	.choosepro{
 		width: 1000px;
-		height: 80%;
+		height: 65%;
 		background: #fff;
 		margin-left: 15%;
 		margin-top: 73px;
@@ -560,9 +594,10 @@
 	}
 	.modelS{
 		position: absolute;
-		left: 23%;
+		left: 50%;
 		top: 8%;
 		width: 890px;
+		margin-left: -445px;
 		min-height: 800px;
 		background: #fff;
 		z-index: 2001;
@@ -690,5 +725,8 @@
 		z-index: 2001;
 		padding: 15px 30px;
 		font-size: 16px;
+	}
+	.mengban:nth-of-type(2){
+		overflow-y: scroll;
 	}
 </style>

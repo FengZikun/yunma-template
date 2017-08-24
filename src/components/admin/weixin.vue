@@ -141,13 +141,13 @@
       //初始化
       init:function(currentPage){
         var self=this;
-        var url='http://120.77.149.115/cloud_code/GET/wxConfig/getAllWxGzhInfo.do';
+        var url='https://ym-a.top/cloud_code/GET/wxConfig/getAllWxGzhInfo.do';
         var type='get';
         var data={
           currentPage:currentPage
         };
         var success=function(res){
-          console.log(res);
+          //console.log(res);
           var pagenum=res.totalPages;
           self.totalPage=[];
           self.resData=res;

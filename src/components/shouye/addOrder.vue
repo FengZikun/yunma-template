@@ -1,5 +1,18 @@
 <template>
 	<div>
+		<div class="mengban" v-show='showWarn'>
+				<div class="warn">
+					<div class="classifyHeader">
+						<span style="display:block;height:48px;line-height:48px;">操作提示</span>
+					</div>
+					<div class="warnmain">
+						{{warnText}}
+					</div>
+					<div class="warnbottom">
+						<input type="button" name="" value="确定" @click='showWarn=false'>
+					</div>
+				</div>
+			</div>
 		<div class="mengban" v-if='showMB'>
 			<div class="choosepro" >
 				<div class="choosepro-top">
@@ -18,7 +31,7 @@
 					</li>
 					<li class="pro-li" v-for="pro in proInfo">
 						<span class="pro-li-span first"><span class="check-box checkshu" @click='selectThis'></span><span style="display: inline-block;vertical-align: middle">{{pro.id}}</span></span>
-						<span class="pro-li-span" style="text-align:left;"><img style="width:45px;margin-left:20px;" v-bind:src="'http://120.77.149.115/'+pro.productImg">{{pro.productName}}</span>
+						<span class="pro-li-span" style="text-align:left;"><img style="width:45px;margin-left:20px;" v-bind:src="'https://ym-a.top/'+pro.productImg">{{pro.productName}}</span>
 						<span class="pro-li-span">{{pro.productSpe}}</span>
 						<span class="pro-li-span">{{pro.rowName}}</span>
 						<span class="pro-li-span">{{pro.productPrice}}</span>
@@ -56,10 +69,21 @@
 					<span class="message-name">参考价格：</span>
 					<input class="message-value" type="text" name="" v-model='referencePrice'>
 				</div>
+				<div class="messagebox" v-if='type===1'>
+					<span class="message-name">同步生成溯源码：</span>
+					<input style="margin-left: 30px;" class="xuan" type="radio" name="suyuan" id="suyuan1" v-model='connecTracingAndSecurty' v-bind:value='1'><label class="xuan" for="suyuan1">同步</label>
+					<input class="xuan" type="radio" name="suyuan" id="suyuan2" v-model='connecTracingAndSecurty' v-bind:value='2'><label class="xuan" for="suyuan2">不同步</label>
+				</div>
+				<div class="messagebox" v-else>
+					<span class="message-name">同步生成防伪码：</span>
+					<input style="margin-left: 30px;" class="xuan" type="radio" name="fangwei" id="fangwei1" v-model='connecTracingAndSecurty' v-bind:value='1'><label class="xuan" for="fangwei1">同步</label>
+					<input class="xuan" type="radio" name="fangwei" id="fangwei2" v-model='connecTracingAndSecurty' v-bind:value='3'><label class="xuan" for="fangwei2">不同步</label>
+				</div>
 				<div class="button-group">
 					<input class="delbutton" type="button" name="" value='确定' @click='tijiao'>
 					<router-link to='/twoCode/enterprise_order'><input class="delbutton" type="button" name="" value='取消'></router-link>
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -68,6 +92,7 @@
 <script>
 	import common from '../../common.js'
 	import router from '../../router.js'
+	import {mapState} from 'vuex'
 	export default{
 		data(){
 			return{
@@ -77,16 +102,29 @@
 				referencePrice:null,
 				expiryDate:null,
 				productCount:null,
-				productId:null
+				productId:null,
+				showWarn:false,
+				warnText:null,
+				connecTracingAndSecurty:1,
 			}
 		},
 		props:['datas'],
+		computed: mapState({
+			type: state=>state.b.type
+		}),
+		created(){
+			if(this.type===1){
+				this.connecTracingAndSecurty=2;
+			}else{
+				this.connecTracingAndSecurty=3;
+			}
+		},
 		methods:{
 			//选择产品
 			selectPro:function(){
 				var self=this;
 				self.showMB=true;
-				var url='http://120.77.149.115/cloud_code/GET/product/info.do';
+				var url='https://ym-a.top/cloud_code/GET/product/info.do';
 				var type='post';
 				var data={
 					vendorId:self.datas.vendorId,
@@ -137,7 +175,27 @@
 			//提交
 			tijiao:function(){
 				var self=this;
-				var url='http://120.77.149.115/cloud_code/POST/product/productOrder.do';
+				if(self.productName===null){
+					self.showWarn=true;
+					self.warnText="请选择产品"
+					return
+				}
+				if(self.productCount===null){
+					self.showWarn=true;
+					self.warnText="请输入产品个数"
+					return
+				}
+				if(self.expiryDate===null){
+					self.showWarn=true;
+					self.warnText="请定义有效时间"
+					return
+				}
+				if(self.referencePrice===null){
+					self.showWarn=true;
+					self.warnText="请输入参考价格"
+					return
+				}
+				var url='https://ym-a.top/cloud_code/POST/product/productOrder.do';
 				var type='post';
 				var data={
 					vendorId:self.datas.vendorId,
@@ -146,12 +204,12 @@
 					expiryDate:self.expiryDate,
 					productId:self.productId,
 					productCount:self.productCount,
-					vendorName:self.datas.vendorName
+					vendorName:self.datas.vendorName,
+					connecTracingAndSecurty:self.connecTracingAndSecurty
 				};
-				console.log(data)
 				var success=function(res){
 					if(res.errorCode===0){
-						router.push({path:'enterprise_order'})
+						router.go(-1);
 					}else{
 						alert('新增订单失败')
 					}
@@ -202,6 +260,7 @@
 			border-radius: 5px;
 			border: 1px solid #e7e7eb;
 			margin-left: 30px;
+			padding: 10px;
 		}
 		.sanjiao:after{
 			content: "";
@@ -212,7 +271,7 @@
 		}
 		.choosepro{
 		width: 1000px;
-		height: 700px;
+		height: 620px;
 		background: #fff;
 		margin-left: 15%;
 		margin-top: 73px;
@@ -259,5 +318,12 @@
 	.delbutton:hover{
 		background: #00baff;
 		color: #fff;
+	}
+	.mengban:nth-of-type(2){
+		overflow-y: scroll;
+	}
+	.xuan{
+		margin: 0;
+		vertical-align: middle;
 	}
 </style>
