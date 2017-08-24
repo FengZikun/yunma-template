@@ -39,7 +39,7 @@
 				</a> -->
 			</div>
 		</div>
-		<div class="border">
+		<div class="border hidelist">
 			<input type="button" name="" value="删除" @click='delPicAd'>
 		</div>
 	</div>
@@ -72,13 +72,6 @@
 			a:state=>state.banner1.data.bannerPic.a,
 			b:state=>state.banner1.data.bannerPic.b,
 		}),
-		created(){
-			// this.$nextTick(function(){
-			// 	$('.carousel').carousel({
-			// 		interval: 2000
-			// 	})
-			// });
-		},
 		mounted(){
 			$('.carousel').carousel({
 					interval: 2000
@@ -97,9 +90,9 @@
 		position: absolute;
 		top: 0;
 		height: 140px;
-		border: 2px dashed transparent;
+		border: 2px dashed rgba(255,0,0,0.5);
 	}
-	.border:hover{
+	/*.border:hover{
 		border-color: rgba(255,0,0,0.5);
-	}
+	}*/
 </style>

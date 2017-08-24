@@ -107,6 +107,8 @@
         if(element.className==='border'){
           //显示操作框
           $(element).removeClass('hidelist');
+          //其余模块隐藏操作框
+          $(element).parent().siblings().find('.border').addClass('hidelist');
           var thisElement=$(event.target).parent();
           //被选中的模块右边出现编辑框
           $(thisElement).addClass('editor').siblings().removeClass('editor');

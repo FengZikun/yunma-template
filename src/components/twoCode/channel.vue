@@ -616,6 +616,7 @@
           empId:id
         };
         var success=function(res){
+          console.log(res);
           if(res.status===1){
             self.detail()
           }

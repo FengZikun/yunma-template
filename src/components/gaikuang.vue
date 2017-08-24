@@ -516,7 +516,7 @@
             var success=function(res){
               self.heatData=res.data;
               //console.log(self.heatData)
-              var AMap=require('AMap')
+              // var AMap=require('AMap')
               var map = new AMap.Map("heatmap", {
                 resizeEnable: true,
                 center: [res.data[0].lng, res.data[0].lat],

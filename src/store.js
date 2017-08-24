@@ -19,6 +19,7 @@ const banner1={
 				a:true,
 				b:true,
 				c:true,
+				d:true,
 			}
 		}
 		
@@ -56,6 +57,20 @@ const banner1={
 		addVerify(state){
 			if(!state.verifyData.verify){
 				state.verifyData.verify=true;
+			}
+		},
+		updateMessage(state,type){
+			if(type==='a'){
+				state.verifyData.cell.a=!state.verifyData.cell.a
+			}
+			if(type==='b'){
+				state.verifyData.cell.b=!state.verifyData.cell.b
+			}
+			if(type==='c'){
+				state.verifyData.cell.c=!state.verifyData.cell.c
+			}
+			if(type==='d'){
+				state.verifyData.cell.c=!state.verifyData.cell.d
 			}
 		}
 	},

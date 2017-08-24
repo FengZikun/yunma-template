@@ -10,13 +10,13 @@
 			</div>
 			<div v-if='c'>
 				<div>
-					扫码明细
+					扫码明细：
 				</div>
 			</div>
 		</div>
 		
-		<div class="border">
-			
+		<div class="border hidelist">
+			<!-- <input type="button" name="" value="删除" @click='delPicAd'> -->
 		</div>
 	</div>
 </template>
@@ -29,23 +29,11 @@ import {mapState} from 'vuex'
 
 			}
 		},
-		computed:{
-			a:{
-				get(){
-					return this.$store.state.banner1.verifyData.cell.a
-				}
-			},
-			b:{
-				get(){
-					return this.$store.state.banner1.verifyData.cell.b
-				}
-			},
-			c:{
-				get(){
-					return this.$store.state.banner1.verifyData.cell.c
-				}
-			},
-		}
+		computed: mapState({
+			a:state=>state.banner1.verifyData.cell.a,
+			b:state=>state.banner1.verifyData.cell.b,
+			c:state=>state.banner1.verifyData.cell.c,
+		})
 	}
 </script>
 
@@ -61,9 +49,6 @@ import {mapState} from 'vuex'
 		position: absolute;
 		top: 0;
 		height: 140px;
-		border: 2px dashed transparent;
-	}
-	.border:hover{
-		border-color: rgba(255,0,0,0.5);
+		border: 2px dashed rgba(255,0,0,0.5);
 	}
 </style>

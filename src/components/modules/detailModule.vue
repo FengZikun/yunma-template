@@ -1,7 +1,7 @@
 
 <template>
 	<div>
-	<!-- 轮播图 -->
+		<!-- 轮播图 -->
 		<div class="mudule" v-if='showModule'>
 			<div class="header">
 				图片轮播
@@ -25,10 +25,25 @@
 			</div>
 		</div>
 
-	<!-- 防伪验证 -->
+		<!-- 防伪验证 -->
 		<div class="mudule" v-if='showModuleVerify'>
 			<div class="header">
 				防伪验证与企业信息设置：
+			</div>
+			<div class="verifyBox">
+				<span class="message-name">防伪码：</span>
+				<input type="radio" name="fangweima" id="fangweima1" v-model='verifyA' :value='true'><label for='fangweima1'>显示</label>
+				<input type="radio" name="fangweima" id="fangweima2" v-model='verifyA' :value='false'><label for='fangweima2'>不显示</label>
+			</div>
+			<div class="verifyBox">
+				<span class="message-name">防伪验证信息：</span>
+				<input type="radio" name="fangweiYanz" id="fangweiYanz1" v-model='verifyB' :value='true'><label for='fangweiYanz1'>显示</label>
+				<input type="radio" name="fangweiYanz" id="fangweiYanz2" v-model='verifyB' :value='false'><label for='fangweiYanz2'>不显示</label>
+			</div>
+			<div class="verifyBox">
+				<span class="message-name">扫码明细：</span>
+				<input type="radio" name="mingxi" id="mingxi1" v-model='verifyC' :value='true'><label for='mingxi1'>显示</label>
+				<input type="radio" name="mingxi" id="mingxi2" v-model='verifyC' :value='false'><label for='mingxi2'>不显示</label>
 			</div>
 		</div>
 	</div>
@@ -79,13 +94,47 @@
 				
 			}
 		},
-		computed:mapState({
-			showModule:state=>state.banner1.data.showModule,
-			showModuleVerify:state=>state.banner1.verifyData.showModule,
-			picNum:state=>state.banner1.data.picNum,
-			a:state=>state.banner1.data.bannerPic.a,
-			b:state=>state.banner1.data.bannerPic.b,
-		})
+		computed:{
+			...mapState({
+				showModule:state=>state.banner1.data.showModule,
+				showModuleVerify:state=>state.banner1.verifyData.showModule,
+				picNum:state=>state.banner1.data.picNum,
+				a:state=>state.banner1.data.bannerPic.a,
+				b:state=>state.banner1.data.bannerPic.b,
+			}),
+			verifyA:{
+				get(){
+					return this.$store.state.banner1.verifyData.cell.a
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'a')
+				}
+			},
+			verifyB:{
+				get(){
+					return this.$store.state.banner1.verifyData.cell.b
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'b')
+				}
+			},
+			verifyC:{
+				get(){
+					return this.$store.state.banner1.verifyData.cell.c
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'c')
+				}
+			},
+			verifyD:{
+				get(){
+					return this.$store.state.banner1.verifyData.cell.d
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'd')
+				}
+			}
+		}
 	}
 </script>
 
