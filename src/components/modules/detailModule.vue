@@ -45,6 +45,56 @@
 				<input type="radio" name="mingxi" id="mingxi1" v-model='verifyC' :value='true'><label for='mingxi1'>显示</label>
 				<input type="radio" name="mingxi" id="mingxi2" v-model='verifyC' :value='false'><label for='mingxi2'>不显示</label>
 			</div>
+			<div class="verifyBox">
+				<span class="message-name">企业认证信息：</span>
+				<input type="radio" name="qiye" id="qiye1" v-model='verifyD' :value='true'><label for='qiye1'>显示</label>
+				<input type="radio" name="qiye" id="qiye2" v-model='verifyD' :value='false'><label for='qiye2'>不显示</label>
+			</div>
+			<div class="verifyBox" v-if='verifyD'>
+				<span class="message-name">企业名称：</span>
+				<input type="radio" name="qiyename" id="qiyename1" v-model='verifyE' :value='true'><label for='qiyename1'>显示</label>
+			</div>
+			<div class="verifyBox" v-if='verifyD'>
+				<span class="message-name">组织机构代码：</span>
+				<input type="radio" name="zuzhi" id="zuzhi1" v-model='verifyF' :value='true'><label for='zuzhi1'>显示</label>
+				<input type="radio" name="zuzhi" id="zuzhi2" v-model='verifyF' :value='false'><label for='zuzhi2'>不显示</label>
+			</div>
+			<div class="verifyBox" v-if='verifyD'>
+				<span class="message-name">营业执照号码：</span>
+				<input type="radio" name="yingye" id="yingye1" v-model='verifyG' :value='true'><label for='yingye1'>显示</label>
+				<input type="radio" name="yingye" id="yingye2" v-model='verifyG' :value='false'><label for='yingye2'>不显示</label>
+			</div>
+			<div class="verifyBox" v-if='verifyD'>
+				<span class="message-name">企业地址：</span>
+				<input type="radio" name="yingdizhi" id="yingdizhi1" v-model='verifyH' :value='true'><label for='yingdizhi1'>显示</label>
+				<input type="radio" name="yingdizhi" id="yingdizhi2" v-model='verifyH' :value='false'><label for='yingdizhi2'>不显示</label>
+			</div>
+			<div class="verifyBox" v-if='verifyD'>
+				<span class="message-name">客服热线：</span>
+				<input type="radio" name="kefu" id="kefu1" v-model='verifyI' :value='true'><label for='kefu1'>显示</label>
+				<input type="radio" name="kefu" id="kefu2" v-model='verifyI' :value='false'><label for='kefu2'>不显示</label>
+			</div>
+		</div>
+
+		<!-- 快速通道 -->
+		<div class="mudule" v-if='showModuleFastTrack'>
+			<div class="header">
+				快速通道模块设置：
+			</div>
+			<ul class="fastTrackUl">
+				<li>
+					<input type="checkbox" name="" v-model='website'>
+					<input class="message-value" type="text" name="" v-model='websiteVal'>
+				</li>
+				<li>
+					<input type="checkbox" name="" v-model='officialAccounts'>
+					<input class="message-value" type="text" name="" v-model='officialAccountsVal'>
+				</li>
+				<li>
+					<input type="checkbox" name="" v-model='complain'>
+					<input class="message-value" type="text" name="" v-model='complainVal'>
+				</li>
+			</ul>
 		</div>
 	</div>
 </template>
@@ -98,6 +148,7 @@
 			...mapState({
 				showModule:state=>state.banner1.data.showModule,
 				showModuleVerify:state=>state.banner1.verifyData.showModule,
+				showModuleFastTrack:state=>state.banner1.fastTrackData.showModule,
 				picNum:state=>state.banner1.data.picNum,
 				a:state=>state.banner1.data.bannerPic.a,
 				b:state=>state.banner1.data.bannerPic.b,
@@ -133,7 +184,92 @@
 				set (value) {
 					this.$store.commit('updateMessage', 'd')
 				}
-			}
+			},
+			verifyE:{
+				get(){
+					return this.$store.state.banner1.verifyData.cell.e
+				},
+			},
+			verifyF:{
+				get(){
+					return this.$store.state.banner1.verifyData.cell.f
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'f')
+				}
+			},
+			verifyG:{
+				get(){
+					return this.$store.state.banner1.verifyData.cell.g
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'g')
+				}
+			},
+			verifyH:{
+				get(){
+					return this.$store.state.banner1.verifyData.cell.h
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'h')
+				}
+			},
+			verifyI:{
+				get(){
+					return this.$store.state.banner1.verifyData.cell.i
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'i')
+				}
+			},
+			website:{
+				get(){
+					return this.$store.state.banner1.fastTrackData.website
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'website')
+				}
+			},
+			websiteVal:{
+				get(){
+					return this.$store.state.banner1.fastTrackData.websiteVal
+				},
+				set (value) {
+					this.$store.commit('changeVal',{value:value,type:'website'})
+				}
+			},
+			officialAccounts:{
+				get(){
+					return this.$store.state.banner1.fastTrackData.officialAccounts
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'officialAccounts')
+				}
+			},
+			officialAccountsVal:{
+				get(){
+					return this.$store.state.banner1.fastTrackData.officialAccountsVal
+				},
+				set (value) {
+					this.$store.commit('changeVal',{value:value,type:'officialAccounts'})
+				}
+			},
+			complain:{
+				get(){
+					return this.$store.state.banner1.fastTrackData.complain
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'complain')
+				}
+			},
+			complainVal:{
+				get(){
+					return this.$store.state.banner1.fastTrackData.complainVal
+				},
+				set (value) {
+					this.$store.commit('changeVal',{value:value,type:'complain'})
+				}
+			},
 		}
 	}
 </script>
@@ -168,5 +304,21 @@
 		height: 86px;
 		background: url(../../assets/img/group7.png) no-repeat;
 		background-size: contain;
+	}
+	.message-name{
+		display: inline-block;
+		width: 100px;
+		text-align: right;
+		margin-left: 40px;
+	}
+	.fastTrackUl{
+		width: 100%;
+		margin: 0 auto;
+		background-color: #fff;
+		padding-left: 0;
+		margin-top: 10px;
+	}
+	.message-value{
+		height: 26px;
 	}
 </style>

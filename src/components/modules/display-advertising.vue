@@ -85,14 +85,4 @@
 		width: 100%;
 		height: 140px;
 	}
-	.border{
-		width: 100%;
-		position: absolute;
-		top: 0;
-		height: 140px;
-		border: 2px dashed rgba(255,0,0,0.5);
-	}
-	/*.border:hover{
-		border-color: rgba(255,0,0,0.5);
-	}*/
 </style>

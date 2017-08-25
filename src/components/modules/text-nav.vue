@@ -1,16 +1,40 @@
 <template>
 	<div>
 		<div class="pic-ad">
-			<div v-if="a">
+			<div class="messageBox" v-if="a">
 				<p>您查询的防伪码为：</p>
 			</div>
-			<div v-if='b'>
+			<div class="messageBox" v-if='b'>
 				<p>防伪验证信息：</p>
 				
 			</div>
-			<div v-if='c'>
+			<div class="messageBox" v-if='c'>
 				<div>
 					扫码明细：
+				</div>
+			</div>
+		</div>
+		<div class="pic-ad" v-if='d'>
+			<div class="messageBox" v-if="e">
+				<p>企业名称：</p>
+			</div>
+			<div class="messageBox" v-if='f'>
+				<p>组织机构代码：</p>
+				
+			</div>
+			<div class="messageBox" v-if='g'>
+				<div>
+					营业执照号码：
+				</div>
+			</div>
+			<div class="messageBox" v-if='h'>
+				<div>
+					企业地址：
+				</div>
+			</div>
+			<div class="messageBox" v-if='i'>
+				<div>
+					客服热线：
 				</div>
 			</div>
 		</div>
@@ -33,22 +57,22 @@ import {mapState} from 'vuex'
 			a:state=>state.banner1.verifyData.cell.a,
 			b:state=>state.banner1.verifyData.cell.b,
 			c:state=>state.banner1.verifyData.cell.c,
+			d:state=>state.banner1.verifyData.cell.d,
+			e:state=>state.banner1.verifyData.cell.e,
+			f:state=>state.banner1.verifyData.cell.f,
+			g:state=>state.banner1.verifyData.cell.g,
+			h:state=>state.banner1.verifyData.cell.h,
+			i:state=>state.banner1.verifyData.cell.i,
 		})
 	}
 </script>
 
 <style scoped>
-	.pic-ad{
-		width: 100%;
-		height: 140px;
-		border-left: 1px solid #e5e5e5;
-		border-right: 1px solid #e5e5e5;
+	.pic-ad:first-child{
+		margin-bottom: 12px;
 	}
-	.border{
-		width: 100%;
-		position: absolute;
-		top: 0;
-		height: 140px;
-		border: 2px dashed rgba(255,0,0,0.5);
+	.messageBox{
+		min-height: 36px;
+		line-height: 36px;
 	}
 </style>

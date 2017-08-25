@@ -9,16 +9,24 @@
 
       </div>
       <div class="muban-main" @click="detailBox">
+        <!-- 轮播图 -->
         <pic-ad class="template" data-type="picAd1" v-if='picAd1'>
 
         </pic-ad>
+        <!-- 防伪验证 -->
         <text-nav class="template" data-type="verify" v-if='verify'>
 
         </text-nav>
+        <!-- 快速通道 -->
+        <fast-track class="template" data-type="fastTrack" v-if='fastTrack'>
+
+        </fast-track>
       </div>
       <ul class="muban-list" @click='addmuban'>
         <li><a class="muban-button" data-type='picAd'>图片广告</a></li>
         <li><a class="muban-button" data-type='verify'>防伪验证</a></li>
+        <li><a class="muban-button" data-type='proInfo'>商品信息</a></li>
+        <li><a class="muban-button" data-type='fastTrack'>快速通道</a></li>
       </ul>
     </div>
     <div class="box">
@@ -39,8 +47,10 @@
   import displayAd from '../modules/display-advertising.vue'
   import textNav from '../modules/text-nav.vue'
   import detailModule from '../modules/detailModule.vue'
+  import fastTrack from '../modules/fastTrack.vue'
   import {mapState} from 'vuex'
   import {mapActions} from 'vuex'
+  import {mapMutations} from 'vuex'
   export default{
     data(){
       return{
@@ -51,9 +61,13 @@
     components:{
       'pic-ad':displayAd,
       'text-nav':textNav,
-      'detail-module':detailModule
+      'detail-module':detailModule,
+      'fast-track':fastTrack
     },
     methods:{
+      ...mapMutations([
+        'addFastTrack'
+        ]),
       ...mapActions([
         'showPicAd1',
         'module',
@@ -84,6 +98,9 @@
         }
         if(elementType==='verify'){
           self.addVerify()
+        }
+        if(elementType==='fastTrack'){
+          self.addFastTrack()
         }
 
 
@@ -142,6 +159,7 @@
     computed:mapState({
       picAd1:state=>state.banner1.data.picAd1,
       verify:state=>state.banner1.verifyData.verify,
+      fastTrack:state=>state.banner1.fastTrackData.fastTrack,
     }),
     mounted(){
       this.init();
@@ -177,6 +195,7 @@
     min-height: 150px;
     margin: auto;
     padding-bottom: 11px;
+    background-color: #f7f7f7;
   }
   .muban-list{
     width: 350px;
@@ -187,7 +206,7 @@
     top: -1px;
     border: 1px solid #ddd;
     padding: 0 14px 4px 14px;
-    background: #f8f8f8;
+    background: #f7f7f7;
     box-sizing: border-box;
     margin: 0 auto;
   }
@@ -196,7 +215,7 @@
     content: ' ';
     border: 8px solid transparent;
     border-bottom-width: 10px;
-    border-bottom-color: #f8f8f8;
+    border-bottom-color: #f7f7f7;
     top: -18px;
     left: 167px;
   }

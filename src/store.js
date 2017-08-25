@@ -20,7 +20,22 @@ const banner1={
 				b:true,
 				c:true,
 				d:true,
+				e:true,
+				f:true,
+				g:true,
+				h:true,
+				i:true,
 			}
+		},
+		fastTrackData:{
+			showModule:false,
+			fastTrack:false,
+			website:true,
+			websiteVal:'微官网',
+			officialAccounts:true,
+			officialAccountsVal:'查看公众号',
+			complain:true,
+			complainVal:'投诉反馈'
 		}
 		
 	},
@@ -34,11 +49,18 @@ const banner1={
 		module(state,type){
 			if(type=='picAd1'){
 				state.verifyData.showModule=false;
+				state.fastTrackData.showModule=false;
 				state.data.showModule=true;
 			}
 			if(type=='verify'){
 				state.data.showModule=false;
 				state.verifyData.showModule=true;
+				state.fastTrackData.showModule=false;
+			}
+			if(type=='fastTrack'){
+				state.data.showModule=false;
+				state.verifyData.showModule=false;
+				state.fastTrackData.showModule=true;
 			}
 		},
 		addPicNum(state){
@@ -59,6 +81,11 @@ const banner1={
 				state.verifyData.verify=true;
 			}
 		},
+		addFastTrack(state){
+			if(!state.fastTrackData.fastTrack){
+				state.fastTrackData.fastTrack=true;
+			}
+		},
 		updateMessage(state,type){
 			if(type==='a'){
 				state.verifyData.cell.a=!state.verifyData.cell.a
@@ -70,7 +97,40 @@ const banner1={
 				state.verifyData.cell.c=!state.verifyData.cell.c
 			}
 			if(type==='d'){
-				state.verifyData.cell.c=!state.verifyData.cell.d
+				state.verifyData.cell.d=!state.verifyData.cell.d
+			}
+			if(type==='f'){
+				state.verifyData.cell.f=!state.verifyData.cell.f
+			}
+			if(type==='g'){
+				state.verifyData.cell.g=!state.verifyData.cell.g
+			}
+			if(type==='h'){
+				state.verifyData.cell.h=!state.verifyData.cell.h
+			}
+			if(type==='i'){
+				state.verifyData.cell.i=!state.verifyData.cell.i
+			}
+			if(type==='website'){
+				state.fastTrackData.website=!state.fastTrackData.website
+			}
+
+			if(type==='officialAccounts'){
+				state.fastTrackData.officialAccounts=!state.fastTrackData.officialAccounts
+			}
+			if(type==='complain'){
+				state.fastTrackData.complain=!state.fastTrackData.complain
+			}
+		},
+		changeVal(state,obj){
+			if(obj.type==='website'){
+				state.fastTrackData.websiteVal=obj.value;
+			}
+			if(obj.type==='officialAccounts'){
+				state.fastTrackData.officialAccountsVal=obj.value;
+			}
+			if(obj.type==='complain'){
+				state.fastTrackData.complainVal=obj.value;
 			}
 		}
 	},

@@ -887,5 +887,17 @@
     margin:10px 0;
     vertical-align: top;
   }
-
+  .border{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border: 2px dashed rgba(255,0,0,0.5);
+  }
+  .pic-ad{
+    width: 100%;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    background-color: #fff;
+  }
 </style>
