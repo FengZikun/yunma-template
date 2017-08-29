@@ -96,6 +96,21 @@
 				</li>
 			</ul>
 		</div>
+
+		<!-- 宣传视频 -->
+		<div class="mudule" v-if='showModulePromotionVedio'>
+			<div class="header">
+				宣传视频设置：
+			</div>
+			<div>
+				<span class="message-name">标题：</span>
+				<input class="message-value" type="text" name="" v-model='title'>
+			</div>
+			<div>
+				<span class="message-name">视频地址：</span>
+				<input class="message-value" type="text" name="">
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -149,6 +164,7 @@
 				showModule:state=>state.banner1.data.showModule,
 				showModuleVerify:state=>state.banner1.verifyData.showModule,
 				showModuleFastTrack:state=>state.banner1.fastTrackData.showModule,
+				showModulePromotionVedio:state=>state.banner1.promotionVedioData.showModule,
 				picNum:state=>state.banner1.data.picNum,
 				a:state=>state.banner1.data.bannerPic.a,
 				b:state=>state.banner1.data.bannerPic.b,
@@ -268,6 +284,14 @@
 				},
 				set (value) {
 					this.$store.commit('changeVal',{value:value,type:'complain'})
+				}
+			},
+			title:{
+				get(){
+					return this.$store.state.banner1.promotionVedioData.title
+				},
+				set (value) {
+					this.$store.commit('changeVal',{value:value,type:'title'})
 				}
 			},
 		}

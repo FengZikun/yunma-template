@@ -42,6 +42,9 @@ const banner1={
 		},
 		promotionVedioData:{
 			promotionVedio:false,
+			showModule:false,
+			title:'宣传视频',
+			videoSrc:null
 		}
 	},
 	mutations:{
@@ -63,21 +66,34 @@ const banner1={
 		delThis4(state){
 			state.continueData.continue=false;
 		},
+		delThis5(state){
+			state.promotionVedioData.showModule=false;
+			state.promotionVedioData.promotionVedio=false;
+		},
 		module(state,type){
 			if(type=='picAd1'){
 				state.verifyData.showModule=false;
 				state.fastTrackData.showModule=false;
+				state.promotionVedioData.showModule=false;
 				state.data.showModule=true;
 			}
 			if(type=='verify'){
 				state.data.showModule=false;
 				state.verifyData.showModule=true;
+				state.promotionVedioData.showModule=false;
 				state.fastTrackData.showModule=false;
 			}
 			if(type=='fastTrack'){
 				state.data.showModule=false;
 				state.verifyData.showModule=false;
+				state.promotionVedioData.showModule=false;
 				state.fastTrackData.showModule=true;
+			}
+			if(type=='promotionVedio'){
+				state.data.showModule=false;
+				state.verifyData.showModule=false;
+				state.fastTrackData.showModule=false;
+				state.promotionVedioData.showModule=true;
 			}
 		},
 		addPicNum(state){
@@ -158,6 +174,9 @@ const banner1={
 			}
 			if(obj.type==='complain'){
 				state.fastTrackData.complainVal=obj.value;
+			}
+			if(obj.type==='title'){
+				state.promotionVedioData.title=obj.value;
 			}
 		}
 	},

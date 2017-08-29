@@ -40,7 +40,7 @@
 			</div>
 		</div>
 		<div class="border hidelist">
-			<input class="modulerRedactButton" type="button" name="" value="编辑" @click='showDel=true;'>
+			<input class="modulerRedactButton" type="button" name="" value="编辑">
 			<input class="moduleDelButton hidelist" type="button" name="" value="删除" @click='delPicAd'>
 		</div>
 	</div>
@@ -62,16 +62,11 @@
 			init(){
 				
 			},
-			getPosition(){
-				var topPosition=$('.editor').offsetTop;
-          		$('.box').css('top',topPosition);
-			},
 			delPicAd(){
 				var self=this;
 				var type=$(event.target).parents('.template').attr('data-type');
 				self.delThis1();
 				$('.box').removeClass('detail');
-				self.getPosition();
 			}
 		},
 		computed: mapState({

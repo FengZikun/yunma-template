@@ -1,50 +1,50 @@
 <template>
   <div class="right-main">
-  <div>
-    <div class="muban">
-      <div class="header">
+    <div>
+      <div class="muban">
+        <div class="header">
 
+        </div>
+        <div class="muban-title">
+
+        </div>
+        <div class="muban-main" @click="detailBox">
+          <!-- 轮播图 -->
+          <pic-ad class="template" data-type="picAd1" v-if='picAd1'>
+
+          </pic-ad>
+          <!-- 防伪验证 -->
+          <text-nav class="template" data-type="verify" v-if='verify'>
+
+          </text-nav>
+          <!-- 快速通道 --> 
+          <fast-track class="template" data-type="fastTrack" v-if='fastTrack'>
+
+          </fast-track>
+          <!-- 继续扫码 -->
+          <is-continue class='template' data-type='continue' v-if='acontinue'>
+
+          </is-continue>
+          <!-- 宣传视频 -->
+          <promotion-vedio class='template' data-type='promotionVedio' v-if='promotionVedio'>
+
+          </promotion-vedio>
+        </div>
+        <ul class="muban-list" @click='addmuban'>
+          <li><a class="muban-button" data-type='picAd'>图片广告</a></li>
+          <li><a class="muban-button" data-type='verify'>防伪验证</a></li>
+          <li><a class="muban-button" data-type='proInfo'>自定义链接</a></li>
+          <li><a class="muban-button" data-type='fastTrack'>快速通道</a></li>
+          <li><a class="muban-button" data-type='continue'>继续扫码</a></li>
+          <li><a class="muban-button" data-type='promotionVedio'>宣传视频</a></li>
+        </ul>
       </div>
-      <div class="muban-title">
+      <div class="box hidelist">
+        <detail-module>
 
+        </detail-module>
       </div>
-      <div class="muban-main" @click="detailBox">
-        <!-- 轮播图 -->
-        <pic-ad class="template" data-type="picAd1" v-if='picAd1'>
-
-        </pic-ad>
-        <!-- 防伪验证 -->
-        <text-nav class="template" data-type="verify" v-if='verify'>
-
-        </text-nav>
-        <!-- 快速通道 --> 
-        <fast-track class="template" data-type="fastTrack" v-if='fastTrack'>
-
-        </fast-track>
-        <!-- 继续扫码 -->
-        <is-continue class='template' data-type='continue' v-if='acontinue'>
-          
-        </is-continue>
-        <!-- 宣传视频 -->
-        <promotion-vedio class='template' data-type='promotionVedio' v-if='promotionVedio'>
-          
-        </promotion-vedio>
-      </div>
-      <ul class="muban-list" @click='addmuban'>
-        <li><a class="muban-button" data-type='picAd'>图片广告</a></li>
-        <li><a class="muban-button" data-type='verify'>防伪验证</a></li>
-        <li><a class="muban-button" data-type='proInfo'>自定义链接</a></li>
-        <li><a class="muban-button" data-type='fastTrack'>快速通道</a></li>
-        <li><a class="muban-button" data-type='continue'>继续扫码</a></li>
-        <li><a class="muban-button" data-type='promotionVedio'>宣传视频</a></li>
-      </ul>
     </div>
-    <div class="box hidelist">
-      <detail-module>
-
-      </detail-module>
-    </div>
-  </div>
     
 
     <div class="footer">
@@ -69,6 +69,7 @@
         isPicAd:false,
       }
     },
+    props:['datas'],
     components:{
       'pic-ad':displayAd,
       'text-nav':textNav,
@@ -97,7 +98,7 @@
         $('.template').mouseleave(function(e){
           // console.log($(e.delegateTarget).hasClass('editor'))
           if(!$(e.delegateTarget).hasClass('editor')){
-          $(e.delegateTarget).find('.border').addClass('hidelist')
+            $(e.delegateTarget).find('.border').addClass('hidelist')
 
           }
         })
@@ -183,130 +184,187 @@
       //保存
       save(){
         var self=this;
-        console.log($('.muban-main').html())
-      }
-    },
-    computed:mapState({
-      picAd1:state=>state.banner1.data.picAd1,
-      verify:state=>state.banner1.verifyData.verify,
-      fastTrack:state=>state.banner1.fastTrackData.fastTrack,
-      acontinue:state=>state.banner1.continueData.continue,
-      promotionVedio:state=>state.banner1.promotionVedioData.promotionVedio,
-    }),
-    mounted(){
-      this.init();
-    },
-    updated(){
-      this.init();
-    }
-  }
-</script>
+        // console.log($('.muban-main').html())
+        var str=`<!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+          <title>${this.phoneTitle}</title>
+          <style>
+            * {
+              margin: 0;
+              padding: 0;
+            }
+            .template{
+              position: relative;
+            }
+            .hidelist{
+              display: none!important;
+            }
 
-<style scoped>
-  .muban{
-    width: 350px;
-    border: 1px solid #e5e5e5;
-    border-radius: 18px 18px 0 0;
-    display: inline-block;
-  }
-  .header{
-    width: 350px;
-    height: 70px;
-    background-image: url(../../assets/img/phoneHeader.png);
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-  }
-  .muban-title{
-    width: 320px;
-    height: 64px;
-    background-image: url(../../assets/img/phoneTitle.png);
-    margin: auto;
-  }
-  .muban-main{
-    width: 320px;
-    min-height: 150px;
-    margin: auto;
-    padding-bottom: 11px;
-    background-color: #f7f7f7;
-  }
-  .muban-list{
-    width: 350px;
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    left: -1px;
-    top: -1px;
-    border: 1px solid #ddd;
-    padding: 0 14px 4px 14px;
-    background: #f7f7f7;
-    box-sizing: border-box;
-    margin: 0 auto;
-  }
-  .muban-list:after{
-    position: absolute;
-    content: ' ';
-    border: 8px solid transparent;
-    border-bottom-width: 10px;
-    border-bottom-color: #f7f7f7;
-    top: -18px;
-    left: 167px;
-  }
-  .muban-list:before{
-    top: -19px;
-    border-bottom-color: #ddd;
-    position: absolute;
-    content: ' ';
-    border: 8px solid transparent;
-    border-bottom-width: 10px;
-    border-bottom-color: #f8f8f8;
-    top: -18px;
-    left: 167px;
-  }
-  .muban-list li{
-    display: table;
-    margin: 0 0 10px 5px;
-    background: #fff;
-  }
-  .muban-button{
-    display: table-cell;
-    text-decoration: none;
-    color: #000;
-    width: 75px;
-    height: 40px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    border: 1px solid #d1d1d1;
-    line-height: 14px;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    background-color: transparent;
-  }
-  .template{
-    position: relative;
-  }
-  .detail{
-    width: 470px;
-    min-height: 200px;
-    background-color: #f6f8fc;
-    display: inline-block;
-    border-radius: 18px;
-    margin-left: 30px;
-    position: absolute;
-  }
-  .detail:before{
-    content: '';
-    width: 30px;
-    height: 30px;
-    display: inline-block;
-    position: absolute;
-    left: -30px;
-    top: 40px;
-    border-right:15px solid #f6f8fc;
-    border-top:15px solid transparent;
-    border-left:15px solid transparent;
-    border-bottom:15px solid transparent;
-  }
-</style>
+          </style>
+        </head>
+        <body>
+          ${$('.muban-main').html()}
+        </body>
+        <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js">`+"</scr" + "ipt>"+`
+          <script src="js/zepto_1.1.3.min.js" type="text/javascript" charset="utf-8">`+"</scr" + "ipt>"+`
+            <script type="text/javascript">
+
+              `+"</scr" + "ipt>"+`
+              </html>
+              `;
+              $.ajax({
+                url: 'https://ym-a.top/cloud_code/POST/antiFake/html.do',
+                data: {
+                  templateName:'test2233',
+                  comment:"test",
+                  vendorId: self.datas.vendorId,
+                  html:str,
+                  getRedEnv: 1,
+                  productInfo: 'test',
+                  vendorHttp: 'test',
+                  weShop: 'test',
+                  spree: 1,
+                  securityAndTraceability: 1,
+
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (res) {
+                  console.log(res);
+                  alert('创建成功')
+                  router.push({path:'/twoCode/briefCode'})
+                },
+                error: function (err) {
+                  alert(JSON.stringify(err));
+                }
+              })
+            }
+          },
+          computed:mapState({
+            picAd1:state=>state.banner1.data.picAd1,
+            verify:state=>state.banner1.verifyData.verify,
+            fastTrack:state=>state.banner1.fastTrackData.fastTrack,
+            acontinue:state=>state.banner1.continueData.continue,
+            promotionVedio:state=>state.banner1.promotionVedioData.promotionVedio,
+          }),
+          mounted(){
+            this.init();
+          },
+          updated(){
+            this.init();
+          }
+        }
+      </script>
+
+      <style scoped>
+        .muban{
+          width: 350px;
+          border: 1px solid #e5e5e5;
+          border-radius: 18px 18px 0 0;
+          display: inline-block;
+        }
+        .header{
+          width: 350px;
+          height: 70px;
+          background-image: url(../../assets/img/phoneHeader.png);
+          background-repeat: no-repeat;
+          background-position: 50% 50%;
+        }
+        .muban-title{
+          width: 320px;
+          height: 64px;
+          background-image: url(../../assets/img/phoneTitle.png);
+          margin: auto;
+        }
+        .muban-main{
+          width: 320px;
+          min-height: 150px;
+          margin: auto;
+          padding-bottom: 11px;
+          background-color: #f7f7f7;
+        }
+        .muban-list{
+          width: 350px;
+          position: relative;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          left: -1px;
+          top: -1px;
+          border: 1px solid #ddd;
+          padding: 0 14px 4px 14px;
+          background: #f7f7f7;
+          box-sizing: border-box;
+          margin: 0 auto;
+        }
+        .muban-list:after{
+          position: absolute;
+          content: ' ';
+          border: 8px solid transparent;
+          border-bottom-width: 10px;
+          border-bottom-color: #f7f7f7;
+          top: -18px;
+          left: 167px;
+        }
+        .muban-list:before{
+          top: -19px;
+          border-bottom-color: #ddd;
+          position: absolute;
+          content: ' ';
+          border: 8px solid transparent;
+          border-bottom-width: 10px;
+          border-bottom-color: #f8f8f8;
+          top: -18px;
+          left: 167px;
+        }
+        .muban-list li{
+          display: table;
+          margin: 0 0 10px 5px;
+          background: #fff;
+        }
+        .muban-button{
+          display: table-cell;
+          text-decoration: none;
+          color: #000;
+          width: 75px;
+          height: 40px;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          border: 1px solid #d1d1d1;
+          line-height: 14px;
+          text-align: center;
+          vertical-align: middle;
+          cursor: pointer;
+          background-color: transparent;
+        }
+        .template{
+          position: relative;
+        }
+        .detail{
+          width: 470px;
+          min-height: 200px;
+          background-color: #f6f8fc;
+          display: inline-block;
+          border-radius: 18px;
+          margin-left: 30px;
+          position: absolute;
+        }
+        .detail:before{
+          content: '';
+          width: 30px;
+          height: 30px;
+          display: inline-block;
+          position: absolute;
+          left: -30px;
+          top: 40px;
+          border-right:15px solid #f6f8fc;
+          border-top:15px solid transparent;
+          border-left:15px solid transparent;
+          border-bottom:15px solid transparent;
+        }
+      </style>
