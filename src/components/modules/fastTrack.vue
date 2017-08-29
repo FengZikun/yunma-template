@@ -15,16 +15,28 @@
 			</div>
 		</div>
 		<div class="border hidelist">
-			<!-- <input type="button" name="" value="删除" @click='delPicAd'> -->
+			<input class="modulerRedactButton" type="button" name="" value="编辑">
+			<input class="moduleDelButton hidelist" type="button" name="" value="删除" @click='delFastTrack'>
 		</div>
 	</div>
 </template>
 
 <script type="text/javascript">
 	import {mapState} from 'vuex'
+	import {mapMutations} from 'vuex'
 	export default{
 		data(){
 			return {
+				
+			}
+		},
+		methods:{
+			...mapMutations([
+				'delThis3'
+				]),
+			delFastTrack(){
+				this.delThis3();
+				$('.box').removeClass('detail');
 
 			}
 		},

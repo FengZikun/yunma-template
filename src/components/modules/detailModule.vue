@@ -318,6 +318,9 @@
 		padding-left: 0;
 		margin-top: 10px;
 	}
+	.fastTrackUl li{
+		height: 40px;
+	}
 	.message-value{
 		height: 26px;
 	}

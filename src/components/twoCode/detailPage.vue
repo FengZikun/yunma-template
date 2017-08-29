@@ -17,20 +17,30 @@
         <text-nav class="template" data-type="verify" v-if='verify'>
 
         </text-nav>
-        <!-- 快速通道 -->
+        <!-- 快速通道 --> 
         <fast-track class="template" data-type="fastTrack" v-if='fastTrack'>
 
         </fast-track>
+        <!-- 继续扫码 -->
+        <is-continue class='template' data-type='continue' v-if='acontinue'>
+          
+        </is-continue>
+        <!-- 宣传视频 -->
+        <promotion-vedio class='template' data-type='promotionVedio' v-if='promotionVedio'>
+          
+        </promotion-vedio>
       </div>
       <ul class="muban-list" @click='addmuban'>
         <li><a class="muban-button" data-type='picAd'>图片广告</a></li>
         <li><a class="muban-button" data-type='verify'>防伪验证</a></li>
-        <li><a class="muban-button" data-type='proInfo'>商品信息</a></li>
+        <li><a class="muban-button" data-type='proInfo'>自定义链接</a></li>
         <li><a class="muban-button" data-type='fastTrack'>快速通道</a></li>
+        <li><a class="muban-button" data-type='continue'>继续扫码</a></li>
+        <li><a class="muban-button" data-type='promotionVedio'>宣传视频</a></li>
       </ul>
     </div>
-    <div class="box">
-      <detail-module v-bind:data="testCom">
+    <div class="box hidelist">
+      <detail-module>
 
       </detail-module>
     </div>
@@ -48,6 +58,8 @@
   import textNav from '../modules/text-nav.vue'
   import detailModule from '../modules/detailModule.vue'
   import fastTrack from '../modules/fastTrack.vue'
+  import isContinue from '../modules/isContinue.vue'
+  import promotionVedio from '../modules/promotionVedio.vue'
   import {mapState} from 'vuex'
   import {mapActions} from 'vuex'
   import {mapMutations} from 'vuex'
@@ -55,23 +67,26 @@
     data(){
       return{
         isPicAd:false,
-        testCom:null,
       }
     },
     components:{
       'pic-ad':displayAd,
       'text-nav':textNav,
       'detail-module':detailModule,
-      'fast-track':fastTrack
+      'fast-track':fastTrack,
+      'is-continue':isContinue,
+      'promotion-vedio':promotionVedio
     },
     methods:{
       ...mapMutations([
-        'addFastTrack'
+        'addFastTrack',
+        'addContinue',
+        'addPromotionVedio'
         ]),
       ...mapActions([
         'showPicAd1',
         'module',
-        'addVerify'
+        'addVerify',
         ]),
       init(event){
         var self=this;
@@ -102,7 +117,12 @@
         if(elementType==='fastTrack'){
           self.addFastTrack()
         }
-
+        if(elementType==='continue'){
+          self.addContinue()
+        }
+        if(elementType==='promotionVedio'){
+          self.addPromotionVedio()
+        }
 
         
       },
@@ -117,20 +137,30 @@
         
       },
 
+      getPosition(){
+        var topElement=$('.border').not('.hidelist').parent().prev();
+        console.log(topElement)
+        $('.box').css('top',topPosition);
+        console.log($('.box'))
+      },
+
       //配置
       detailBox:function(){
         var self=this;
-        var element=$(event.target)[0];
-        if(element.className==='border'){
+        var bianji=$(event.target);
+        var element=$(event.target).parents('.border');
+        if(bianji[0].className==='modulerRedactButton'){
+          //显示删除键
+          bianji.next().removeClass('hidelist');
           //显示操作框
           $(element).removeClass('hidelist');
           //其余模块隐藏操作框
-          $(element).parent().siblings().find('.border').addClass('hidelist');
-          var thisElement=$(event.target).parent();
+          $(element).parent().siblings().find('.border').addClass('hidelist').find('.moduleDelButton').addClass('hidelist');
+          var thisElement=$(element).parent();
           //被选中的模块右边出现编辑框
           $(thisElement).addClass('editor').siblings().removeClass('editor');
           var topPosition=$(thisElement)[0].offsetTop;
-          $('.box').addClass('detail').css('top',topPosition);
+          $('.box').removeClass('hidelist').addClass('detail').css('top',topPosition);
           //根据模块名称显示相应组件
           var type=$(thisElement).attr('data-type')
           self.module(type);
@@ -160,6 +190,8 @@
       picAd1:state=>state.banner1.data.picAd1,
       verify:state=>state.banner1.verifyData.verify,
       fastTrack:state=>state.banner1.fastTrackData.fastTrack,
+      acontinue:state=>state.banner1.continueData.continue,
+      promotionVedio:state=>state.banner1.promotionVedioData.promotionVedio,
     }),
     mounted(){
       this.init();
@@ -201,6 +233,7 @@
     width: 350px;
     position: relative;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     left: -1px;
     top: -1px;

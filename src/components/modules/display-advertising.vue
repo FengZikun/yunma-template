@@ -40,7 +40,8 @@
 			</div>
 		</div>
 		<div class="border hidelist">
-			<input type="button" name="" value="删除" @click='delPicAd'>
+			<input class="modulerRedactButton" type="button" name="" value="编辑" @click='showDel=true;'>
+			<input class="moduleDelButton hidelist" type="button" name="" value="删除" @click='delPicAd'>
 		</div>
 	</div>
 </template>
@@ -51,7 +52,7 @@
 	export default{
 		data(){
 			return{
-				
+				showDel:false
 			}
 		},
 		methods:{
@@ -61,10 +62,16 @@
 			init(){
 				
 			},
+			getPosition(){
+				var topPosition=$('.editor').offsetTop;
+          		$('.box').css('top',topPosition);
+			},
 			delPicAd(){
 				var self=this;
 				var type=$(event.target).parents('.template').attr('data-type');
 				self.delThis1();
+				$('.box').removeClass('detail');
+				self.getPosition();
 			}
 		},
 		computed: mapState({
@@ -84,5 +91,9 @@
 	.pic-ad{
 		width: 100%;
 		height: 140px;
+	}
+	.carousel-indicators{
+		width: 80px;
+		margin-left: -15%;
 	}
 </style>

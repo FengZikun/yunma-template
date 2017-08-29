@@ -36,8 +36,13 @@ const banner1={
 			officialAccountsVal:'查看公众号',
 			complain:true,
 			complainVal:'投诉反馈'
+		},
+		continueData:{
+			continue:false,
+		},
+		promotionVedioData:{
+			promotionVedio:false,
 		}
-		
 	},
 	mutations:{
 		showPicAd1(state){
@@ -45,6 +50,18 @@ const banner1={
 		},
 		delThis1(state){
 			state.data.picAd1=false;
+			state.data.showModule=false;
+		},
+		delThis2(state){
+			state.verifyData.verify=false;
+			state.verifyData.showModule=false;
+		},
+		delThis3(state){
+			state.fastTrackData.fastTrack=false;
+			state.fastTrackData.showModule=false;
+		},
+		delThis4(state){
+			state.continueData.continue=false;
 		},
 		module(state,type){
 			if(type=='picAd1'){
@@ -84,6 +101,16 @@ const banner1={
 		addFastTrack(state){
 			if(!state.fastTrackData.fastTrack){
 				state.fastTrackData.fastTrack=true;
+			}
+		},
+		addContinue(state){
+			if(!state.continueData.continue){
+				state.continueData.continue=true;
+			}
+		},
+		addPromotionVedio(state){
+			if(!state.promotionVedioData.promotionVedio){
+				state.promotionVedioData.promotionVedio=true;
 			}
 		},
 		updateMessage(state,type){

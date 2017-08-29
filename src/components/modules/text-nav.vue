@@ -40,17 +40,28 @@
 		</div>
 		
 		<div class="border hidelist">
-			<!-- <input type="button" name="" value="删除" @click='delPicAd'> -->
+			<input class="modulerRedactButton" type="button" name="" value="编辑" @click='showDel=true;'>
+			<input class="moduleDelButton hidelist" type="button" name="" value="删除" @click='delTextNav'>
 		</div>
 	</div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+import {mapMutations} from 'vuex'
 	export default{
 		data(){
 			return{
-
+				showDel:false
+			}
+		},
+		methods:{
+			...mapMutations([
+				'delThis2'
+				]),
+			delTextNav(){
+				this.delThis2();
+				$('.box').removeClass('detail');
 			}
 		},
 		computed: mapState({

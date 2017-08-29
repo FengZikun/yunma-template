@@ -900,4 +900,24 @@
     border-right: 1px solid #e5e5e5;
     background-color: #fff;
   }
+  .moduleDelButton{
+    position: absolute;
+    right: 50px;
+    bottom: 0;
+    background-color: rgba(0,0,0,.5);
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    outline: none;
+  }
+  .modulerRedactButton{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.5);
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    outline: none;
+  }
 </style>
