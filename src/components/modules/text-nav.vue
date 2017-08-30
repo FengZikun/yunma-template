@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="pic-ad">
+		<div class="pic-ad" style="margin-bottom: 12px;padding: 0 10px;">
 			<div class="messageBox" v-if="a">
 				<p>您查询的防伪码为：</p>
 			</div>
@@ -14,13 +14,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="pic-ad" v-if='d'>
+		<div class="pic-ad" style="margin-bottom: 12px;padding: 0 10px;" v-if='d'>
 			<div class="messageBox" v-if="e">
 				<p>企业名称：</p>
 			</div>
 			<div class="messageBox" v-if='f'>
 				<p>组织机构代码：</p>
-				
 			</div>
 			<div class="messageBox" v-if='g'>
 				<div>

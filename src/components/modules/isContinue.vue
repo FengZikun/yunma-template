@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<div class="pic-ad">
+		<div class="pic-ad" style="width: 100%;height: 86px;text-align: center;line-height: 86px;background-color: #f7f7f7;">
 			继续扫码
 		</div>
 		<div class="border hidelist">
-			<input class="moduleDelButton" type="button" name="" value="删除" @click='delContinue'>
+			<input class="moduleDelButton" style="right: 0;" type="button" name="" value="删除" @click='delContinue'>
 		</div>
 	</div>
 </template>

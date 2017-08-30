@@ -1,16 +1,19 @@
 <template>
 	<div>
-		<div class="pic-ad">
+		<div class="pic-ad" style="margin: 12px 0;">
 			<div class="channel" v-if='website'>
+			<img src="../../assets/img/icon_guanwang.png">
 				{{websiteVal}}
 			</div>
 			<div class="channel noBottom" v-if='officialAccounts'>
+			<img src="../../assets/img/icon_weixin.png">
 				{{officialAccountsVal}}
 			</div>
 		</div>
 
 		<div class="pic-ad" v-if='complain'>
 			<div class="channel noBottom">
+			<img src="../../assets/img/icon_tousu.png">
 				{{complainVal}}
 			</div>
 		</div>
@@ -57,7 +60,7 @@
 	.channel{
 		height: 56px;
 		line-height: 56px;
-		padding: 0 10px;
+		padding: 0 5px;
 		border-bottom: 1px solid #d1d1d1;
 		width: 90%;
     	margin: 0 auto;

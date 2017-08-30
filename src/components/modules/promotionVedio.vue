@@ -4,7 +4,13 @@
 			<div class="header">
 				{{title}}
 			</div>
-			<div>
+			<div v-if='/embed/.test(videoSrc)||/iframe/.test(videoSrc)' v-html='videoSrc'>
+				
+			</div>
+			<div v-if='/width/.test(videoSrc)===false&&videoSrc!==null&&videoSrc!==""'>
+				<iframe :src='videoSrc' controls="controls"></iframe>
+			</div>
+			<div v-if='videoSrc===null||videoSrc===""'>
 				<img style="width: 318px;" src="../../assets/img/s8.jpg">
 			</div>
 			<div class="footer">
@@ -38,7 +44,8 @@ import {mapMutations} from 'vuex'
 		},
 		computed:{
 			...mapState({
-				title:state=>state.banner1.promotionVedioData.title
+				title:state=>state.banner1.promotionVedioData.title,
+				videoSrc:state=>state.banner1.promotionVedioData.videoSrc,
 			})
 		}
 	}
@@ -61,5 +68,8 @@ import {mapMutations} from 'vuex'
 	.footer{
 		height: 36px;
 		padding-left: 20px;
+	}
+	embed{
+		width: 100%;
 	}
 </style>

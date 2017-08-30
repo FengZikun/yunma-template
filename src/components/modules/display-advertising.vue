@@ -3,40 +3,20 @@
 		<div class="pic-ad">
 			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 				<!-- Indicators -->
-				<ol class="carousel-indicators">
-					<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-					<!-- <li data-target="#carousel-example-generic" data-slide-to="2"></li> -->
+				<ol class="carousel-indicators" style="bottom: 0;">
+					<li v-for='item in picNum' data-target="#carousel-example-generic" data-slide-to="item" class="active"></li>
 				</ol>
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner" role="listbox">
-					<div class="item active">
-						<img v-if='a!=null' style="width: 320px;height: 140px;" v-bind:src='a' alt="...">
-						<img v-else style="width: 320px;height: 140px;" src="../../assets/img/2233.jpg" alt="...">
+					<div class="item" v-for='(item,index) in bannerPic' :class='{active:index==0}' v-if='index<picNum'>
+						<img v-if='item.src!=null' style="width: 320px;height: 140px;" v-bind:src='item.src' alt="...">
+						<img v-else style="width: 100%;height: 140px;" v-bind:src="item.img" alt="...">
 						<div class="carousel-caption">
 							
 						</div>
 					</div>
-					<div class="item">
-						<img v-if='b!=null' style="width: 320px;height: 140px;" v-bind:src='b' alt="...">
-						<img v-else style="width: 320px;height: 140px;" src="../../assets/img/tu1.jpg" alt="...">
-						<div class="carousel-caption">
-							
-						</div>
-					</div>
-					...
 				</div>
-
-				<!-- Controls -->
-				<!-- <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-					<span class="sr-only">Previous</span>
-				</a>
-				<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-					<span class="sr-only">Next</span>
-				</a> -->
 			</div>
 		</div>
 		<div class="border hidelist">
@@ -71,8 +51,8 @@
 		},
 		computed: mapState({
 			picAd1:state=>state.banner1.data.picAd1,
-			a:state=>state.banner1.data.bannerPic.a,
-			b:state=>state.banner1.data.bannerPic.b,
+			bannerPic:state=>state.banner1.data.bannerPic,
+			picNum:state=>state.banner1.data.picNum,
 		}),
 		mounted(){
 			$('.carousel').carousel({

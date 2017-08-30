@@ -1,16 +1,50 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
+const codeType={
+	state: {
+		type:null
+	},
+	mutations:{
+		changeType(state,type){
+			//溯源码
+			if(type=='a'){
+				state.type=0
+				return
+			};
+			//防伪码
+			if(type=='b'){
+				state.type=1
+				return
+			}
+		}
+	}
+}
+const gameRule={
+	state: {
+		ruleId:null
+	},
+	mutations: {
+		getId(state,type){
+			if(type==='add'){
+				state.ruleId=null
+			}else{
+				state.ruleId=type;
+			}
+		}
+	}
+}
 const banner1={
 	state:{
 		data:{
 			picAd1:false,
 			showModule:false,
-			picNum:1,
-			bannerPic:{
-				a:null,
-				b:null,
-			}
+			picNum:2,
+			bannerPic:[
+			{src:null,img:'https://ym-a.top/wx/img/tu2.jpg'},
+			{src:null,img:'https://ym-a.top/wx/img/tu1.jpg'},
+			{src:null,img:'https://ym-a.top/wx/img/tu1.jpg'},
+			]
 		},
 		verifyData:{
 			verify:false,
@@ -103,10 +137,13 @@ const banner1={
 		},
 		setPic(state,data){
 			if(data.type===1){
-				state.data.bannerPic.a=data.url;
+				state.data.bannerPic[0].src=data.url;
 			}
 			if(data.type===2){
-				state.data.bannerPic.b=data.url;
+				state.data.bannerPic[1].src=data.url;
+			}
+			if(data.type===3){
+				state.data.bannerPic[2].src=data.url;
 			}
 		},
 		addVerify(state){
@@ -178,6 +215,9 @@ const banner1={
 			if(obj.type==='title'){
 				state.promotionVedioData.title=obj.value;
 			}
+			if(obj.type==='videoSrc'){
+				state.promotionVedioData.videoSrc=obj.value;
+			}
 		}
 	},
 	actions:{
@@ -203,7 +243,9 @@ const banner1={
 }
 const store = new Vuex.Store({
 	modules: {
-		banner1:banner1
+		banner1:banner1,
+		b:codeType,
+		c:gameRule
 	}
 })
 

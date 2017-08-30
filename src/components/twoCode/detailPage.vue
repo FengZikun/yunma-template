@@ -1,6 +1,6 @@
 <template>
   <div class="right-main">
-    <div>
+    <div style="min-height: 500px;">
       <div class="muban">
         <div class="header">
 
@@ -192,6 +192,7 @@
           <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
           <title>${this.phoneTitle}</title>
+          <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
           <style>
             * {
               margin: 0;
@@ -203,23 +204,354 @@
             .hidelist{
               display: none!important;
             }
+            .border{
+              width: 100%;
+              position: absolute;
+              top: 0;
+              height: 100%;
+              border: 2px dashed rgba(255,0,0,0.5);
+            }
+            .pic-ad{
+              width: 100%;
+              border-left: 1px solid #e5e5e5;
+              border-right: 1px solid #e5e5e5;
+              background-color: #fff;
+            }
+            .messageBox{
+              min-height: 36px;
+              line-height: 36px;
+            }
+            .muban-main{
+              width: 100%;
+              min-height: 150px;
+              margin: auto;
+              padding-bottom: 11px;
+              background-color: #f7f7f7;
+            }
+            .channel{
+              height: 56px;
+              line-height: 56px;
+              padding: 0 10px;
+              border-bottom: 1px solid #d1d1d1;
+              width: 90%;
+              margin: 0 auto;
+            }
+            .noBottom{
+              border-bottom: none;
+            }
+            .header{
+              padding-left: 20px;
+              padding-top: 10px;
+            }
+            .header:before{
+              content: '';
+              width: 4px;
+              height: 17px;
+              display: block;
+              background-color: #dd2726;
+              position: absolute;
+              left: 10px;
+            }
+            .footer{
+              height: 36px;
+              padding-left: 20px;
+            }
+
 
           </style>
         </head>
-        <body>
+        <body class="muban-main">
           ${$('.muban-main').html()}
         </body>
         <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js">`+"</scr" + "ipt>"+`
           <script src="js/zepto_1.1.3.min.js" type="text/javascript" charset="utf-8">`+"</scr" + "ipt>"+`
-            <script type="text/javascript">
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+            crossorigin="anonymous">`+"</scr" + "ipt>"+`
+            <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">`+"</scr" + "ipt>"+`
+              <script type="text/javascript">
+                (function () {
+                  var _937 = {
+                    // 初始化
+                    init: function () {
+                      this.openId = this.getParams('openId');
+                      this.securityCode = this.getParams('securityCode');
+                      this.orderId=this.getParams('orderId');
+                      this.securityCodeId=this.getParams('securityCodeId');
+                      this.shortCode=this.getParams('shortCode');
+                      this.securityFlag=this.getParams('securityFlag');
+                      this.codeType=this.getParams('codeType');
+                      window.localStorage.setItem('openId', this.openId);
+                      window.localStorage.setItem('securityCode', this.securityCode);
+                      window.localStorage.setItem('orderId', this.orderId);
+                      window.localStorage.setItem('securityCodeId', this.securityCodeId);
+                      this.vendorId='';
+                      this.latitude = '';
+                      this.longitude = '';
+                      this.urlOne='';
+                      this.urlTwo='';
+                      this.urlThree='';
+                      this.getSign();
+                    },
+                    bindEvents: function () {
+                      var self = this;
+                      $('.tap-btn').on('click', function () {
+                        self.jumpTo($(this).attr('id'))
+                      });
+                    },
+                    jumpTo: function (id) {
+                      var self = this;
+                      if (id === 'btn1') {
+                        setTimeout(function () {
+                          window.location.href = 'func/you.html'
+                        }, 500)
+                        return
+                      }
+                      if (id === 'btn2') {
+                        setTimeout(function () {
+                          if(self.securityFlag=='true'){
+                            window.location.href = 'func/antiFake.html'
+                          }
+                          else if(self.securityFlag=='false'){
+                           window.location.href = 'func/customerSuyuan.html'
+                         }
+                       }, 500)
+                       return
+                     }
+                     if (id === 'btn3') {
+                      setTimeout(function () {
+                        window.location.href = self.urlOne
+                      }, 500)
+                      return
+                    }
+                    if (id === 'btn4') {
+                      setTimeout(function () {
+                        window.location.href = self.urlTwo
+                      }, 500)
+                      return
+                    }
+                    if (id === 'btn5') {
+                      if(self.urlThree.indexOf('http')!='-1'){
+                        setTimeout(function () {
+                          window.location.href = self.urlThree
+                        }, 500)
+                        return
+                      }
+                      else {
+                        setTimeout(function () {
+                          window.location.href = 'mode_fun/'+self.urlThree
+                        }, 500)
+                        return
+                      }
 
+                    }
+                    if (id === 'btn6') {
+                      setTimeout(function () {
+                        window.location.href = 'func/red.html'
+                      }, 500)
+                      return
+                    }
+
+                  },
+                  // 获取js-sdk地址签名
+                  getSign: function () {
+                    var _this = this;
+                    if (window.frames.length != parent.frames.length){ 
+                      $('.content').siblings('div').hide();
+                      _this.pushfunc({
+                        spree:0,
+                        securityAndTraceability:0,
+                        weShop:'true',
+                        vendorHttp:'true',
+                        productInfo:'true',
+                        getRedEnv:0
+                      });
+                      return  
+                    }
+                    if(sessionStorage.getItem('_755wx')==1){
+                      _this.render(JSON.parse(localStorage.getItem('infodata')))
+                      return
+                    }
+                    $.ajax({
+                      url: "/cloud_code/POST/weChat/signature.do",
+                      data: {url: window.location.href},
+                      type: 'GET',
+                      dataType: 'json',//here
+                      success: function (res) {
+                        _this.wxConfig(res)
+                      }
+                    });
+                  },
+                  // 设置js-sdk配置
+                  wxConfig: function (params) {
+                    var _this = this;
+                    wx.config({
+                      debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                      appId: params.appId, // 必填，公众号的唯一标识
+                      timestamp: params.timestamp, // 必填，生成签名的时间戳
+                      nonceStr: params.noncestr, // 必填，生成签名的随机串
+                      signature: params.signature,// 必填，签名，见附录1
+                      jsApiList: ['getLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    });
+                    wx.ready(function () {
+                      wx.getLocation({
+                        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                        success: function (res) {
+                          _this.latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                          _this.longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                          _this.wechatHome();
+                        },
+                        cancel: function () {
+                          _this.latitude = ''; // 纬度，浮点数，范围为90 ~ -90
+                          _this.longitude = ''; // 经度，浮点数，范围为180 ~ -180。
+                          _this.wechatHome();
+                        },
+                        fail: function () {
+                          _this.latitude = ''; // 纬度，浮点数，范围为90 ~ -90
+                          _this.longitude = ''; // 经度，浮点数，范围为180 ~ -180。
+                          _this.wechatHome();
+                        }
+                      });
+                    });
+                    // 防止出错时阻塞
+                    wx.error(function (res) {
+                      alert('无法获取位置信息');
+                      _this.latitude = ''; // 纬度，浮点数，范围为90 ~ -90
+                      _this.longitude = ''; // 经度，浮点数，范围为180 ~ -180。
+                      _this.wechatHome();
+                    });
+                  },
+                  // 获取基本信息
+                  wechatHome: function () {
+                    var self = this;
+                    if(this.securityFlag=='true'){
+                      $.ajax({
+                        url: '/cloud_code/POST/weChat/antiFakeCodeHome.do',
+                        data: {
+                          securityCode: self.securityCode,
+                          openId: self.openId,
+                          latitude: self.latitude,
+                          longitude: self.longitude
+                        },
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (res) {
+                          sessionStorage.setItem('_755wx',1);
+                          self.render(res);
+                        },
+                        error: function (err) {
+                          //console.log(JSON.stringify(err));
+                          self.render(res);
+                        }
+                      })
+                    }
+                    else if(this.securityFlag=='false'){
+                      $.ajax({
+                        url:'/cloud_code/POST/weChat/productCustomerTracingHome.do',
+                        data:{
+                          openId:this.openId,
+                          tracingCode:self.shortCode,
+                          codeType:self.codeType,
+                          latitude: self.latitude,
+                          longitude: self.longitude
+                        },
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (res) {
+                          //console.log(res);
+                          sessionStorage.setItem('_755wx',1);
+                          self.render(res);
+                        },
+                        error: function (err) {
+                          //console.log(err);
+                          self.render(err);
+                        }
+                      })
+                    }
+                  },
+                  // 渲染
+                  render:function(data){
+                    var self=this;
+                    if(this.securityFlag=='true'){
+                      if (data.scanFlag=='true') {
+                        $('.innerCodeTure').removeClass('hideMod');
+                      }
+                      else {
+                        $('.innerCodeFalse').removeClass('hideMod');
+                      }
+                    }
+                    else if(this.securityFlag=='false'){
+                      //console.log('应该替换溯源按钮和删除红包按钮')
+                    }
+                    $('.content').siblings('div').hide();
+                    // 判断是真是假
+                    //console.log(data);
+                    self.vendorId=data.vendorId;
+                    window.localStorage.setItem('vendorId', JSON.stringify(data.vendorId));
+                    window.localStorage.setItem('infodata', JSON.stringify(data));
+                    self.pushfunc(data.activInfo[0]);
+                  },
+                  // 设置按键功能
+                  pushfunc:function(data){
+                    var self=this;
+                    if(data.spree==0){
+                      $('#btn1').removeClass('hideMod');
+                    }
+                    if(data.spree==1){
+                      $('#btn1').remove();
+                    }
+                    if(data.securityAndTraceability==0){
+                      $('#btn2').removeClass('hideMod');
+                    }
+                    if(data.securityAndTraceability==1){
+                      $('#btn2').remove();
+                    }
+                    if(data.weShop=="false"){
+                      $('#btn3').remove();
+                    }
+                    if(data.weShop!="false"){
+                      $('#btn3').removeClass('hideMod');
+                      self.urlOne=data.weShop
+                    }               
+                    if(data.vendorHttp=="false"){
+                      $('#btn4').remove();
+                    }
+                    if(data.vendorHttp!="false"){
+                      $('#btn4').removeClass('hideMod');
+                      self.urlTwo=data.vendorHttp
+                    }   
+                    if(data.productInfo=="false"){
+                      $('#btn5').remove();
+                    }
+                    if(data.productInfo!="false"){
+                      $('#btn5').removeClass('hideMod');
+                      self.urlThree=data.productInfo
+                    }   
+                    if(data.getRedEnv==0){
+                      $('#btn6').removeClass('hideMod');
+                    }
+                    if(data.getRedEnv==1||self.securityFlag=='false'){
+                      $('#btn6').remove();
+                    }
+                    self.bindEvents();
+                  },
+                  // 获取url参数
+                  getParams: function (name) {
+                    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                    var r = window.location.search.substr(1).match(reg);
+                    if (r != null)return unescape(r[2]);
+                    return null;
+                  }
+                }
+                _937.init()
+              })()
               `+"</scr" + "ipt>"+`
               </html>
               `;
               $.ajax({
                 url: 'https://ym-a.top/cloud_code/POST/antiFake/html.do',
                 data: {
-                  templateName:'test2233',
+                  templateName:'test323',
                   comment:"test",
                   vendorId: self.datas.vendorId,
                   html:str,
@@ -292,11 +624,11 @@
           position: relative;
           display: flex;
           flex-wrap: wrap;
-          justify-content: space-around;
+          justify-content: flex-start;
           left: -1px;
           top: -1px;
           border: 1px solid #ddd;
-          padding: 0 14px 4px 14px;
+          padding: 10px 14px 4px 14px;
           background: #f7f7f7;
           box-sizing: border-box;
           margin: 0 auto;

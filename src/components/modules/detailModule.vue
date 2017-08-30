@@ -9,15 +9,20 @@
 			<p>建议上传图片尺寸为640*280</p>
 			<div class="picture">
 				<input class="hidelist" id="productImg1" type="file" name="productImg" @change='change($event)'>
-				<label v-if='a==null' class="productImg" for="productImg1"></label>
+				<label v-if='bannerPic[0].src==null' class="productImg" for="productImg1"></label>
 				<label v-else class="productImg" v-bind:style="{backgroundImage: imgSrc}" for="productImg1"></label>
 				<span>链接：</span>
 				<input type="text" name="">
 			</div>
 			<div class="picture" v-if='picNum>=2'>
 				<input class="hidelist" id="productImg2" type="file" name="productImg" @change='change($event)'>
-				<label v-if='b==null' class="productImg" for="productImg2"></label>
+				<label v-if='bannerPic[1].src==null' class="productImg" for="productImg2"></label>
 				<label v-else class="productImg" v-bind:style="{backgroundImage: imgSrc2}" for="productImg2"></label>
+			</div>
+			<div class="picture" v-if='picNum>=3'>
+				<input class="hidelist" id="productImg3" type="file" name="productImg" @change='change($event)'>
+				<label v-if='bannerPic[2].src==null' class="productImg" for="productImg3"></label>
+				<label v-else class="productImg" v-bind:style="{backgroundImage: imgSrc3}" for="productImg2"></label>
 			</div>
 			<div class="addPicture">
 				<a href="javascript:void(0)" @click='addPicNum'>添加图片</a>
@@ -108,7 +113,7 @@
 			</div>
 			<div>
 				<span class="message-name">视频地址：</span>
-				<input class="message-value" type="text" name="">
+				<input class="message-value" type="text" name="" v-model='videoSrc'>
 			</div>
 		</div>
 	</div>
@@ -122,6 +127,7 @@
 			return{
 				imgSrc:'',
 				imgSrc2:'',
+				imgSrc3:'',
 			}
 		},
 		methods:{
@@ -149,6 +155,14 @@
 						this.setPic({url:url,type:2});
 					}
 				}
+				if($(eImg.target).attr('id')=='productImg3'){
+					reader.onloadend = (e) =>
+					{
+						var url=`${e.target.result}`
+						this.imgSrc3 = `url('${e.target.result}')`;
+						this.setPic({url:url,type:3});
+					}
+				}
 				;
 				reader.readAsDataURL(eImg.target.files[0]);
 			},
@@ -166,8 +180,7 @@
 				showModuleFastTrack:state=>state.banner1.fastTrackData.showModule,
 				showModulePromotionVedio:state=>state.banner1.promotionVedioData.showModule,
 				picNum:state=>state.banner1.data.picNum,
-				a:state=>state.banner1.data.bannerPic.a,
-				b:state=>state.banner1.data.bannerPic.b,
+				bannerPic:state=>state.banner1.data.bannerPic,
 			}),
 			verifyA:{
 				get(){
@@ -292,6 +305,27 @@
 				},
 				set (value) {
 					this.$store.commit('changeVal',{value:value,type:'title'})
+				}
+			},
+			videoSrc:{
+				get(){
+					return this.$store.state.banner1.promotionVedioData.videoSrc
+				},
+				set (value) {
+					if(/embed/.test(value)){
+						var a=value.replace(/width=\'480\'/,'width=\"100vw\"');
+						a=a.replace(/400/,'219')
+						this.$store.commit('changeVal',{value:a,type:'videoSrc'})
+					}
+					if(/iframe/.test(value)){
+						var a=value.replace(/width=510/,'width=320');
+						a=a.replace(/498/,'219')
+						this.$store.commit('changeVal',{value:a,type:'videoSrc'})
+					}
+					else{
+						this.$store.commit('changeVal',{value:value,type:'videoSrc'})
+					}
+					
 				}
 			},
 		}
