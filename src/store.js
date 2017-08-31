@@ -69,7 +69,9 @@ const banner1={
 			officialAccounts:true,
 			officialAccountsVal:'查看公众号',
 			complain:true,
-			complainVal:'投诉反馈'
+			complainVal:'投诉反馈',
+			weiStore:true,
+			weiStoreVal:'官方微商城'
 		},
 		continueData:{
 			continue:false,
@@ -201,6 +203,9 @@ const banner1={
 			if(type==='complain'){
 				state.fastTrackData.complain=!state.fastTrackData.complain
 			}
+			if(type==='weiStore'){
+				state.fastTrackData.weiStore=!state.fastTrackData.weiStore
+			}
 		},
 		changeVal(state,obj){
 			if(obj.type==='website'){
@@ -211,6 +216,9 @@ const banner1={
 			}
 			if(obj.type==='complain'){
 				state.fastTrackData.complainVal=obj.value;
+			}
+			if(obj.type==='weiStore'){
+				state.fastTrackData.weiStoreVal=obj.value;
 			}
 			if(obj.type==='title'){
 				state.promotionVedioData.title=obj.value;

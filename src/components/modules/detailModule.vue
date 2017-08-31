@@ -92,6 +92,10 @@
 					<input class="message-value" type="text" name="" v-model='websiteVal'>
 				</li>
 				<li>
+					<input type="checkbox" name="" v-model='weiStore'>
+					<input class="message-value" type="text" name="" v-model='weiStoreVal'>
+				</li>
+				<li>
 					<input type="checkbox" name="" v-model='officialAccounts'>
 					<input class="message-value" type="text" name="" v-model='officialAccountsVal'>
 				</li>
@@ -297,6 +301,22 @@
 				},
 				set (value) {
 					this.$store.commit('changeVal',{value:value,type:'complain'})
+				}
+			},
+			weiStore:{
+				get(){
+					return this.$store.state.banner1.fastTrackData.weiStore
+				},
+				set (value) {
+					this.$store.commit('updateMessage', 'weiStore')
+				}
+			},
+			weiStoreVal:{
+				get(){
+					return this.$store.state.banner1.fastTrackData.weiStoreVal
+				},
+				set (value) {
+					this.$store.commit('changeVal',{value:value,type:'weiStore'})
 				}
 			},
 			title:{

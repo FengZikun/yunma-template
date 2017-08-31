@@ -1,9 +1,13 @@
 <template>
 	<div>
 		<div class="pic-ad" style="margin: 12px 0;">
-			<div class="channel" v-if='website'>
+			<div class="channel website" v-if='website'>
 			<img src="../../assets/img/icon_guanwang.png">
 				{{websiteVal}}
+			</div>
+			<div class="channel weiStore" v-if='weiStore'>
+			<img src="../../assets/img/icon_shangcheng.png">
+				{{weiStoreVal}}
 			</div>
 			<div class="channel noBottom" v-if='officialAccounts'>
 			<img src="../../assets/img/icon_weixin.png">
@@ -51,6 +55,8 @@
 				officialAccountsVal:state=>state.banner1.fastTrackData.officialAccountsVal,
 				complain:state=>state.banner1.fastTrackData.complain,
 				complainVal:state=>state.banner1.fastTrackData.complainVal,
+				weiStore:state=>state.banner1.fastTrackData.weiStore,
+				weiStoreVal:state=>state.banner1.fastTrackData.weiStoreVal,
 				})
 		}
 	}
